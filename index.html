@@ -3,626 +3,175 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ಪ್ರತಿಭಾನ್ವೇಷಣೆ ಪರೀಕ್ಷೆ – OMR ವ್ಯವಸ್ಥೆ</title>
+<title>ಪ್ರತಿಭಾನ್ವೇಷಣೆ ಪರೀಕ್ಷೆ</title>
+<meta name="description" content="7 ಮತ್ತು 8ನೇ ತರಗತಿ ವಿದ್ಯಾರ್ಥಿಗಳಿಗಾಗಿ ಪ್ರತಿಭಾನ್ವೇಷಣೆ ಪರೀಕ್ಷೆ – ಪಠ್ಯಕ್ರಮ, ವೇಳಾಪಟ್ಟಿ, ಮಾದರಿ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ, ಫಲಿತಾಂಶ">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--p:#1d4ed8;--pd:#1e3a8a;--g:#15803d;--r:#b91c1c;--y:#ca8a04;--bg:#f3f5f9;--card:#fff;--bd:#d6dbe4;--tx:#1f2937;--mut:#6b7280}
-*{box-sizing:border-box}
-body{margin:0;font-family:'Noto Sans Kannada','Tunga','Nirmala UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);font-size:15px}
-header{background:linear-gradient(135deg,var(--pd),var(--p));color:#fff;padding:14px 16px}
-header h1{margin:0;font-size:20px}
-header p{margin:4px 0 0;opacity:.85;font-size:13px}
-nav{display:flex;gap:4px;overflow-x:auto;background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:5}
-nav button{flex:0 0 auto;border:0;background:none;padding:12px 14px;font:inherit;color:var(--mut);border-bottom:3px solid transparent;cursor:pointer}
-nav button.on{color:var(--p);border-bottom-color:var(--p);font-weight:600}
-main{max-width:1100px;margin:0 auto;padding:14px}
-.tab{display:none}.tab.on{display:block}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:14px}
-.card h2{margin:0 0 10px;font-size:17px;color:var(--pd)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
-label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--mut)}
-input,select,textarea{font:inherit;padding:8px;border:1px solid var(--bd);border-radius:7px;background:#fff;color:var(--tx);width:100%}
-textarea{min-height:110px;font-family:inherit}
-.btn,button.b{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:8px;padding:9px 14px;font:inherit;background:var(--p);color:#fff;cursor:pointer;margin:3px 4px 3px 0}
-.btn.sec,button.b.sec{background:#e5e9f2;color:var(--tx)}
-.btn.red,button.b.red{background:var(--r)}
-.btn.green,button.b.green{background:var(--g)}
-button.b:disabled{opacity:.5}
-.note{font-size:13px;color:var(--mut);margin:6px 0}
-.warn{background:#fef9c3;border:1px solid #fde047;padding:8px 10px;border-radius:8px;font-size:13px;margin:8px 0}
-.ok{color:var(--g)}.bad{color:var(--r)}
-table.t{width:100%;border-collapse:collapse;font-size:14px}
-table.t th,table.t td{border-bottom:1px solid var(--bd);padding:6px;text-align:left}
-table.t th{background:#eef2f8;position:sticky;top:0}
-table.t tr.click{cursor:pointer}table.t tr.click:hover{background:#f5f8ff}
-.tw{overflow-x:auto;max-height:520px}
-.pill{display:inline-block;padding:1px 8px;border-radius:20px;font-size:12px;background:#e5e9f2;margin-right:3px}
-.pill.y{background:#fef08a}.pill.r{background:#fecaca}.pill.g{background:#bbf7d0}
-#camWrap{position:relative;background:#000;border-radius:10px;overflow:hidden;display:none;max-width:min(560px,calc(62vh * 0.75));margin:8px auto}
-#camWrap video{width:100%;display:block}
-#overlay{position:absolute;inset:0;width:100%;height:100%}
-#camMsg{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);color:#fff;padding:8px;text-align:center;font-size:15px}
-#lastResult .res{border-radius:10px;padding:12px;margin:8px 0;border:2px solid var(--bd);background:#fff}
-#lastResult .res.g{border-color:var(--g)}#lastResult .res.y{border-color:var(--y);background:#fffbea}#lastResult .res.r{border-color:var(--r);background:#fff5f5}
-.big{font-size:26px;font-weight:700}
-#scanLog{font-size:13px;max-height:260px;overflow:auto}
-#scanLog div{padding:3px 0;border-bottom:1px dashed var(--bd)}
-.keybox{border:1px solid var(--bd);border-radius:8px;padding:10px;margin:8px 0}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;overflow:auto;padding:10px}
-.modal.hidden{display:none}
-.mbox{background:#fff;max-width:1100px;margin:0 auto;border-radius:10px;padding:12px}
-.mgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
-@media(max-width:800px){.mgrid{grid-template-columns:1fr}}
-#revCanvas{width:100%;border:1px solid var(--bd);border-radius:6px}
-.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:4px;max-height:520px;overflow:auto}
-.agrid div{display:flex;align-items:center;gap:3px;font-size:12px;padding:2px;border-radius:5px}
-.agrid div.d{background:#fde68a}.agrid div.w{background:#fee2e2}.agrid div.c{background:#dcfce7}
-.agrid select{padding:2px;font-size:12px}
-#printArea{display:none}
-@media print{
- @page{size:A4;margin:0}
- html,body{margin:0;background:#fff}
- #app,#modal{display:none!important}
- #printArea{display:block}
- .page{width:210mm;height:297mm;overflow:hidden;page-break-after:always;break-after:page;position:relative}
-}
-.page svg{display:block}
-.ht{height:148mm;padding:9mm 12mm;border-bottom:1px dashed #888;font-size:3.6mm;color:#000}
-.ht-head{text-align:center;border-bottom:.5mm solid #000;padding-bottom:2mm}
-.ht-head .t1{font-size:5.2mm;font-weight:700}.ht-head .t2{font-size:4.4mm;font-weight:700;margin-top:1mm;letter-spacing:.3mm}
-.ht-body{display:flex;gap:5mm;margin-top:3mm}
-.ht-body table{flex:1;border-collapse:collapse}
-.ht-body td{border:.25mm solid #000;padding:1.4mm 2mm;font-size:3.5mm}
-.ht-body td:first-child{width:45mm;background:#f2f2f2}
-.ht .reg{font-size:5mm;font-weight:700;letter-spacing:.8mm}
-.photo{width:32mm;height:40mm;border:.3mm solid #000;display:flex;align-items:center;justify-content:center;text-align:center;font-size:3mm;color:#555}
-.sig{display:flex;justify-content:space-between;margin-top:9mm;font-size:3.3mm}
-.sig span{border-top:.25mm solid #000;padding-top:1mm;min-width:55mm;text-align:center}
-.ht ol{margin:3mm 0 0;padding-left:5mm;font-size:3.1mm;line-height:1.45}
-.lp{padding:12mm 12mm;font-size:3.6mm;color:#000}
-.lp h3{text-align:center;margin:0 0 1mm;font-size:5mm}.lp h4{text-align:center;margin:0 0 4mm;font-size:4mm;font-weight:normal}
-.lp table{width:100%;border-collapse:collapse}
-.lp th,.lp td{border:.25mm solid #000;padding:1.6mm;font-size:3.4mm;text-align:left}
-.lp th{background:#eee}
-.lp .att td{height:8.5mm}
+:root{--ink:#0f172a;--mut:#64748b;--p:#4f46e5;--p2:#7c3aed;--gold:#f59e0b;--bg:#f8fafc;--card:#fff;--bd:#e2e8f0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:'Noto Sans Kannada','Tunga','Nirmala UI',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+a{color:var(--p)}
+.ann{background:#fef3c7;color:#78350f;text-align:center;padding:8px 12px;font-weight:600;font-size:14px}
+.nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--bd)}
+.nav .in{max-width:1100px;margin:auto;display:flex;align-items:center;gap:6px;padding:8px 14px;overflow-x:auto;white-space:nowrap}
+.nav b{margin-right:auto;color:var(--p);font-size:16px}
+.nav a{text-decoration:none;color:var(--ink);font-size:14px;padding:6px 10px;border-radius:20px}.nav a:hover{background:#eef2ff}
+.hero{position:relative;overflow:hidden;color:#fff;background:radial-gradient(1200px 500px at 10% -10%,#a78bfa 0,transparent 60%),radial-gradient(900px 500px at 110% 10%,#f472b6 0,transparent 55%),linear-gradient(135deg,#312e81,#4f46e5 45%,#7c3aed)}
+.hero .in{max-width:1100px;margin:auto;padding:54px 18px 64px;text-align:center;position:relative;z-index:1}
+.hero .sch{display:inline-block;background:rgba(255,255,255,.16);padding:4px 14px;border-radius:20px;font-size:14px;margin-bottom:12px}
+.hero h1{font-size:clamp(30px,6vw,52px);margin:6px 0;font-weight:800;letter-spacing:.3px;text-shadow:0 4px 24px rgba(0,0,0,.25)}
+.hero .yr{font-size:clamp(18px,3vw,24px);opacity:.95}
+.hero p.tag{font-size:clamp(15px,2.5vw,19px);opacity:.92;margin:8px auto 22px;max-width:720px}
+.prizes{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:18px 0 8px}
+.prize{background:linear-gradient(160deg,#fde68a,#f59e0b);color:#451a03;border-radius:20px;padding:16px 26px;min-width:200px;box-shadow:0 14px 40px rgba(0,0,0,.25);transform:rotate(-1deg)}
+.prize:nth-child(2){transform:rotate(1deg)}
+.prize .c{font-weight:700;font-size:15px}.prize .a{font-size:40px;font-weight:800;line-height:1.1}.prize .t{font-size:14px}
+.pnote{font-size:15px;margin-top:10px;opacity:.95}
+.cd{display:flex;gap:10px;justify-content:center;margin:22px 0 6px;flex-wrap:wrap}
+.cd div{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:10px 14px;min-width:78px}
+.cd b{display:block;font-size:28px;line-height:1.1}.cd span{font-size:12px;opacity:.9}
+.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--p);padding:11px 20px;border-radius:30px;font-weight:700;text-decoration:none;border:0;font:inherit;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.btn.o{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.7);box-shadow:none}
+.btn.p{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff}
+.btn.s{background:#eef2ff;color:var(--p);box-shadow:none}
+.blob{position:absolute;border-radius:50%;filter:blur(2px);opacity:.25;background:#fff}
+section.sec{max-width:1100px;margin:auto;padding:44px 16px 10px}
+section.sec h2{font-size:clamp(22px,4vw,30px);margin:0 0 6px;font-weight:800}
+section.sec h2 span{background:linear-gradient(135deg,var(--p),var(--p2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--mut);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:18px;box-shadow:0 4px 18px rgba(15,23,42,.05)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.facts .card{text-align:center}.facts b{display:block;font-size:30px;color:var(--p)}
+.tl{position:relative;margin-left:10px;border-left:3px solid #c7d2fe;padding-left:20px}
+.tl .it{position:relative;margin:0 0 18px}
+.tl .it:before{content:'';position:absolute;left:-29px;top:5px;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid var(--p)}
+.tl .it.done:before{background:var(--p)}.tl .it.next:before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 6px #fde68a}
+.tl .d{font-weight:700;color:var(--p)}.tl .it.done{opacity:.6}
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tabs button{border:0;background:#eef2ff;color:var(--p);padding:9px 18px;border-radius:24px;font:inherit;font-weight:700;cursor:pointer}
+.tabs button.on{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff}
+table.pt{width:100%;border-collapse:collapse}table.pt td,table.pt th{padding:9px;border-bottom:1px solid var(--bd);text-align:left}table.pt th{color:var(--mut);font-weight:600}
+.subj h3{margin:14px 0 6px;font-size:17px}.subj ul{margin:0;padding-left:20px}.subj li{margin:3px 0}
+.chip{display:inline-block;background:#eef2ff;color:var(--p);border-radius:20px;padding:2px 10px;font-size:13px;font-weight:600}
+.rules li{margin:6px 0}
+.omr-demo{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.dot{display:inline-block;width:22px;height:22px;border-radius:50%;border:2px solid #111;vertical-align:middle;margin:0 2px;position:relative;font-size:13px;text-align:center;line-height:18px}
+.dot.f{background:#111}
+.res table{width:100%;border-collapse:collapse}.res td,.res th{padding:9px;border-bottom:1px solid var(--bd);text-align:left}
+.medal{font-size:22px}
+.sp{display:flex;gap:12px;flex-wrap:wrap}.sp .card{flex:1 1 220px;text-align:center}.sp b{font-size:18px}
+footer{background:#0f172a;color:#cbd5e1;margin-top:50px;padding:30px 16px;text-align:center;font-size:14px}footer b{color:#fff}
+.empty{color:var(--mut);font-style:italic}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:50;overflow:auto;padding:12px;display:none}
+.mbox{background:#fff;max-width:900px;margin:0 auto;border-radius:18px;padding:16px}
+.mhead{display:flex;justify-content:space-between;align-items:center;gap:8px;position:sticky;top:-12px;background:#fff;padding:6px 0;z-index:2;border-bottom:1px solid var(--bd)}
+.mq{border:1px solid var(--bd);border-radius:14px;padding:12px;margin:10px 0}
+.mq .q{font-weight:600}.mq .en{color:var(--mut);font-size:14px;margin-top:2px}
+.mq label{display:flex;gap:8px;align-items:flex-start;padding:7px 9px;border-radius:10px;cursor:pointer;margin:3px 0;border:1px solid transparent}
+.mq label:hover{background:#f1f5f9}.mq input{margin-top:5px}
+.mq label.ok{background:#dcfce7;border-color:#86efac}.mq label.no{background:#fee2e2;border-color:#fca5a5}
+.mq .ex{font-size:13px;background:#fefce8;border-radius:8px;padding:6px 9px;margin-top:6px;display:none}
+.mq img{max-width:100%;max-height:220px;display:block;margin:8px 0;border-radius:8px}
+.mq .sh{font-size:12px;color:var(--p);font-weight:700}
+.score{font-size:26px;font-weight:800;text-align:center;padding:12px;border-radius:14px;background:linear-gradient(135deg,#eef2ff,#fdf4ff);margin:10px 0}
+.reveal{opacity:0;transform:translateY(16px);transition:.6s}.reveal.vis{opacity:1;transform:none}
+.loadbox{text-align:center;padding:60px 10px;color:var(--mut)}
+@media(max-width:600px){.prize{min-width:150px;padding:12px 18px}.prize .a{font-size:32px}}
 </style>
+<script src="common.js"></script>
+<script>document.write('<style>'+PRINT_CSS+'</style>')</script>
 </head>
 <body>
-<div id="app">
-<header>
- <h1>ಪ್ರತಿಭಾನ್ವೇಷಣೆ ಪರೀಕ್ಷೆ – OMR ವ್ಯವಸ್ಥೆ</h1>
- <p>ಹಾಲ್ ಟಿಕೆಟ್ • OMR ಹಾಳೆ • ಮೊಬೈಲ್ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್ • ಸ್ವಯಂ ಮೌಲ್ಯಮಾಪನ • ಮೆರಿಟ್ ಪಟ್ಟಿ</p>
-</header>
-<nav id="tabs">
- <button data-t="set" class="on">1. ಸೆಟ್ಟಿಂಗ್ಸ್</button>
- <button data-t="stu">2. ವಿದ್ಯಾರ್ಥಿಗಳು</button>
- <button data-t="key">3. ಉತ್ತರ ಕೀ</button>
- <button data-t="prn">4. ಮುದ್ರಣ</button>
- <button data-t="scan">5. ಸ್ಕ್ಯಾನ್</button>
- <button data-t="res">6. ಫಲಿತಾಂಶ</button>
-</nav>
-<main>
-<!-- SETTINGS -->
-<section class="tab on" id="t-set">
- <div class="card"><h2>ಪರೀಕ್ಷೆಯ ವಿವರ</h2>
-  <div class="grid">
-   <label class="f">ಪರೀಕ್ಷೆಯ ಹೆಸರು<input id="s_exam"></label>
-   <label class="f">ಶಾಲೆಯ ಹೆಸರು<input id="s_school"></label>
-   <label class="f">ಶಾಲಾ ಕೋಡ್ (3 ಅಂಕೆ, ನಿಮ್ಮ ಶಾಲೆ = 001)<input id="s_code" maxlength="3" inputmode="numeric"></label>
-   <label class="f">ಪರೀಕ್ಷಾ ಕೇಂದ್ರ<input id="s_center"></label>
-   <label class="f">ಪರೀಕ್ಷಾ ದಿನಾಂಕ<input id="s_date" type="date"></label>
-   <label class="f">ಸಮಯ<input id="s_time"></label>
-   <label class="f">ತರಗತಿಗಳು (ಅಲ್ಪವಿರಾಮದಿಂದ)<input id="s_classes"></label>
-   <label class="f">ಪ್ರಶ್ನೆಗಳ ಸಂಖ್ಯೆ (ಗರಿಷ್ಠ 100)<input id="s_nq" type="number" min="1" max="100"></label>
-   <label class="f">ಪ್ರಶ್ನೆಪತ್ರಿಕೆ ಸೆಟ್‌ಗಳು<select id="s_sets"><option value="1">1 (A ಮಾತ್ರ)</option><option value="2">2 (A, B)</option><option value="3">3 (A, B, C)</option><option value="4">4 (A, B, C, D)</option></select></label>
-   <label class="f">ಮುಖ್ಯ ಶಿಕ್ಷಕರ ಹೆಸರು<input id="s_hm"></label>
-  </div>
-  <div class="grid" style="margin-top:10px">
-   <label class="f">ವಿಭಾಗಗಳು (ಪ್ರತಿ ಸಾಲಿನಲ್ಲಿ "ಹೆಸರು: ಮೊದಲ-ಕೊನೆಯ ಪ್ರಶ್ನೆ")<textarea id="s_sections" rows="8"></textarea></label>
-   <label class="f">ಸಮಾನ ಅಂಕ ಬಂದರೆ ಆದ್ಯತೆಯ ವಿಭಾಗಗಳು (ಕ್ರಮವಾಗಿ, ಅಲ್ಪವಿರಾಮದಿಂದ)<input id="s_tie">
-    <span class="note">ಮೊದಲು ಒಟ್ಟು ಅಂಕ, ನಂತರ ಇಲ್ಲಿ ಬರೆದ ವಿಭಾಗಗಳ ಅಂಕ ಕ್ರಮವಾಗಿ ನೋಡಲಾಗುತ್ತದೆ. ಆಗಲೂ ಸಮಾನವಾದರೆ ಒಂದೇ ಸ್ಥಾನ ತೋರಿಸುತ್ತದೆ.</span></label>
-  </div>
-  <button class="b" id="saveSet">ಉಳಿಸು</button> <span id="setMsg" class="note"></span>
- </div>
- <div class="card"><h2>ಬ್ಯಾಕಪ್</h2>
-  <p class="note">ಎಲ್ಲಾ ಮಾಹಿತಿ ಈ ಮೊಬೈಲ್/ಕಂಪ್ಯೂಟರ್‌ನ ಬ್ರೌಸರ್‌ನಲ್ಲೇ ಉಳಿಯುತ್ತದೆ. ಬೇರೆ ಸಾಧನಕ್ಕೆ ಒಯ್ಯಲು ಅಥವಾ ಸುರಕ್ಷತೆಗಾಗಿ ಬ್ಯಾಕಪ್ ಫೈಲ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ (ಸ್ಕ್ಯಾನ್ ಚಿತ್ರಗಳು ಬ್ಯಾಕಪ್‌ನಲ್ಲಿ ಇರುವುದಿಲ್ಲ, ಅಂಕಗಳು ಇರುತ್ತವೆ).</p>
-  <button class="b sec" id="bkExp">⬇ ಬ್ಯಾಕಪ್ ಡೌನ್‌ಲೋಡ್</button>
-  <label class="btn sec">⬆ ಬ್ಯಾಕಪ್ ಮರುಸ್ಥಾಪಿಸು<input type="file" id="bkImp" accept=".json" hidden></label>
-  <button class="b red" id="wipeAll">ಎಲ್ಲವನ್ನೂ ಅಳಿಸು (ಹೊಸ ವರ್ಷ)</button>
- </div>
-</section>
+<div id="ann" class="ann" style="display:none"></div>
+<div class="nav"><div class="in"><b id="navT">ಪ್ರತಿಭಾನ್ವೇಷಣೆ</b>
+ <a href="#dates">ದಿನಾಂಕಗಳು</a><a href="#syllabus">ಪಠ್ಯಕ್ರಮ</a><a href="#mock">ಮಾದರಿ ಪತ್ರಿಕೆ</a><a href="#omr">OMR</a><a href="#rules">ನಿಯಮಗಳು</a><a href="#results" id="navRes" style="display:none">ಫಲಿತಾಂಶ</a><a href="#contact">ಸಂಪರ್ಕ</a></div></div>
+<div id="root"><div class="loadbox">ಲೋಡ್ ಆಗುತ್ತಿದೆ…</div></div>
 
-<!-- STUDENTS -->
-<section class="tab" id="t-stu">
- <div class="card"><h2>ವಿದ್ಯಾರ್ಥಿಗಳನ್ನು ಸೇರಿಸಿ</h2>
-  <p class="note">Excel‌ನಿಂದ ಕಾಪಿ ಮಾಡಿ ಇಲ್ಲಿ ಅಂಟಿಸಿ. ಪ್ರತಿ ಸಾಲು: <b>ಹೆಸರು | ತಂದೆಯ ಹೆಸರು | ತರಗತಿ | SATS ಸಂಖ್ಯೆ</b> (Tab ಅಥವಾ ಅಲ್ಪವಿರಾಮದಿಂದ ಬೇರ್ಪಡಿಸಿ). ನೋಂದಣಿ ಸಂಖ್ಯೆ ತಾನಾಗಿಯೇ ಬರುತ್ತದೆ: <b>ವರ್ಷ(2) + ತರಗತಿ(1) + ಶಾಲಾ ಕೋಡ್(3) + ಕ್ರಮಸಂಖ್ಯೆ(3)</b>.</p>
-  <textarea id="stuIn" placeholder="ರಮೇಶ ಪಾಟೀಲ	ಶಿವಪ್ಪ ಪಾಟೀಲ	7	123456789"></textarea>
-  <button class="b" id="stuAdd">ಪಟ್ಟಿಗೆ ಸೇರಿಸು</button>
-  <span id="stuMsg" class="note"></span>
- </div>
- <div class="card"><h2>ವಿದ್ಯಾರ್ಥಿಗಳ ಪಟ್ಟಿ <span id="stuCount" class="pill"></span></h2>
-  <div class="tw"><table class="t" id="stuTbl"></table></div>
-  <button class="b sec" id="stuRenum">ನೋಂದಣಿ ಸಂಖ್ಯೆ ಮರುಹಂಚು</button>
-  <button class="b red" id="stuClear">ಪಟ್ಟಿ ಅಳಿಸು</button>
-  <p class="note">ಹಾಲ್ ಟಿಕೆಟ್ ಕೊಟ್ಟ ನಂತರ ನೋಂದಣಿ ಸಂಖ್ಯೆ ಮರುಹಂಚಬೇಡಿ.</p>
- </div>
-</section>
-
-<!-- KEYS -->
-<section class="tab" id="t-key">
- <div class="card"><h2>ಉತ್ತರ ಕೀ</h2>
-  <p class="note">ಪ್ರತಿ ತರಗತಿ ಮತ್ತು ಪ್ರತಿ ಸೆಟ್‌ಗೆ ಉತ್ತರಗಳನ್ನು ಕ್ರಮವಾಗಿ ಬರೆಯಿರಿ: <b>ABCDDCBA…</b> ಅಥವಾ <b>1-A, 2-C, 3-B…</b>. ರದ್ದಾದ/ತಪ್ಪಾದ ಪ್ರಶ್ನೆಗೆ ಎಲ್ಲರಿಗೂ ಅಂಕ ಕೊಡಲು ಆ ಸ್ಥಾನದಲ್ಲಿ <b>*</b> ಬರೆಯಿರಿ. ಕೀ ಬದಲಿಸಿದರೆ ಫಲಿತಾಂಶ ತಾನಾಗಿಯೇ ಮರುಲೆಕ್ಕವಾಗುತ್ತದೆ.</p>
-  <div id="keyArea"></div>
-  <button class="b" id="keySave">ಕೀ ಉಳಿಸು</button> <span id="keyMsg" class="note"></span>
- </div>
-</section>
-
-<!-- PRINT -->
-<section class="tab" id="t-prn">
- <div class="card"><h2>OMR ಹಾಳೆ</h2>
-  <p class="note"><b>ವಿದ್ಯಾರ್ಥಿವಾರು OMR</b> ಉತ್ತಮ: ಹೆಸರು ಮತ್ತು ನೋಂದಣಿ ಸಂಖ್ಯೆಯ ವೃತ್ತಗಳು ಮೊದಲೇ ಮುದ್ರಿತವಾಗಿರುತ್ತವೆ, ಮಕ್ಕಳು ತಪ್ಪು ಮಾಡುವ ಸಾಧ್ಯತೆ ಇಲ್ಲ. ಖಾಲಿ OMR ಅನ್ನು ಜೆರಾಕ್ಸ್ ಮಾಡಿದರೂ ಸ್ಕ್ಯಾನ್ ಆಗುತ್ತದೆ.</p>
-  <div class="grid">
-   <label class="f">ತರಗತಿ<select id="pCls"></select></label>
-   <label class="f">ಖಾಲಿ OMR ಪ್ರತಿಗಳು<input id="pCopies" type="number" value="1" min="1" max="300"></label>
-  </div>
-  <button class="b" id="pOmrStu">🖨 ವಿದ್ಯಾರ್ಥಿವಾರು OMR</button>
-  <button class="b sec" id="pOmrBlank">🖨 ಖಾಲಿ OMR</button>
- </div>
- <div class="card"><h2>ಹಾಲ್ ಟಿಕೆಟ್ ಮತ್ತು ಹಾಜರಾತಿ</h2>
-  <p class="note">ಒಂದು A4 ಹಾಳೆಯಲ್ಲಿ 2 ಹಾಲ್ ಟಿಕೆಟ್. ಪರೀಕ್ಷೆಗೆ 7 ದಿನ ಮುಂಚೆ ವಿತರಿಸಿ.</p>
-  <button class="b" id="pHall">🖨 ಹಾಲ್ ಟಿಕೆಟ್</button>
-  <button class="b sec" id="pAtt">🖨 ಹಾಜರಾತಿ ಪಟ್ಟಿ</button>
- </div>
- <div class="warn">ಮುದ್ರಿಸುವಾಗ: Paper = <b>A4</b>, Margins = <b>None/ಯಾವುದೂ ಇಲ್ಲ</b>, Scale = <b>100% / Actual size</b>, Headers and footers = ಆಫ್. ನಾಲ್ಕೂ ಮೂಲೆಯ ಕಪ್ಪು ಚೌಕಗಳು ಮುದ್ರಣವಾಗಿವೆಯೇ ನೋಡಿ.</div>
-</section>
-
-<!-- SCAN -->
-<section class="tab" id="t-scan">
- <div class="card"><h2>OMR ಸ್ಕ್ಯಾನ್</h2>
-  <p class="note">ಕ್ಯಾಮೆರಾ ಆರಂಭಿಸಿ, OMR ಹಾಳೆಯನ್ನು ಸಮತಟ್ಟಾದ ಮೇಜಿನ ಮೇಲಿಟ್ಟು ನಾಲ್ಕೂ ಮೂಲೆಯ ಕಪ್ಪು ಚೌಕಗಳು ಕಾಣುವಂತೆ ಮೊಬೈಲ್ ಹಿಡಿಯಿರಿ. ಹಸಿರು ಚೌಕಟ್ಟು ಬಂದು ಸ್ಥಿರವಾದಾಗ ತಾನಾಗಿಯೇ ಸ್ಕ್ಯಾನ್ ಆಗಿ "ಬೀಪ್" ಶಬ್ದ ಬರುತ್ತದೆ. ನಂತರ ಮುಂದಿನ ಹಾಳೆ ಇಡಿ.</p>
-  <button class="b" id="camStart">📷 ಕ್ಯಾಮೆರಾ ಆರಂಭಿಸು</button>
-  <button class="b sec" id="camStop" disabled>⏹ ನಿಲ್ಲಿಸು</button>
-  <button class="b sec" id="camShot" disabled>⚡ ಈಗಲೇ ಸ್ಕ್ಯಾನ್</button>
-  <button class="b sec" id="camTorch" disabled>💡 ಬೆಳಕು</button>
-  <label class="btn sec">🖼 ಫೋಟೋ / PDF ಅಪ್‌ಲೋಡ್<input type="file" id="fileIn" accept="image/*,application/pdf" multiple hidden></label>
-  <div id="camWrap"><video id="video" playsinline muted autoplay></video><canvas id="overlay"></canvas><div id="camMsg">ಕ್ಯಾಮೆರಾ ಸಿದ್ಧವಾಗುತ್ತಿದೆ…</div></div>
-  <div id="lastResult"></div>
-  <p id="scanStat" class="note"></p>
-  <div id="scanLog"></div>
- </div>
-</section>
-
-<!-- RESULTS -->
-<section class="tab" id="t-res">
- <div class="card"><h2>ಫಲಿತಾಂಶ</h2>
-  <div class="grid">
-   <label class="f">ತರಗತಿ<select id="rCls"></select></label>
-   <label class="f">ತೋರಿಸು<select id="rFilter"><option value="all">ಎಲ್ಲರೂ</option><option value="doubt">ಪರಿಶೀಲನೆ ಬೇಕಾದವು ಮಾತ್ರ</option></select></label>
-  </div>
-  <div id="rSummary" class="note"></div>
-  <div class="tw"><table class="t" id="resTbl"></table></div>
-  <button class="b" id="rCsv">⬇ Excel (CSV)</button>
-  <button class="b sec" id="rPrint">🖨 ಮೆರಿಟ್ ಪಟ್ಟಿ</button>
-  <button class="b red" id="rClear">ಎಲ್ಲಾ ಫಲಿತಾಂಶ ಅಳಿಸು</button>
-  <p class="note">ಸಾಲಿನ ಮೇಲೆ ಒತ್ತಿದರೆ ಸ್ಕ್ಯಾನ್ ಚಿತ್ರ ಮತ್ತು ಉತ್ತರಗಳನ್ನು ನೋಡಿ ಸರಿಪಡಿಸಬಹುದು. ಬಹುಮಾನಕ್ಕೆ ಆಯ್ಕೆಯಾದವರ OMR ಅನ್ನು ಒಮ್ಮೆ ಕೈಯಿಂದಲೂ ಪರಿಶೀಲಿಸಿ.</p>
- </div>
-</section>
-</main>
-</div>
-
-<div id="modal" class="modal hidden"><div class="mbox">
- <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0;font-size:17px" id="revTitle">ಪರಿಶೀಲನೆ</h2><button class="b sec" id="revClose">✕ ಮುಚ್ಚು</button></div>
- <div class="mgrid" style="margin-top:8px">
-  <div><canvas id="revCanvas" width="630" height="891"></canvas><p class="note">ಹಸಿರು = ಸರಿ, ಕೆಂಪು = ತಪ್ಪು (ಹಸಿರು ಉಂಗುರ = ಸರಿಯುತ್ತರ), ಹಳದಿ = ಸಂದೇಹ.</p></div>
-  <div>
-   <div class="grid">
-    <label class="f">ನೋಂದಣಿ ಸಂಖ್ಯೆ<input id="revReg" inputmode="numeric" maxlength="9"></label>
-    <label class="f">ಸೆಟ್<select id="revSet"><option>A</option><option>B</option><option>C</option><option>D</option></select></label>
-   </div>
-   <div id="revInfo" class="note"></div>
-   <div class="agrid" id="revAns"></div>
-   <button class="b green" id="revSave">✔ ಉಳಿಸು</button>
-   <button class="b red" id="revDel">ಈ ಸ್ಕ್ಯಾನ್ ಅಳಿಸು</button>
-  </div>
- </div>
+<div id="mockModal" class="modal"><div class="mbox">
+ <div class="mhead"><b id="mkTitle">ಮಾದರಿ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ</b><div><button class="btn s" id="mkPrint">🖨 ಮುದ್ರಿಸು</button> <button class="btn s" id="mkClose">✕</button></div></div>
+ <div id="mkBody"></div>
 </div></div>
 <div id="printArea"></div>
 
 <script>
 'use strict';
-/* ================= STATE ================= */
-const $=s=>document.querySelector(s);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const LS='tsomr_v1';
-const LET=['A','B','C','D'];
-const DEF_SECTIONS='ಸಾಮಾನ್ಯ ಜ್ಞಾನ: 1-15\nಮಾನಸಿಕ ಸಾಮರ್ಥ್ಯ: 16-35\nಪ್ರಚಲಿತ ವಿದ್ಯಮಾನ: 36-50\nಭಾಷೆ: 51-60\nಸಮಾಜ ವಿಜ್ಞಾನ: 61-73\nವಿಜ್ಞಾನ: 74-86\nಗಣಿತ: 87-100';
-const DEF={exam:'ಪ್ರತಿಭಾನ್ವೇಷಣೆ ಪರೀಕ್ಷೆ',school:'',code:'001',center:'',date:'2027-01-09',time:'ಬೆಳಿಗ್ಗೆ 10:00 ರಿಂದ 12:00',classes:'7,8',nq:100,sets:4,sections:DEF_SECTIONS,tie:'ಮಾನಸಿಕ ಸಾಮರ್ಥ್ಯ, ಗಣಿತ',hm:''};
-let state={settings:{...DEF},students:[],keys:{},results:[]};
-function load(){try{const s=JSON.parse(localStorage.getItem(LS)||'null');if(s){state={settings:{...DEF,...(s.settings||{})},students:s.students||[],keys:s.keys||{},results:s.results||[]};}}catch(e){console.warn(e)}}
-function save(){try{localStorage.setItem(LS,JSON.stringify(state))}catch(e){alert('ಉಳಿಸಲು ಆಗಲಿಲ್ಲ: '+e.message)}}
-const S=()=>state.settings;
-const classes=()=>[...new Set(String(S().classes).split(/[,\s]+/).map(x=>parseInt(x,10)).filter(x=>x>0&&x<=12))];
-const clsDigit=c=>String(c%10);
-const yy=()=>(S().date||'2027').slice(2,4);
-const nq=()=>Math.max(1,Math.min(100,parseInt(S().nq,10)||100));
-const nsets=()=>Math.max(1,Math.min(4,parseInt(S().sets,10)||1));
-function acadYear(){const d=S().date;if(!d)return '';const y=+d.slice(0,4),m=+d.slice(5,7);return m<6?`${y-1}-${String(y).slice(2)}`:`${y}-${String(y+1).slice(2)}`}
-function fmtDate(d){if(!d)return '';const [y,m,dd]=d.split('-');const days=['ಭಾನುವಾರ','ಸೋಮವಾರ','ಮಂಗಳವಾರ','ಬುಧವಾರ','ಗುರುವಾರ','ಶುಕ್ರವಾರ','ಶನಿವಾರ'];return `${dd}-${m}-${y} (${days[new Date(+y,+m-1,+dd).getDay()]})`}
-function makeReg(c,serial){return yy()+clsDigit(c)+String(S().code||'1').replace(/\D/g,'').padStart(3,'0').slice(-3)+String(serial).padStart(3,'0')}
-const stuByReg=r=>state.students.find(s=>s.reg===r);
-function clsFromReg(r){const st=stuByReg(r);if(st)return st.cls;const c=classes().find(c=>clsDigit(c)===String(r||'')[2]);return c||null}
-function sections(){return String(S().sections).split('\n').map(l=>{const m=l.match(/^(.*?)[:：]\s*(\d+)\s*[-–]\s*(\d+)/);return m?{name:m[1].trim(),a:+m[2],b:+m[3]}:null}).filter(Boolean)}
-function tieOrder(){const secs=sections();return String(S().tie).split(/[,،]+/).map(x=>x.trim()).filter(Boolean).map(n=>secs.findIndex(s=>s.name===n)).filter(i=>i>=0)}
-
-/* ================= IMAGE STORE (IndexedDB) ================= */
-const IDB={db:null,
- open(){return new Promise(res=>{try{const r=indexedDB.open('tsomr_img',1);r.onupgradeneeded=()=>r.result.createObjectStore('img');r.onsuccess=()=>{this.db=r.result;res()};r.onerror=()=>res();}catch(e){res()}})},
- tx(mode,fn){return new Promise((res,rej)=>{if(!this.db)return res(null);const t=this.db.transaction('img',mode);const st=t.objectStore('img');const rq=fn(st);t.oncomplete=()=>res(rq&&rq.result);t.onerror=()=>rej(t.error)})},
- put(k,v){return this.tx('readwrite',s=>s.put(v,k))},get(k){return this.tx('readonly',s=>s.get(k))},
- del(k){return this.tx('readwrite',s=>s.delete(k))},clear(){return this.tx('readwrite',s=>s.clear())}};
-
-/* ================= OMR ENGINE ================= */
-const OMR=(()=>{
- // Template geometry in millimetres (A4 210 x 297)
- const G={W:210,H:297,mk:[[12,12],[198,12],[198,285],[12,285]],mkS:8,bar:{x:80,y:9,w:50,h:5},r:2,
-  regX:i=>24+i*7.5,regY:d=>73+d*5.6,setX:k=>112+k*9,setY:70,
-  ansCol:[16,61,106,151],ansY:i=>143+i*5.4,ansX:(c,k)=>16+45*c+12+k*7};
- const qXY=(q,k)=>{const c=Math.floor(q/25),i=q%25;return [G.ansX(c,k),G.ansY(i)]};
- // sample point sets (mm offsets)
- const INNER=[];for(let a=-1.2;a<=1.2001;a+=0.3)for(let b=-1.2;b<=1.2001;b+=0.3)if(a*a+b*b<=1.45)INNER.push([a,b]);
- const RING=[];for(let k=0;k<16;k++){const t=k*Math.PI/8;RING.push([2.75*Math.cos(t),2.75*Math.sin(t)])}
- const BAR_IN=[];for(let x=82;x<=128;x+=3)for(const y of [10,11.5,13])BAR_IN.push([x,y]);
- const BAR_WH=[[72,11.5],[138,11.5],[70,5.5],[90,5.5],[105,5.5],[120,5.5],[140,5.5],[60,8]];
-
- function solve(A,b){const n=b.length;for(let i=0;i<n;i++)A[i]=A[i].concat([b[i]]);
-  for(let c=0;c<n;c++){let p=c;for(let r=c+1;r<n;r++)if(Math.abs(A[r][c])>Math.abs(A[p][c]))p=r;[A[c],A[p]]=[A[p],A[c]];
-   if(Math.abs(A[c][c])<1e-12)return null;for(let r=0;r<n;r++){if(r===c)continue;const f=A[r][c]/A[c][c];for(let k=c;k<=n;k++)A[r][k]-=f*A[c][k]}}
-  return A.map((row,i)=>row[n]/row[i])}
- function homog(src,dst){const A=[],b=[];for(let i=0;i<4;i++){const [x,y]=src[i],[u,v]=dst[i];
-  A.push([x,y,1,0,0,0,-u*x,-u*y]);b.push(u);A.push([0,0,0,x,y,1,-v*x,-v*y]);b.push(v)}
-  const h=solve(A,b);if(!h)return null;h.push(1);return h}
- const mp=(h,x,y)=>{const w=h[6]*x+h[7]*y+h[8];return [(h[0]*x+h[1]*y+h[2])/w,(h[3]*x+h[4]*y+h[5])/w]};
-
- function smallGray(src,maxSide){const W=src.videoWidth||src.naturalWidth||src.width,H=src.videoHeight||src.naturalHeight||src.height,sc=Math.min(1,maxSide/Math.max(W,H));
-  const w=Math.max(1,Math.round(W*sc)),h=Math.max(1,Math.round(H*sc));const c=document.createElement('canvas');c.width=w;c.height=h;
-  const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(src,0,0,w,h);const d=x.getImageData(0,0,w,h).data;
-  const g=new Uint8Array(w*h);for(let i=0,j=0;i<g.length;i++,j+=4)g[i]=(d[j]*0.5+d[j+1]*0.4+d[j+2]*0.1)|0;
-  return {w,h,g,scale:w/W}}
-
- // find corner-marker candidates; returns array of point sets [TL,TR,BR,BL]
- function findMarkers(Sm){const {w,h,g}=Sm,N=w*h,W1=w+1;const I=new Float64Array(W1*(h+1));
-  for(let y=0;y<h;y++){let row=0;for(let x=0;x<w;x++){row+=g[y*w+x];I[(y+1)*W1+x+1]=I[y*W1+x+1]+row}}
-  const hs=Math.max(7,Math.round(Math.min(w,h)/14));const bin=new Uint8Array(N);
-  for(let y=0;y<h;y++){const y0=Math.max(0,y-hs),y1=Math.min(h,y+hs+1);for(let x=0;x<w;x++){const x0=Math.max(0,x-hs),x1=Math.min(w,x+hs+1);
-   const m=(I[y1*W1+x1]-I[y0*W1+x1]-I[y1*W1+x0]+I[y0*W1+x0])/((y1-y0)*(x1-x0));const v=g[y*w+x];if(v<m*0.72&&v<m-18)bin[y*w+x]=1}}
-  const lab=new Int32Array(N),st=new Int32Array(N),comps=[];let id=0;
-  for(let p=0;p<N;p++){if(!bin[p]||lab[p])continue;id++;let sp=0;st[sp++]=p;lab[p]=id;let area=0,sx=0,sy=0,mnx=w,mny=h,mxx=0,mxy=0,border=false;
-   while(sp){const q=st[--sp];const x=q%w,y=(q/w)|0;area++;sx+=x;sy+=y;if(x<mnx)mnx=x;if(x>mxx)mxx=x;if(y<mny)mny=y;if(y>mxy)mxy=y;
-    if(x===0||y===0||x===w-1||y===h-1)border=true;
-    if(x>0&&bin[q-1]&&!lab[q-1]){lab[q-1]=id;st[sp++]=q-1}if(x<w-1&&bin[q+1]&&!lab[q+1]){lab[q+1]=id;st[sp++]=q+1}
-    if(y>0&&bin[q-w]&&!lab[q-w]){lab[q-w]=id;st[sp++]=q-w}if(y<h-1&&bin[q+w]&&!lab[q+w]){lab[q+w]=id;st[sp++]=q+w}}
-   const bw=mxx-mnx+1,bh=mxy-mny+1;if(area<12)continue;
-   if(Math.max(bw,bh)/Math.min(bw,bh)>1.9||area/(bw*bh)<0.5)continue;
-   comps.push({x:sx/area+0.5,y:sy/area+0.5,area,border})}
-  const maxNB=Math.max(0,...comps.filter(c=>!c.border).map(c=>c.area));
-  for(let i=comps.length-1;i>=0;i--)if(comps[i].border&&comps[i].area>maxNB*1.5)comps.splice(i,1);
-  comps.sort((a,b)=>b.area-a.area);const out=[];
-  for(let k=0;k<Math.min(4,comps.length-3);k++){const maxA=comps[k].area;const cand=comps.slice(k).filter(c=>c.area>=maxA*0.25);if(cand.length<4)continue;
-   const by=f=>cand.reduce((a,c)=>f(c)>f(a)?c:a);
-   const TL=by(c=>-(c.x+c.y)),BR=by(c=>c.x+c.y),TR=by(c=>c.x-c.y),BL=by(c=>c.y-c.x);const q=[TL,TR,BR,BL];
-   if(new Set(q).size<4)continue;const ar=q.map(c=>c.area);if(Math.max(...ar)/Math.min(...ar)>4)continue;
-   let sgn=0,ok=true;for(let i=0;i<4;i++){const a=q[i],b=q[(i+1)%4],c=q[(i+2)%4];const cr=(b.x-a.x)*(c.y-b.y)-(b.y-a.y)*(c.x-b.x);const s=Math.sign(cr);if(!sgn)sgn=s;else if(s!==sgn)ok=false}
-   if(!ok)continue;const d=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);const s1=(d(TL,TR)+d(BL,BR))/2,s2=(d(TL,BL)+d(TR,BR))/2;const rt=Math.max(s1,s2)/Math.min(s1,s2);
-   if(rt<1.12||rt>2.3)continue;if(s1*s2<w*h*0.06)continue;
-   const key=q.map(c=>c.x.toFixed(0)).join();if(out.some(o=>o.key===key))continue;
-   out.push({key,pts:q.map(c=>[c.x,c.y]),quadArea:s1*s2/(w*h),edge:q.some(c=>c.border)})}
-  return out}
-
- function grade(F,pts){const {w,h,data}=F;
-  const lum=(x,y)=>{x=Math.round(x);y=Math.round(y);if(x<0||y<0||x>=w||y>=h)return 255;const i=(y*w+x)*4;return data[i]*0.5+data[i+1]*0.4+data[i+2]*0.1};
-  const region=(H,inn,wh)=>{let s=0;for(const [x,y] of inn){const p=mp(H,x,y);s+=lum(p[0],p[1])}s/=inn.length;
-   const wv=wh.map(([x,y])=>{const p=mp(H,x,y);return lum(p[0],p[1])}).sort((a,b)=>b-a);const k=Math.max(1,Math.floor(wv.length/2));let wr=0;for(let i=0;i<k;i++)wr+=wv[i];wr/=k;
-   return wr<=0?0:Math.max(0,1-s/wr)};
-  const tries=[];for(let r=0;r<4;r++){const src=[0,1,2,3].map(j=>G.mk[(j+r)%4]);const H=homog(src,pts);if(!H)continue;tries.push({r,H,bd:region(H,BAR_IN,BAR_WH)})}
-  tries.sort((a,b)=>b.bd-a.bd);
-  if(!tries.length||tries[0].bd<0.35||(tries[1]&&tries[0].bd-tries[1].bd<0.15))return {error:'ಹಾಳೆಯ ದಿಕ್ಕು ಗುರುತಿಸಲಾಗಲಿಲ್ಲ – ಮೇಲಿನ ಕಪ್ಪು ಪಟ್ಟಿ ಸ್ಪಷ್ಟವಾಗಿ ಕಾಣಬೇಕು'};
-  const H=tries[0].H;
-  for(const [mx,my] of G.mk){const inn=[],wh=[];for(let a=-2.5;a<=2.5;a+=1.25)for(let b=-2.5;b<=2.5;b+=1.25)inn.push([mx+a,my+b]);
-   for(let k=0;k<12;k++){const t=k*Math.PI/6;wh.push([mx+6.8*Math.cos(t),my+6.8*Math.sin(t)])}
-   if(region(H,inn,wh)<0.4)return {error:'ಮೂಲೆಯ ಚೌಕಗಳು ಸರಿಯಾಗಿ ಹೊಂದಿಕೆಯಾಗಲಿಲ್ಲ'}}
-  const bub=(cx,cy)=>region(H,INNER.map(([a,b])=>[cx+a,cy+b]),RING.map(([a,b])=>[cx+a,cy+b]));
-  const ansD=[];for(let q=0;q<100;q++)ansD.push([0,1,2,3].map(k=>bub(...qXY(q,k))));
-  const regD=[];for(let i=0;i<9;i++){const col=[];for(let d=0;d<10;d++)col.push(bub(G.regX(i),G.regY(d)));regD.push(col)}
-  const setD=[0,1,2,3].map(k=>bub(G.setX(k),G.setY));
-  const all=ansD.flat().sort((a,b)=>a-b);const base=all[Math.floor(all.length*0.5)];
-  const tops=ansD.map(v=>Math.max(...v)).filter(t=>t>base+0.3).sort((a,b)=>a-b);const mf=tops.length?tops[Math.floor(tops.length/2)]:base+0.6;
-  const T1=base+Math.max(0.12,0.25*(mf-base)),T2=base+Math.max(0.25,0.55*(mf-base));
-  const pick=v=>{const o=v.map((x,i)=>[x,i]).sort((a,b)=>b[0]-a[0]);const top=o[0][0],sec=o[1][0];
-   if(top<T1)return {v:-1,d:false};if(top<T2)return {v:-1,d:true};if(sec>=T2)return {v:-2,d:true};if(sec>=T1)return {v:o[0][1],d:true};return {v:o[0][1],d:false}};
-  const answers=[],doubts=[];ansD.forEach((v,q)=>{const p=pick(v);answers.push(p.v>=0?LET[p.v]:p.v===-2?'*':'');if(p.d)doubts.push(q)});
-  let reg='',regDoubt=false;regD.forEach(col=>{const p=pick(col);if(p.v>=0)reg+=p.v;else{reg+='?';regDoubt=true}if(p.d)regDoubt=true});
-  const sp=pick(setD);const set=sp.v>=0?LET[sp.v]:'?';const setDoubt=sp.d||sp.v<0;
-  return {answers,doubts,reg,regDoubt,set,setDoubt,H,base,D:ansD}}
-
- function rectify(F,H,ppm=3){const W=G.W*ppm,Hh=G.H*ppm;const c=document.createElement('canvas');c.width=W;c.height=Hh;const x=c.getContext('2d');
-  const out=x.createImageData(W,Hh),o=out.data,d=F.data;
-  for(let v=0;v<Hh;v++)for(let u=0;u<W;u++){const p=mp(H,(u+0.5)/ppm,(v+0.5)/ppm);const sx=Math.round(p[0]),sy=Math.round(p[1]);const k=(v*W+u)*4;
-   if(sx<0||sy<0||sx>=F.w||sy>=F.h){o[k]=o[k+1]=o[k+2]=200}else{const i=(sy*F.w+sx)*4;o[k]=d[i];o[k+1]=d[i+1];o[k+2]=d[i+2]}o[k+3]=255}
-  x.putImageData(out,0,0);return c}
-
- // full pipeline from a canvas
- function processCanvas(fc){const Sm=smallGray(fc,800);const cands=findMarkers(Sm);if(!cands.length)return {error:'ನಾಲ್ಕು ಮೂಲೆಯ ಕಪ್ಪು ಚೌಕಗಳು ಸಿಗಲಿಲ್ಲ'};
-  const F=fc.getContext('2d',{willReadFrequently:true}).getImageData(0,0,fc.width,fc.height);const Fo={w:fc.width,h:fc.height,data:F.data};
-  let last=null;for(const c of cands){const g=grade(Fo,c.pts.map(([x,y])=>[x/Sm.scale,y/Sm.scale]));if(!g.error){g.rect=rectify(Fo,g.H);return g}last=g}
-  return {error:(last&&last.error?last.error+'. ':'')+'ನಾಲ್ಕೂ ಮೂಲೆಯ ಚೌಕಗಳು ಪೂರ್ತಿಯಾಗಿ, ನೆರಳಿಲ್ಲದೆ ಕಾಣುವಂತೆ ಮತ್ತೆ ತೆಗೆಯಿರಿ'}}
- return {G,qXY,smallGray,findMarkers,grade,rectify,processCanvas}
-})();
-
-/* ================= OMR SHEET (SVG) ================= */
-function omrSVG(st){const G=OMR.G,s=S();const o=[];const F="'Noto Sans Kannada','Tunga','Nirmala UI',sans-serif";
- o.push(`<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 210 297" font-family="${F}">`);
- o.push('<rect width="210" height="297" fill="#fff"/>');
- G.mk.forEach(([x,y])=>o.push(`<rect x="${x-4}" y="${y-4}" width="8" height="8" fill="#000"/>`));
- o.push(`<rect x="${G.bar.x}" y="${G.bar.y}" width="${G.bar.w}" height="${G.bar.h}" fill="#000"/>`);
- const T=(x,y,t,sz=3,ext='')=>o.push(`<text x="${x}" y="${y}" font-size="${sz}" ${ext}>${esc(t)}</text>`);
- T(105,22,`${s.exam} ${acadYear()}`,4.6,'text-anchor="middle" font-weight="700"');
- if(s.school)T(105,27.5,s.school,3.3,'text-anchor="middle"');
- T(105,32.3,'OMR ಉತ್ತರ ಪತ್ರಿಕೆ / OMR ANSWER SHEET',3,'text-anchor="middle" font-weight="700"');
- const L=(x1,y,x2)=>o.push(`<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="#000" stroke-width="0.2"/>`);
- T(16,39.5,'ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು / Name:',3);L(58,40.3,196);if(st)T(60,39.3,st.name,3.6,'font-weight="700"');
- T(16,46.5,'ತರಗತಿ / Class:',3);L(40,47.3,70);if(st)T(48,46.3,st.cls,3.6,'font-weight="700"');
- T(80,46.5,'ದಿನಾಂಕ / Date:',3);L(104,47.3,150);T(106,46.3,fmtDate(s.date).split(' ')[0],3.2);
- T(16,53.5,'ವಿದ್ಯಾರ್ಥಿಯ ಸಹಿ:',3);L(44,54.3,96);T(104,53.5,'ಕೊಠಡಿ ಮೇಲ್ವಿಚಾರಕರ ಸಹಿ:',3);L(146,54.3,196);
- // registration block
- o.push('<rect x="14" y="57" width="77" height="70" fill="none" stroke="#000" stroke-width="0.3"/>');
- T(52.5,61,'ನೋಂದಣಿ ಸಂಖ್ಯೆ / Registration No.',2.8,'text-anchor="middle" font-weight="700"');
- const reg=st?st.reg:'';
- for(let i=0;i<9;i++){const x=G.regX(i);o.push(`<rect x="${x-3}" y="62.3" width="6" height="6.3" fill="none" stroke="#000" stroke-width="0.25"/>`);
-  if(reg)T(x,67.2,reg[i],4,'text-anchor="middle" font-weight="700"');
-  for(let d=0;d<10;d++){const y=G.regY(d);const fill=reg&&+reg[i]===d;
-   o.push(`<circle cx="${x}" cy="${y}" r="${G.r}" fill="${fill?'#000':'none'}" stroke="#000" stroke-width="0.25"/>`);
-   if(!fill)T(x,y+0.8,d,2.1,'text-anchor="middle" fill="#c4c4c4"')}}
- // set block
- o.push('<rect x="100" y="57" width="96" height="17" fill="none" stroke="#000" stroke-width="0.3"/>');
- T(104,61.6,'ಪ್ರಶ್ನೆಪತ್ರಿಕೆಯ ಸೆಟ್ / Question Paper Set',2.8,'font-weight="700"');
- for(let k=0;k<4;k++){const x=G.setX(k);o.push(`<circle cx="${x}" cy="${G.setY}" r="${G.r}" fill="none" stroke="#000" stroke-width="0.25"/>`);T(x,G.setY+0.8,LET[k],2.2,'text-anchor="middle" fill="#c4c4c4"');T(x,G.setY-2.9,LET[k],2.4,'text-anchor="middle" font-weight="700"')}
- T(148,69,'ನಿಮ್ಮ ಪ್ರಶ್ನೆಪತ್ರಿಕೆಯ ಮೇಲಿನ',2.4);T(148,72,'ಸೆಟ್ ಅಕ್ಷರದ ವೃತ್ತ ತುಂಬಿ',2.4);
- // instructions
- o.push('<rect x="100" y="77" width="96" height="50" fill="none" stroke="#000" stroke-width="0.3"/>');
- T(104,82,'ಸೂಚನೆಗಳು / Instructions',3,'font-weight="700"');
- ['1. ನೀಲಿ ಅಥವಾ ಕಪ್ಪು ಬಾಲ್‌ಪೆನ್ ಮಾತ್ರ ಬಳಸಿ.','2. ವೃತ್ತವನ್ನು ಪೂರ್ತಿಯಾಗಿ ಕಪ್ಪಾಗಿ ತುಂಬಿ.','3. ಒಂದು ಪ್ರಶ್ನೆಗೆ ಒಂದೇ ವೃತ್ತ. ಉತ್ತರ ಬದಲಿಸುವಂತಿಲ್ಲ.','4. ವೈಟ್ನರ್/ರಬ್ಬರ್ ಬಳಸಬೇಡಿ. ಹಾಳೆ ಮಡಚಬೇಡಿ.','5. ಮೂಲೆಯ ಕಪ್ಪು ಚೌಕಗಳ ಮೇಲೆ ಏನನ್ನೂ ಬರೆಯಬೇಡಿ.']
-  .forEach((t,i)=>T(104,88+i*5,t,2.6));
- T(104,118.5,'ಸರಿಯಾದ ವಿಧಾನ:',2.6);o.push('<circle cx="131" cy="117.6" r="1.8" fill="#000"/>');
- T(140,118.5,'ತಪ್ಪು ವಿಧಾನ:',2.6);
- [[163,'✓'],[170,'✗'],[177,'•']].forEach(([x,t])=>{o.push(`<circle cx="${x}" cy="117.6" r="1.8" fill="none" stroke="#000" stroke-width="0.25"/>`);T(x,118.6,t,2.6,'text-anchor="middle"')});
- o.push('<circle cx="184" cy="117.6" r="1.8" fill="none" stroke="#000" stroke-width="0.25"/><path d="M182.2 117.6 A1.8 1.8 0 0 0 185.8 117.6 Z" fill="#000"/>');
- T(104,124,'ಪ್ರಶ್ನೆಗಳ ಸಂಖ್ಯೆ: '+nq(),2.6,'font-weight="700"');
- // answers
- T(105,133,'ಉತ್ತರಗಳು / Answers',3,'text-anchor="middle" font-weight="700"');
- for(let c=0;c<4;c++){const cx=G.ansCol[c];o.push(`<rect x="${cx-2}" y="135" width="42" height="140.5" fill="none" stroke="#000" stroke-width="0.3"/>`);
-  for(let k=0;k<4;k++)T(G.ansX(c,k),139.4,LET[k],2.5,'text-anchor="middle" font-weight="700"');
-  for(let i=0;i<25;i++){const q=c*25+i,y=G.ansY(i);const used=q<nq();
-   T(cx+7,y+0.9,q+1,2.6,`text-anchor="end" font-weight="700"${used?'':' fill="#bbb"'}`);
-   for(let k=0;k<4;k++){const x=G.ansX(c,k);o.push(`<circle cx="${x}" cy="${y}" r="${G.r}" fill="none" stroke="${used?'#000':'#bbb'}" stroke-width="0.25"/>`);T(x,y+0.8,LET[k],2.1,'text-anchor="middle" fill="#c4c4c4"')}
-   if(i%5===4&&i<24)o.push(`<line x1="${cx}" y1="${y+2.7}" x2="${cx+38}" y2="${y+2.7}" stroke="#d0d0d0" stroke-width="0.15"/>`)}}
- T(20,293.5,'ಸ್ಕ್ಯಾನ್ ಮಾಡುವಾಗ ನಾಲ್ಕೂ ಮೂಲೆಯ ಕಪ್ಪು ಚೌಕಗಳು ಕಾಣಬೇಕು.',2.2,'fill="#555"');
- if(st)T(190,293.5,st.reg,2.2,'text-anchor="end" fill="#555"');
- o.push('</svg>');return o.join('')}
-
-/* ================= PRINT ================= */
-function doPrint(html){$('#printArea').innerHTML=html;setTimeout(()=>window.print(),300)}
-window.addEventListener('afterprint',()=>{$('#printArea').innerHTML=''});
-function selectedStudents(sel){const v=sel.value;return state.students.filter(s=>v==='all'||String(s.cls)===v).sort((a,b)=>a.reg.localeCompare(b.reg))}
-function hallTicket(st){const s=S();return `<div class="ht"><div class="ht-head"><div class="t1">${esc(s.exam)} ${acadYear()}</div><div>${esc(s.school)}</div><div class="t2">ಪ್ರವೇಶ ಪತ್ರ / HALL TICKET</div></div>
-<div class="ht-body"><table>
-<tr><td>ನೋಂದಣಿ ಸಂಖ್ಯೆ</td><td class="reg">${esc(st.reg)}</td></tr>
-<tr><td>ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು</td><td><b>${esc(st.name)}</b></td></tr>
-<tr><td>ತಂದೆಯ ಹೆಸರು</td><td>${esc(st.father)}</td></tr>
-<tr><td>ತರಗತಿ</td><td>${esc(st.cls)}ನೇ ತರಗತಿ</td></tr>
-<tr><td>SATS ಸಂಖ್ಯೆ</td><td>${esc(st.sats)}</td></tr>
-<tr><td>ಪರೀಕ್ಷಾ ದಿನಾಂಕ</td><td>${esc(fmtDate(s.date))}</td></tr>
-<tr><td>ಸಮಯ</td><td>${esc(s.time)}</td></tr>
-<tr><td>ಪರೀಕ್ಷಾ ಕೇಂದ್ರ</td><td>${esc(s.center||s.school)}</td></tr>
-</table><div class="photo">ಭಾವಚಿತ್ರ<br>ಅಂಟಿಸಿ</div></div>
-<div class="sig"><span>ವಿದ್ಯಾರ್ಥಿಯ ಸಹಿ</span><span>ಮುಖ್ಯ ಶಿಕ್ಷಕರ ಸಹಿ ಮತ್ತು ಮುದ್ರೆ${s.hm?'<br>'+esc(s.hm):''}</span></div>
-<ol><li>ಈ ಪ್ರವೇಶ ಪತ್ರ ಇಲ್ಲದೆ ಪರೀಕ್ಷಾ ಕೊಠಡಿಗೆ ಪ್ರವೇಶವಿಲ್ಲ. ಪರೀಕ್ಷೆ ಆರಂಭಕ್ಕೆ 15 ನಿಮಿಷ ಮುಂಚೆ ಹಾಜರಿರಿ.</li>
-<li>ನೀಲಿ ಅಥವಾ ಕಪ್ಪು ಬಾಲ್‌ಪೆನ್, ಪೆನ್ಸಿಲ್ ಮತ್ತು ಸ್ಕೇಲ್ ತನ್ನಿ. ಮೊಬೈಲ್, ಕ್ಯಾಲ್ಕುಲೇಟರ್ ನಿಷೇಧ.</li>
-<li>ಎಲ್ಲಾ ಪ್ರಶ್ನೆಗಳು ಬಹು ಆಯ್ಕೆಯವು. ಉತ್ತರಗಳನ್ನು OMR ಹಾಳೆಯಲ್ಲಿ ವೃತ್ತ ತುಂಬಿ ಗುರುತಿಸಬೇಕು. ತಪ್ಪು ಉತ್ತರಕ್ಕೆ ಅಂಕ ಕಳೆಯುವುದಿಲ್ಲ.</li>
-<li>ಈ ಪ್ರವೇಶ ಪತ್ರವನ್ನು ಫಲಿತಾಂಶ ಮತ್ತು ಬಹುಮಾನ ವಿತರಣೆಯವರೆಗೆ ಜೋಪಾನವಾಗಿ ಇಡಿ.</li></ol></div>`}
-function chunk(a,n){const r=[];for(let i=0;i<a.length;i+=n)r.push(a.slice(i,i+n));return r}
-
-/* ================= SCORING ================= */
-function scoreOf(rec){const c=rec.cls||clsFromReg(rec.reg);let set=rec.set;
- if(!set||set==='?'){if(nsets()===1)set='A';else return {err:'ಸೆಟ್ ಗೊತ್ತಿಲ್ಲ',cls:c}}
- const key=(state.keys[c]||{})[set];if(!key)return {err:`ಕೀ ಇಲ್ಲ (${c||'?'}ನೇ ತರಗತಿ, ಸೆಟ್ ${set})`,cls:c};
- const n=Math.min(key.length,nq()),secs=sections(),sec=secs.map(()=>0);let total=0;const per=[];
- for(let i=0;i<n;i++){const k=key[i];const ok=k==='*'||(k&&rec.answers[i]===k);per.push(ok);if(ok){total++;secs.forEach((s,j)=>{if(i+1>=s.a&&i+1<=s.b)sec[j]++})}}
- return {total,n,sec,per,set,cls:c}}
-function needsReview(rec){return rec.doubts.length>0||rec.regDoubt||rec.setDoubt||!stuByReg(rec.reg)||rec.dup}
-function ranked(cls){const tie=tieOrder();const rows=state.results.filter(r=>String(r.cls||clsFromReg(r.reg))===String(cls)).map(r=>({r,s:scoreOf(r),st:stuByReg(r.reg)}));
- const cmp=(a,b)=>{const as=a.s.err?-1:a.s.total,bs=b.s.err?-1:b.s.total;if(bs!==as)return bs-as;for(const i of tie){const d=(b.s.sec?b.s.sec[i]:0)-(a.s.sec?a.s.sec[i]:0);if(d)return d}return 0};
- rows.sort((a,b)=>cmp(a,b)||a.r.reg.localeCompare(b.r.reg));let rank=0;rows.forEach((x,i)=>{if(i===0||cmp(rows[i-1],x)!==0)rank=i+1;x.rank=x.s.err?'-':rank});return rows}
-
-/* ================= SAVE A SCAN ================= */
-async function storeResult(g,src){const nq_=nq();const answers=g.answers.slice(0,100);const doubts=g.doubts.filter(q=>q<nq_);
- const rec={id:'r'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),reg:g.reg,cls:clsFromReg(g.reg),set:g.set,answers,doubts,regDoubt:g.regDoubt,setDoubt:nsets()>1&&g.setDoubt,dup:false,edited:false,time:Date.now(),src};
- if(nsets()===1){rec.set='A';rec.setDoubt=false}
- const prevs=rec.regDoubt?[]:state.results.filter(r=>r.reg===rec.reg);
- const same=prevs.find(p=>p.set===rec.set&&p.answers.slice(0,nq_).join()===rec.answers.slice(0,nq_).join());if(same)return {rec:same,repeat:true};
- if(prevs.length){rec.dup=true;prevs.forEach(p=>p.dup=true)}
- state.results.push(rec);save();
- if(g.rect){await new Promise(res=>g.rect.toBlob(async b=>{try{await IDB.put(rec.id,b)}catch(e){}res()},'image/jpeg',0.72))}
- return {rec}}
-function resultCard(rec,repeat){const st=stuByReg(rec.reg),sc=scoreOf(rec),rv=needsReview(rec);const cls=repeat?'y':rv?'y':'g';
- let msg=repeat?'ಈ ಹಾಳೆ ಈಗಾಗಲೇ ಸ್ಕ್ಯಾನ್ ಆಗಿದೆ.':'';const issues=[];
- if(!st)issues.push('ನೋಂದಣಿ ಸಂಖ್ಯೆ ಪಟ್ಟಿಯಲ್ಲಿಲ್ಲ');if(rec.regDoubt)issues.push('ನೋಂದಣಿ ಸಂಖ್ಯೆ ಅಸ್ಪಷ್ಟ');if(rec.setDoubt)issues.push('ಸೆಟ್ ಅಸ್ಪಷ್ಟ');
- if(rec.doubts.length)issues.push(rec.doubts.length+' ಉತ್ತರ ಸಂದೇಹ');if(rec.dup)issues.push('ಇದೇ ನೋಂದಣಿ ಸಂಖ್ಯೆಯ ಇನ್ನೊಂದು ಸ್ಕ್ಯಾನ್ ಇದೆ');
- return `<div class="res ${cls}"><div class="big">${sc.err?'—':sc.total+' / '+sc.n}</div>
- <div><b>${esc(st?st.name:'ಅಪರಿಚಿತ')}</b> • ${esc(rec.reg)} • ${esc(rec.cls||'?')}ನೇ ತರಗತಿ • ಸೆಟ್ ${esc(rec.set)}</div>
- ${sc.err?`<div class="bad">${esc(sc.err)}</div>`:''}${msg?`<div>${msg}</div>`:''}
- ${issues.length?`<div class="bad">⚠ ${issues.join(' • ')}</div><button class="b" onclick="openReview('${rec.id}')">ಪರಿಶೀಲಿಸಿ</button>`:'<div class="ok">✔ ಸರಿಯಾಗಿ ಓದಲಾಗಿದೆ</div>'}</div>`}
-function logLine(html){const d=document.createElement('div');d.innerHTML=html;$('#scanLog').prepend(d)}
-function scanStat(){const tot=state.students.length,done=new Set(state.results.map(r=>r.reg)).size;$('#scanStat').textContent=`ಸ್ಕ್ಯಾನ್ ಆದ ಹಾಳೆಗಳು: ${state.results.length} • ನೋಂದಾಯಿತ ವಿದ್ಯಾರ್ಥಿಗಳು: ${tot} • ಬಾಕಿ: ${Math.max(0,tot-done)}`}
-
-/* ================= CAMERA ================= */
-const cam={stream:null,track:null,run:false,busy:false,stable:0,last:null,wait:false,miss:0,torch:false,lastT:0};
-let audioCtx=null;function beep(ok){try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=ok?1200:400;g.gain.value=0.15;o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+(ok?0.15:0.4))}catch(e){}if(navigator.vibrate)navigator.vibrate(ok?80:[80,60,80])}
-async function camStart(){if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){alert('ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಕ್ಯಾಮೆರಾ ಸೌಲಭ್ಯ ಇಲ್ಲ. Chrome ಬಳಸಿ ಮತ್ತು ವೆಬ್‌ಸೈಟ್ https:// ನಲ್ಲಿ ತೆರೆಯಿರಿ.');return}
- try{cam.stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1920}}})}
- catch(e){alert('ಕ್ಯಾಮೆರಾ ತೆರೆಯಲು ಆಗಲಿಲ್ಲ: '+e.message+'\nಬ್ರೌಸರ್‌ನಲ್ಲಿ ಕ್ಯಾಮೆರಾ ಅನುಮತಿ ಕೊಡಿ.');return}
- cam.track=cam.stream.getVideoTracks()[0];const v=$('#video');v.srcObject=cam.stream;await v.play().catch(()=>{});
- try{const caps=cam.track.getCapabilities?cam.track.getCapabilities():{};if(caps.focusMode&&caps.focusMode.includes('continuous'))await cam.track.applyConstraints({advanced:[{focusMode:'continuous'}]});$('#camTorch').disabled=!caps.torch}catch(e){}
- $('#camWrap').style.display='block';$('#camStop').disabled=false;$('#camShot').disabled=false;$('#camStart').disabled=true;
- audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
- cam.run=true;cam.wait=false;cam.stable=0;cam.last=null;requestAnimationFrame(camLoop)}
-function camStop(){cam.run=false;if(cam.stream)cam.stream.getTracks().forEach(t=>t.stop());cam.stream=null;$('#camWrap').style.display='none';$('#camStop').disabled=true;$('#camShot').disabled=true;$('#camTorch').disabled=true;$('#camStart').disabled=false}
-function camMsg(t){$('#camMsg').textContent=t}
-function camLoop(t){if(!cam.run)return;requestAnimationFrame(camLoop);if(cam.busy||t-cam.lastT<220)return;cam.lastT=t;const v=$('#video');if(!v.videoWidth)return;
- const ov=$('#overlay');if(ov.width!==v.videoWidth){ov.width=v.videoWidth;ov.height=v.videoHeight}const oc=ov.getContext('2d');oc.clearRect(0,0,ov.width,ov.height);
- const Sm=OMR.smallGray(v,640);const c=OMR.findMarkers(Sm)[0];
- if(!c){cam.stable=0;cam.last=null;cam.miss++;if(cam.wait&&cam.miss>=3){cam.wait=false}camMsg(cam.wait?'ಮುಂದಿನ ಹಾಳೆ ಇಡಿ':'ನಾಲ್ಕೂ ಮೂಲೆಯ ಕಪ್ಪು ಚೌಕಗಳು ಕಾಣುವಂತೆ ಹಿಡಿಯಿರಿ');return}
- cam.miss=0;const P=c.pts.map(([x,y])=>[x/Sm.scale,y/Sm.scale]);
- oc.lineWidth=Math.max(4,ov.width/150);oc.strokeStyle=cam.wait?'#facc15':'#22c55e';oc.beginPath();P.forEach((p,i)=>i?oc.lineTo(p[0],p[1]):oc.moveTo(p[0],p[1]));oc.closePath();oc.stroke();
- if(cam.wait){camMsg((cam.lastText||'ಸ್ಕ್ಯಾನ್ ಆಯಿತು ✔')+' – ಮುಂದಿನ ಹಾಳೆ ಇಡಿ');return}
- if(c.edge){cam.stable=0;camMsg('ಮೊಬೈಲ್ ಅನ್ನು ಸ್ವಲ್ಪ ಹಿಂದೆ ಸರಿಸಿ – ಮೂಲೆಗಳು ಅಂಚಿಗೆ ತಾಗಿವೆ');return}
- if(c.quadArea<0.18){cam.stable=0;camMsg('ಮೊಬೈಲ್ ಅನ್ನು ಹಾಳೆಗೆ ಸ್ವಲ್ಪ ಹತ್ತಿರ ತನ್ನಿ');return}
- const diag=Math.hypot(ov.width,ov.height);const mv=cam.last?Math.max(...P.map((p,i)=>Math.hypot(p[0]-cam.last[i][0],p[1]-cam.last[i][1]))):1e9;cam.last=P;
- if(mv<diag*0.012)cam.stable++;else cam.stable=0;camMsg(cam.stable?'ಅಲುಗಾಡಿಸಬೇಡಿ…':'ಸ್ಥಿರವಾಗಿ ಹಿಡಿಯಿರಿ');
- if(cam.stable>=3)camCapture(false)}
-async function camCapture(manual){const v=$('#video');if(!v.videoWidth||cam.busy)return;cam.busy=true;camMsg('ಓದಲಾಗುತ್ತಿದೆ…');
- try{const fc=document.createElement('canvas');fc.width=v.videoWidth;fc.height=v.videoHeight;fc.getContext('2d',{willReadFrequently:true}).drawImage(v,0,0);
-  const g=OMR.processCanvas(fc);
-  if(g.error){cam.stable=0;if(manual){beep(false);camMsg(g.error)}cam.busy=false;return}
-  const {rec,repeat}=await storeResult(g,'cam');beep(!needsReview(rec)&&!repeat);
-  $('#lastResult').innerHTML=resultCard(rec,repeat);const st=stuByReg(rec.reg),sc=scoreOf(rec);
-  if(!repeat)logLine(`${needsReview(rec)?'⚠':'✔'} ${esc(rec.reg)} – ${esc(st?st.name:'ಅಪರಿಚಿತ')} – ${sc.err?esc(sc.err):sc.total+'/'+sc.n}`);
-  cam.lastText=`${needsReview(rec)?'⚠':'✔'} ${st?st.name:rec.reg} ${sc.err?'':sc.total+'/'+sc.n}`;cam.wait=true;cam.stable=0;cam.miss=0;scanStat();renderResults()}
- catch(e){console.error(e);camMsg('ದೋಷ: '+e.message)}cam.busy=false}
-
-/* ================= FILE UPLOAD ================= */
-const PDFJS_BASE='https://cdn.jsdelivr.net/npm/pdfjs-dist@6.2.108/legacy/build/';
-let pdfLib=null;async function loadPdfJs(){if(pdfLib)return pdfLib;
- try{pdfLib=await import(PDFJS_BASE+'pdf.min.mjs');pdfLib.GlobalWorkerOptions.workerSrc=PDFJS_BASE+'pdf.worker.min.mjs';return pdfLib}
- catch(e){pdfLib=null;throw new Error('PDF ಓದುವ ಸಾಧನ ಲೋಡ್ ಆಗಲಿಲ್ಲ – ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಬೇಕು (ಅಥವಾ JPG ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ)')}}
-async function handleCanvas(fc,label){const g=OMR.processCanvas(fc);
- if(g.error){logLine(`✖ ${esc(label)}: <span class="bad">${esc(g.error)}</span>`);return}
- const {rec,repeat}=await storeResult(g,'file');const st=stuByReg(rec.reg),sc=scoreOf(rec);
- logLine(`${repeat?'↺':needsReview(rec)?'⚠':'✔'} ${esc(label)}: ${esc(rec.reg)} – ${esc(st?st.name:'ಅಪರಿಚಿತ')} – ${sc.err?esc(sc.err):sc.total+'/'+sc.n}${repeat?' (ಈಗಾಗಲೇ ಸ್ಕ್ಯಾನ್ ಆಗಿದೆ)':''}`);
- $('#lastResult').innerHTML=resultCard(rec,repeat)}
-function canvasFrom(src,W,H){const sc=Math.min(1,2400/Math.max(W,H));const c=document.createElement('canvas');c.width=Math.round(W*sc);c.height=Math.round(H*sc);c.getContext('2d',{willReadFrequently:true}).drawImage(src,0,0,c.width,c.height);return c}
-async function handleFiles(files){for(const f of files){
- try{if(f.type==='application/pdf'||/\.pdf$/i.test(f.name)){logLine(`⏳ ${esc(f.name)} ಓದಲಾಗುತ್ತಿದೆ…`);const lib=await loadPdfJs();const pdf=await lib.getDocument({data:new Uint8Array(await f.arrayBuffer())}).promise;
-   for(let p=1;p<=pdf.numPages;p++){const page=await pdf.getPage(p);const v1=page.getViewport({scale:1});const vp=page.getViewport({scale:2200/Math.max(v1.width,v1.height)});
-    const c=document.createElement('canvas');c.width=Math.round(vp.width);c.height=Math.round(vp.height);const x=c.getContext('2d',{willReadFrequently:true});x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
-    await page.render({canvasContext:x,canvas:c,viewport:vp}).promise;await handleCanvas(c,`${f.name} ಪುಟ ${p}`)}}
-  else{const url=URL.createObjectURL(f);const img=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej(new Error('ಚಿತ್ರ ತೆರೆಯಲಾಗಲಿಲ್ಲ'));i.src=url});
-   await handleCanvas(canvasFrom(img,img.naturalWidth,img.naturalHeight),f.name);URL.revokeObjectURL(url)}}
- catch(e){console.error(e);logLine(`✖ ${esc(f.name)}: <span class="bad">${esc(e.message)}</span>`)}}
- scanStat();renderResults()}
-
-/* ================= REVIEW ================= */
-let revRec=null;
-async function openReview(id){revRec=state.results.find(r=>r.id===id);if(!revRec)return;const r=revRec;
- $('#revReg').value=r.reg;$('#revSet').value=LET.includes(r.set)?r.set:'A';$('#modal').classList.remove('hidden');
- const blob=await IDB.get(r.id).catch(()=>null);const cv=$('#revCanvas'),x=cv.getContext('2d');x.fillStyle='#eee';x.fillRect(0,0,cv.width,cv.height);
- if(blob){const img=await createImageBitmap(blob);x.drawImage(img,0,0,cv.width,cv.height)}else{x.fillStyle='#555';x.font='20px sans-serif';x.fillText('ಸ್ಕ್ಯಾನ್ ಚಿತ್ರ ಲಭ್ಯವಿಲ್ಲ',200,440)}
- cv._base=x.getImageData(0,0,cv.width,cv.height);renderReview()}
-function renderReview(){const r=revRec;const tmp={...r,reg:$('#revReg').value.trim(),set:$('#revSet').value,answers:r.answers.slice()};
- document.querySelectorAll('#revAns select').forEach(s=>{tmp.answers[+s.dataset.q]=s.value});
- tmp.cls=clsFromReg(tmp.reg);const sc=scoreOf(tmp);const key=(state.keys[tmp.cls]||{})[sc.set||tmp.set]||'';const st=stuByReg(tmp.reg);
- $('#revTitle').textContent=`ಪರಿಶೀಲನೆ – ${st?st.name:'ಅಪರಿಚಿತ'} (${tmp.reg})`;
- $('#revInfo').innerHTML=(st?`${esc(st.name)} • ${esc(st.cls)}ನೇ ತರಗತಿ`:'<span class="bad">ಈ ನೋಂದಣಿ ಸಂಖ್ಯೆ ಪಟ್ಟಿಯಲ್ಲಿಲ್ಲ – ಸರಿಪಡಿಸಿ</span>')+' • '+(sc.err?`<span class="bad">${esc(sc.err)}</span>`:`<b>ಅಂಕ: ${sc.total} / ${sc.n}</b>`)+(r.doubts.length?` • ಹಳದಿ = ${r.doubts.length} ಸಂದೇಹ`:'');
- if(!document.querySelector('#revAns select')){$('#revAns').innerHTML=Array.from({length:nq()},(_,q)=>`<div data-q="${q}"><b>${q+1}</b><select data-q="${q}">${['','A','B','C','D','*'].map(v=>`<option value="${v}"${r.answers[q]===v?' selected':''}>${v===''?'–':v==='*'?'ಬಹು':v}</option>`).join('')}</select></div>`).join('');
-  document.querySelectorAll('#revAns select').forEach(s=>s.onchange=renderReview)}
- document.querySelectorAll('#revAns div').forEach(d=>{const q=+d.dataset.q;d.className=r.doubts.includes(q)?'d':key[q]?(key[q]==='*'||tmp.answers[q]===key[q]?'c':'w'):''});
- const cv=$('#revCanvas'),x=cv.getContext('2d');if(cv._base)x.putImageData(cv._base,0,0);const k=3,G=OMR.G;
- const circ=(mx,my,col,lw)=>{x.strokeStyle=col;x.lineWidth=lw;x.beginPath();x.arc(mx*k,my*k,G.r*k+2,0,Math.PI*2);x.stroke()};
- for(let q=0;q<nq();q++){const a=tmp.answers[q],kq=key[q];const dbt=r.doubts.includes(q);
-  if(dbt){const [x1,y1]=OMR.qXY(q,0),[x4]=OMR.qXY(q,3);x.fillStyle='rgba(250,204,21,.35)';x.fillRect((x1-3)*k,(y1-2.7)*k,(x4-x1+6)*k,5.4*k)}
-  if(LET.includes(a)){const [mx,my]=OMR.qXY(q,LET.indexOf(a));circ(mx,my,kq?(kq==='*'||a===kq?'#16a34a':'#dc2626'):'#2563eb',2.5)}
-  if(kq&&LET.includes(kq)&&a!==kq){const [mx,my]=OMR.qXY(q,LET.indexOf(kq));circ(mx,my,'#16a34a',1.2)}}
- const reg=tmp.reg;for(let i=0;i<9;i++){const d=+reg[i];if(reg[i]>='0'&&reg[i]<='9')circ(G.regX(i),G.regY(d),r.regDoubt?'#ca8a04':'#2563eb',2.5)}
- if(LET.includes(tmp.set))circ(G.setX(LET.indexOf(tmp.set)),G.setY,r.setDoubt?'#ca8a04':'#2563eb',2.5)}
-function closeReview(){$('#modal').classList.add('hidden');$('#revAns').innerHTML='';revRec=null}
-async function deleteRec(id){state.results=state.results.filter(r=>r.id!==id);save();try{await IDB.del(id)}catch(e){}}
-
-/* ================= RENDER UI ================= */
-function fillClassSelects(){const cs=classes();const opts=cs.map(c=>`<option value="${c}">${c}ನೇ ತರಗತಿ</option>`).join('');
- const p=$('#pCls').value;$('#pCls').innerHTML='<option value="all">ಎಲ್ಲಾ ತರಗತಿಗಳು</option>'+opts;if(p)$('#pCls').value=p;
- const r=$('#rCls').value;$('#rCls').innerHTML=opts;if(r&&cs.includes(+r))$('#rCls').value=r}
-function renderSettings(){const s=S();['exam','school','code','center','date','time','classes','nq','sets','sections','tie','hm'].forEach(k=>{$('#s_'+k).value=s[k]??''})}
-function renderStudents(){const rows=state.students.slice().sort((a,b)=>a.reg.localeCompare(b.reg));$('#stuCount').textContent=rows.length;
- $('#stuTbl').innerHTML='<tr><th>ನೋಂದಣಿ ಸಂಖ್ಯೆ</th><th>ಹೆಸರು</th><th>ತಂದೆ</th><th>ತರಗತಿ</th><th>SATS</th><th></th></tr>'+rows.map(s=>`<tr><td><b>${esc(s.reg)}</b></td><td>${esc(s.name)}</td><td>${esc(s.father)}</td><td>${esc(s.cls)}</td><td>${esc(s.sats)}</td><td><button class="b sec" style="padding:3px 8px" data-del="${esc(s.reg)}">✕</button></td></tr>`).join('');
- document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(confirm('ಈ ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಅಳಿಸಬೇಕೇ?')){state.students=state.students.filter(s=>s.reg!==b.dataset.del);save();renderStudents()}})}
-function parseKey(t){t=String(t||'').toUpperCase();const arr=[];
- if(/\d/.test(t)){const re=/(\d+)\s*[\.\-\):=]?\s*([ABCD*])/g;let m;while((m=re.exec(t))){const i=+m[1]-1;if(i>=0&&i<100)arr[i]=m[2]}}
- else{for(const ch of t)if('ABCD*'.includes(ch))arr.push(ch)}
- let s='';for(let i=0;i<arr.length;i++)s+=arr[i]||'-';return s.slice(0,100)}
-function renderKeys(){const cs=classes(),ns=nsets();$('#keyArea').innerHTML=cs.map(c=>`<div class="keybox"><b>${c}ನೇ ತರಗತಿ</b>${LET.slice(0,ns).map(L=>{const k=(state.keys[c]||{})[L]||'';return `<label class="f" style="margin-top:6px">ಸೆಟ್ ${L} <span class="pill ${k.replace(/-/g,'').length===nq()?'g':'y'}" data-cnt="${c}-${L}">${k.replace(/-/g,'').length} / ${nq()}</span><textarea data-key="${c}-${L}" rows="2" style="min-height:48px;letter-spacing:2px">${esc(k)}</textarea></label>`}).join('')}</div>`).join('');
- document.querySelectorAll('[data-key]').forEach(t=>t.oninput=()=>{const k=parseKey(t.value);const p=document.querySelector(`[data-cnt="${t.dataset.key}"]`);const n=k.replace(/-/g,'').length;p.textContent=`${n} / ${nq()}`;p.className='pill '+(n===nq()&&!k.includes('-')?'g':'y')})}
-function renderResults(){fillClassSelects();const c=$('#rCls').value||classes()[0];if(!c){$('#resTbl').innerHTML='';return}
- const rows=ranked(c);const flt=$('#rFilter').value;const secs=sections();
- const reg=state.students.filter(s=>String(s.cls)===String(c));const done=new Set(rows.map(x=>x.r.reg));const missing=reg.filter(s=>!done.has(s.reg));
- const nrev=rows.filter(x=>needsReview(x.r)).length;
- $('#rSummary').innerHTML=`ಸ್ಕ್ಯಾನ್: <b>${rows.length}</b> • ನೋಂದಾಯಿತ: <b>${reg.length}</b> • ಪರಿಶೀಲನೆ ಬೇಕಾದವು: <b class="${nrev?'bad':'ok'}">${nrev}</b>`+(missing.length?`<br>ಸ್ಕ್ಯಾನ್ ಆಗದವರು/ಗೈರು: ${missing.map(s=>esc(s.reg+' '+s.name)).join(', ')}`:'');
- $('#resTbl').innerHTML=`<tr><th>ಸ್ಥಾನ</th><th>ನೋಂದಣಿ</th><th>ಹೆಸರು</th><th>ಸೆಟ್</th>${secs.map(s=>`<th title="${esc(s.name)}">${esc(s.name.slice(0,8))}</th>`).join('')}<th>ಒಟ್ಟು</th><th>ಸ್ಥಿತಿ</th></tr>`+
- rows.filter(x=>flt==='all'||needsReview(x.r)).map(x=>{const r=x.r,s=x.s;const tags=[];if(!x.st)tags.push('<span class="pill r">ಪಟ್ಟಿಯಲ್ಲಿಲ್ಲ</span>');if(r.dup)tags.push('<span class="pill r">ನಕಲು</span>');if(r.regDoubt)tags.push('<span class="pill y">ನೋಂದಣಿ?</span>');if(r.setDoubt)tags.push('<span class="pill y">ಸೆಟ್?</span>');if(r.doubts.length)tags.push(`<span class="pill y">${r.doubts.length} ಸಂದೇಹ</span>`);if(r.edited)tags.push('<span class="pill g">ಪರಿಶೀಲಿಸಲಾಗಿದೆ</span>');
-  return `<tr class="click" data-id="${r.id}"><td>${x.rank}</td><td>${esc(r.reg)}</td><td>${esc(x.st?x.st.name:'?')}</td><td>${esc(r.set)}</td>${secs.map((_,i)=>`<td>${s.err?'':s.sec[i]}</td>`).join('')}<td><b>${s.err?'<span class="bad">'+esc(s.err)+'</span>':s.total}</b></td><td>${tags.join('')||'<span class="pill g">✔</span>'}</td></tr>`}).join('');
- document.querySelectorAll('#resTbl tr.click').forEach(tr=>tr.onclick=()=>openReview(tr.dataset.id));scanStat()}
-
-/* ================= EVENTS ================= */
-document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.id==='t-'+b.dataset.t));
- if(b.dataset.t==='key')renderKeys();if(b.dataset.t==='res')renderResults();if(b.dataset.t==='prn')fillClassSelects();if(b.dataset.t!=='scan'&&cam.run)camStop()});
-$('#saveSet').onclick=()=>{const s=state.settings;['exam','school','code','center','date','time','classes','sections','tie','hm'].forEach(k=>s[k]=$('#s_'+k).value.trim());
- s.code=(s.code.replace(/\D/g,'')||'1').padStart(3,'0').slice(-3);s.nq=Math.max(1,Math.min(100,parseInt($('#s_nq').value,10)||100));s.sets=parseInt($('#s_sets').value,10)||1;
- if(!classes().length){alert('ಕನಿಷ್ಠ ಒಂದು ತರಗತಿ ಬರೆಯಿರಿ');return}save();renderSettings();fillClassSelects();$('#setMsg').textContent='✔ ಉಳಿಸಲಾಗಿದೆ';setTimeout(()=>$('#setMsg').textContent='',2000)};
-$('#stuAdd').onclick=()=>{const cs=classes();const errs=[];let added=0;
- $('#stuIn').value.split('\n').map(l=>l.trim()).filter(Boolean).forEach((l,i)=>{const p=(l.includes('\t')?l.split('\t'):l.split(',')).map(x=>x.trim());
-  const [name,father,cl,sats]=p;const c=parseInt(cl,10);if(!name||!cs.includes(c)){errs.push(`ಸಾಲು ${i+1}: "${l.slice(0,30)}" (ಹೆಸರು/ತರಗತಿ ಸರಿಯಿಲ್ಲ)`);return}
-  if(sats&&state.students.some(s=>s.sats&&s.sats===sats)){errs.push(`ಸಾಲು ${i+1}: SATS ${sats} ಈಗಾಗಲೇ ಇದೆ`);return}
-  const serial=Math.max(0,...state.students.filter(s=>s.cls===c).map(s=>parseInt(s.reg.slice(-3),10)))+1;
-  if(serial>999){errs.push('999ಕ್ಕಿಂತ ಹೆಚ್ಚು ವಿದ್ಯಾರ್ಥಿಗಳು ಸಾಧ್ಯವಿಲ್ಲ');return}
-  state.students.push({name,father:father||'',cls:c,sats:sats||'',reg:makeReg(c,serial)});added++});
- save();renderStudents();$('#stuMsg').innerHTML=`✔ ${added} ಸೇರಿಸಲಾಗಿದೆ`+(errs.length?`<br><span class="bad">${errs.map(esc).join('<br>')}</span>`:'');if(added)$('#stuIn').value=''};
-$('#stuRenum').onclick=()=>{if(state.results.length&&!confirm('ಸ್ಕ್ಯಾನ್ ಫಲಿತಾಂಶಗಳು ಇವೆ. ಮರುಹಂಚಿದರೆ ಹೊಂದಿಕೆ ತಪ್ಪಬಹುದು. ಮುಂದುವರಿಯಬೇಕೇ?'))return;
- classes().forEach(c=>{state.students.filter(s=>s.cls===c).sort((a,b)=>a.name.localeCompare(b.name,'kn')).forEach((s,i)=>s.reg=makeReg(c,i+1))});save();renderStudents()};
-$('#stuClear').onclick=()=>{if(confirm('ಎಲ್ಲಾ ವಿದ್ಯಾರ್ಥಿಗಳನ್ನು ಅಳಿಸಬೇಕೇ?')){state.students=[];save();renderStudents()}};
-$('#keySave').onclick=()=>{document.querySelectorAll('[data-key]').forEach(t=>{const [c,L]=t.dataset.key.split('-');state.keys[c]=state.keys[c]||{};const k=parseKey(t.value);if(k)state.keys[c][L]=k;else delete state.keys[c][L]});
- save();renderKeys();$('#keyMsg').textContent='✔ ಉಳಿಸಲಾಗಿದೆ';setTimeout(()=>$('#keyMsg').textContent='',2000)};
-$('#pOmrBlank').onclick=()=>{const n=Math.max(1,Math.min(300,parseInt($('#pCopies').value,10)||1));const svg=omrSVG(null);doPrint(Array.from({length:n},()=>`<div class="page">${svg}</div>`).join(''))};
-$('#pOmrStu').onclick=()=>{const st=selectedStudents($('#pCls'));if(!st.length){alert('ವಿದ್ಯಾರ್ಥಿಗಳ ಪಟ್ಟಿ ಖಾಲಿ ಇದೆ');return}doPrint(st.map(s=>`<div class="page">${omrSVG(s)}</div>`).join(''))};
-$('#pHall').onclick=()=>{const st=selectedStudents($('#pCls'));if(!st.length){alert('ವಿದ್ಯಾರ್ಥಿಗಳ ಪಟ್ಟಿ ಖಾಲಿ ಇದೆ');return}doPrint(chunk(st,2).map(p=>`<div class="page">${p.map(hallTicket).join('')}</div>`).join(''))};
-$('#pAtt').onclick=()=>{const s=S();let html='';const sel=$('#pCls').value;classes().filter(c=>sel==='all'||String(c)===sel).forEach(c=>{const st=state.students.filter(x=>x.cls===c).sort((a,b)=>a.reg.localeCompare(b.reg));
- chunk(st,25).forEach((p,pi)=>{html+=`<div class="page"><div class="lp"><h3>${esc(s.exam)} ${acadYear()}</h3><h4>${esc(s.school)} • ${c}ನೇ ತರಗತಿ • ಹಾಜರಾತಿ ಪಟ್ಟಿ • ${esc(fmtDate(s.date))}</h4>
- <table class="att"><tr><th>ಕ್ರ.ಸಂ</th><th>ನೋಂದಣಿ ಸಂಖ್ಯೆ</th><th>ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು</th><th>ಸೆಟ್</th><th>ವಿದ್ಯಾರ್ಥಿಯ ಸಹಿ</th></tr>${p.map((x,i)=>`<tr><td>${pi*25+i+1}</td><td>${esc(x.reg)}</td><td>${esc(x.name)}</td><td></td><td></td></tr>`).join('')}</table>
- <div class="sig" style="margin-top:10mm"><span>ಕೊಠಡಿ ಮೇಲ್ವಿಚಾರಕರ ಸಹಿ</span><span>ಮುಖ್ಯ ಶಿಕ್ಷಕರ ಸಹಿ</span></div></div></div>`})});if(!html){alert('ವಿದ್ಯಾರ್ಥಿಗಳ ಪಟ್ಟಿ ಖಾಲಿ ಇದೆ');return}doPrint(html)};
-$('#camStart').onclick=camStart;$('#camStop').onclick=camStop;$('#camShot').onclick=()=>{cam.wait=false;camCapture(true)};
-$('#camTorch').onclick=async()=>{try{cam.torch=!cam.torch;await cam.track.applyConstraints({advanced:[{torch:cam.torch}]})}catch(e){}};
-$('#fileIn').onchange=e=>{const f=[...e.target.files];e.target.value='';handleFiles(f)};
-$('#rCls').onchange=renderResults;$('#rFilter').onchange=renderResults;
-$('#rCsv').onclick=()=>{const secs=sections();let out=[['ಸ್ಥಾನ','ನೋಂದಣಿ ಸಂಖ್ಯೆ','ಹೆಸರು','ತಂದೆ','ತರಗತಿ','SATS','ಸೆಟ್',...secs.map(s=>s.name),'ಒಟ್ಟು','ಪರಿಶೀಲನೆ']];
- classes().forEach(c=>ranked(c).forEach(x=>out.push([x.rank,x.r.reg,x.st?x.st.name:'',x.st?x.st.father:'',c,x.st?x.st.sats:'',x.r.set,...secs.map((_,i)=>x.s.err?'':x.s.sec[i]),x.s.err?x.s.err:x.s.total,needsReview(x.r)?'ಬೇಕು':''])));
- const csv='﻿'+out.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='pratibha_result.csv';a.click()};
-$('#rPrint').onclick=()=>{const s=S(),secs=sections(),c=$('#rCls').value;const rows=ranked(c);if(!rows.length){alert('ಫಲಿತಾಂಶ ಇಲ್ಲ');return}
- doPrint(chunk(rows,28).map((p,pi)=>`<div class="page"><div class="lp"><h3>${esc(s.exam)} ${acadYear()}</h3><h4>${esc(s.school)} • ${c}ನೇ ತರಗತಿ • ಮೆರಿಟ್ ಪಟ್ಟಿ (ಗರಿಷ್ಠ ಅಂಕ ${nq()})</h4>
- <table><tr><th>ಸ್ಥಾನ</th><th>ನೋಂದಣಿ</th><th>ಹೆಸರು</th>${secs.map(x=>`<th style="font-size:2.8mm">${esc(x.name)}</th>`).join('')}<th>ಒಟ್ಟು</th></tr>${p.map(x=>`<tr><td><b>${x.rank}</b></td><td>${esc(x.r.reg)}</td><td>${esc(x.st?x.st.name:'?')}</td>${secs.map((_,i)=>`<td>${x.s.err?'':x.s.sec[i]}</td>`).join('')}<td><b>${x.s.err?'-':x.s.total}</b></td></tr>`).join('')}</table>
- ${pi===0?'':''}<div class="sig" style="margin-top:12mm"><span>ಮೌಲ್ಯಮಾಪಕರ ಸಹಿ</span><span>ಮುಖ್ಯ ಶಿಕ್ಷಕರ ಸಹಿ</span></div></div></div>`).join(''))};
-$('#rClear').onclick=async()=>{if(!confirm('ಎಲ್ಲಾ ಸ್ಕ್ಯಾನ್ ಫಲಿತಾಂಶಗಳನ್ನು ಅಳಿಸಬೇಕೇ? ಇದನ್ನು ಹಿಂಪಡೆಯಲು ಆಗುವುದಿಲ್ಲ.'))return;state.results=[];save();try{await IDB.clear()}catch(e){}renderResults();$('#lastResult').innerHTML=''};
-$('#revClose').onclick=closeReview;$('#revReg').oninput=renderReview;$('#revSet').onchange=renderReview;
-$('#revSave').onclick=()=>{const r=revRec;const reg=$('#revReg').value.trim();if(!/^\d{9}$/.test(reg)){alert('ನೋಂದಣಿ ಸಂಖ್ಯೆ 9 ಅಂಕೆ ಇರಬೇಕು');return}
- if(state.results.some(x=>x.id!==r.id&&x.reg===reg)&&!confirm('ಇದೇ ನೋಂದಣಿ ಸಂಖ್ಯೆಯ ಇನ್ನೊಂದು ಸ್ಕ್ಯಾನ್ ಇದೆ. ಆದರೂ ಉಳಿಸಬೇಕೇ? (ನಂತರ ಒಂದನ್ನು ಅಳಿಸಿ)'))return;
- r.reg=reg;r.cls=clsFromReg(reg);r.set=$('#revSet').value;document.querySelectorAll('#revAns select').forEach(s=>{r.answers[+s.dataset.q]=s.value});
- r.doubts=[];r.regDoubt=false;r.setDoubt=false;r.edited=true;
- const others=state.results.filter(x=>x.reg===reg);others.forEach(x=>x.dup=others.length>1);state.results.filter(x=>x.reg!==reg).forEach(x=>{const n=state.results.filter(y=>y.reg===x.reg).length;if(n<2)x.dup=false});
- save();closeReview();renderResults()};
-$('#revDel').onclick=async()=>{if(!confirm('ಈ ಸ್ಕ್ಯಾನ್ ಅಳಿಸಬೇಕೇ?'))return;const id=revRec.id;await deleteRec(id);const regs={};state.results.forEach(x=>regs[x.reg]=(regs[x.reg]||0)+1);state.results.forEach(x=>x.dup=regs[x.reg]>1);save();closeReview();renderResults()};
-$('#bkExp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(state)],{type:'application/json'}));a.download='pratibha_backup_'+new Date().toISOString().slice(0,10)+'.json';a.click()};
-$('#bkImp').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;try{const s=JSON.parse(await f.text());if(!s.settings)throw new Error('ಸರಿಯಾದ ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅಲ್ಲ');if(!confirm('ಈಗಿರುವ ಮಾಹಿತಿಯ ಬದಲು ಬ್ಯಾಕಪ್ ಹಾಕಬೇಕೇ?'))return;
- state={settings:{...DEF,...s.settings},students:s.students||[],keys:s.keys||{},results:s.results||[]};save();init()}catch(err){alert(err.message)}};
-$('#wipeAll').onclick=async()=>{if(!confirm('ಎಲ್ಲಾ ವಿದ್ಯಾರ್ಥಿಗಳು, ಕೀ ಮತ್ತು ಫಲಿತಾಂಶ ಅಳಿಯುತ್ತವೆ (ಸೆಟ್ಟಿಂಗ್ಸ್ ಉಳಿಯುತ್ತವೆ). ಮೊದಲು ಬ್ಯಾಕಪ್ ತೆಗೆದುಕೊಂಡಿದ್ದೀರಾ?'))return;state.students=[];state.keys={};state.results=[];save();try{await IDB.clear()}catch(e){}init()};
-$('#modal').onclick=e=>{if(e.target.id==='modal')closeReview()};
-function init(){renderSettings();fillClassSelects();renderStudents();renderKeys();renderResults();scanStat()}
-load();IDB.open().then(init);
-window.OMR=OMR;window.omrSVG=omrSVG;
+let C=null;
+const root=$('#root');
+function D(d){if(!d)return null;const [y,m,dd]=d.split('-').map(Number);return new Date(y,m-1,dd)}
+async function boot(){
+ try{C=await PUB.get('pratibha_public/site')}catch(e){root.innerHTML=`<div class="loadbox">ಮಾಹಿತಿ ಲೋಡ್ ಆಗಲಿಲ್ಲ. ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ ಪುಟವನ್ನು ಮತ್ತೆ ತೆರೆಯಿರಿ.<br><small>${esc(e.message)}</small></div>`;return}
+ if(!C){root.innerHTML='<div class="loadbox">ಪರೀಕ್ಷೆಯ ಮಾಹಿತಿ ಶೀಘ್ರದಲ್ಲೇ ಪ್ರಕಟವಾಗಲಿದೆ.</div>';return}
+ render()}
+function render(){const cls=(C.classes||[]).map(Number);document.title=`${C.examName} ${C.activeYear}`;$('#navT').textContent=C.examName;
+ if(C.announcement){$('#ann').style.display='block';$('#ann').textContent='📢 '+C.announcement}
+ const prizes=(C.prizes||[]).map(p=>`<div class="prize"><div class="c">${esc(p.cls)}ನೇ ತರಗತಿ • ${esc(p.title)}</div><div class="a">₹${Number(p.amount||0).toLocaleString('en-IN')}</div><div class="t">ನಗದು ಬಹುಮಾನ</div></div>`).join('');
+ const sv=C.syllabusView||{};const res=C.results||{};const today=new Date();today.setHours(0,0,0,0);
+ const tl=(C.timeline||[]).filter(t=>t.date);let nextI=tl.findIndex(t=>D(t.date)>=today);
+ let h=`<header class="hero"><div class="blob" style="width:300px;height:300px;left:-80px;top:120px"></div><div class="blob" style="width:200px;height:200px;right:-50px;top:-40px"></div>
+ <div class="in">${C.school?`<div class="sch">🏫 ${esc(C.school)}</div>`:''}<h1>${esc(C.examName)}</h1><div class="yr">${esc(C.activeYear)}</div>
+ <p class="tag">${esc(C.tagline||'')}</p><div class="prizes">${prizes}</div><div class="pnote">🏆 ${esc(C.prizeNote||'')}</div>
+ <div class="cd" id="cd"></div><div class="cta"><a class="btn" href="#syllabus">📚 ಪಠ್ಯಕ್ರಮ</a><a class="btn o" href="#mock">📝 ಮಾದರಿ ಪತ್ರಿಕೆ</a>${res.published?'<a class="btn o" href="#results">🏅 ಫಲಿತಾಂಶ</a>':''}</div></div></header>
+ <section class="sec facts reveal"><div class="grid">
+  <div class="card"><b>📅</b>ಪರೀಕ್ಷಾ ದಿನಾಂಕ<br><strong>${esc(fmtDate(C.examDate))}</strong></div>
+  <div class="card"><b>⏰</b>ಸಮಯ<br><strong>${esc(C.examTime||'')}</strong></div>
+  <div class="card"><b>${cls.map(c=>(sv[c]||{}).total||'').filter(Boolean)[0]||100}</b>ಬಹು ಆಯ್ಕೆ ಪ್ರಶ್ನೆಗಳು • ${esc(C.durationMin)} ನಿಮಿಷ</div>
+  <div class="card"><b>0</b>ಋಣಾತ್ಮಕ ಅಂಕ ಇಲ್ಲ • ಕನ್ನಡ + English ಪ್ರಶ್ನೆಗಳು</div></div></section>
+ <section class="sec reveal" id="dates"><h2><span>ಪ್ರಮುಖ ದಿನಾಂಕಗಳು</span></h2><p class="lead">ಪರೀಕ್ಷೆಯ ಪ್ರತಿ ಹಂತದ ವೇಳಾಪಟ್ಟಿ</p>
+  <div class="card"><div class="tl">${tl.length?tl.map((t,i)=>`<div class="it ${D(t.date)<today?'done':''} ${i===nextI?'next':''}"><div class="d">${esc(fmtDate(t.date))}${i===nextI?' <span class="chip">ಮುಂದಿನದು</span>':''}</div><div>${esc(t.label)}</div></div>`).join(''):'<p class="empty">ಶೀಘ್ರದಲ್ಲೇ</p>'}</div></div></section>
+ <section class="sec reveal" id="syllabus"><h2><span>ಪಠ್ಯಕ್ರಮ ಮತ್ತು ಪರೀಕ್ಷೆಯ ಸ್ವರೂಪ</span></h2><p class="lead">ಪ್ರತಿ ತರಗತಿಗೆ ಪ್ರತ್ಯೇಕ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ. ಪ್ರಶ್ನೆಗಳು ಸ್ಪರ್ಧಾತ್ಮಕ ಪರೀಕ್ಷೆಗಳ ಮಾದರಿಯಲ್ಲಿರುತ್ತವೆ – ಪರಿಕಲ್ಪನೆ, ಅನ್ವಯ ಮತ್ತು ತಾರ್ಕಿಕ ಚಿಂತನೆ ಆಧಾರಿತ.</p>
+  <div class="tabs" id="sylTabs">${cls.map((c,i)=>`<button data-c="${c}" class="${i?'':'on'}">${c}ನೇ ತರಗತಿ</button>`).join('')}</div><div class="card" id="sylBox"></div></section>
+ <section class="sec reveal" id="mock"><h2><span>ಮಾದರಿ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ</span></h2><p class="lead">ಆನ್‌ಲೈನ್‌ನಲ್ಲೇ ಅಭ್ಯಾಸ ಮಾಡಿ – ಉತ್ತರ ಆಯ್ಕೆ ಮಾಡಿ, ಕೊನೆಯಲ್ಲಿ ನಿಮ್ಮ ಅಂಕ ಮತ್ತು ಸರಿಯುತ್ತರಗಳನ್ನು ನೋಡಿ. ಮುದ್ರಿಸಿ ತರಗತಿಯಲ್ಲೂ ಬಳಸಬಹುದು.</p>
+  <div class="grid">${cls.map(c=>`<div class="card"><h3 style="margin:0 0 6px">${c}ನೇ ತರಗತಿ</h3>${(C.mockPublished||{})[c]?`<button class="btn p" data-mock="${c}">📝 ಅಭ್ಯಾಸ ಆರಂಭಿಸಿ</button>`:'<p class="empty">ಮಾದರಿ ಪತ್ರಿಕೆ ಶೀಘ್ರದಲ್ಲೇ ಪ್ರಕಟವಾಗಲಿದೆ</p>'}</div>`).join('')}</div></section>
+ <section class="sec reveal" id="omr"><h2><span>OMR ಹಾಳೆ ತುಂಬುವ ವಿಧಾನ</span></h2><p class="lead">ಉತ್ತರಗಳನ್ನು OMR ಹಾಳೆಯಲ್ಲಿ ಗುರುತಿಸಬೇಕು. ಮನೆಯಲ್ಲೇ ಅಭ್ಯಾಸ ಮಾಡಲು ಖಾಲಿ OMR ಮುದ್ರಿಸಿಕೊಳ್ಳಿ.</p>
+  <div class="card"><div class="omr-demo"><div>✅ <b>ಸರಿಯಾದ ವಿಧಾನ:</b> <span class="dot">A</span><span class="dot">B</span><span class="dot f"></span><span class="dot">D</span></div>
+   <div>❌ <b>ತಪ್ಪು ವಿಧಾನಗಳು:</b> <span class="dot">✓</span><span class="dot">✗</span><span class="dot">•</span><span class="dot" style="background:linear-gradient(#fff 50%,#111 50%)"></span></div></div>
+   <ul><li>ನೀಲಿ ಅಥವಾ ಕಪ್ಪು ಬಾಲ್‌ಪೆನ್‌ನಿಂದ ವೃತ್ತವನ್ನು ಪೂರ್ತಿಯಾಗಿ ತುಂಬಿ.</li><li>ಒಂದು ಪ್ರಶ್ನೆಗೆ ಒಂದೇ ವೃತ್ತ. ಒಮ್ಮೆ ತುಂಬಿದ ಉತ್ತರ ಬದಲಿಸುವಂತಿಲ್ಲ.</li><li>ನೋಂದಣಿ ಸಂಖ್ಯೆ ಮತ್ತು ಪ್ರಶ್ನೆಪತ್ರಿಕೆಯ ಸೆಟ್ (A/B/C/D) ವೃತ್ತಗಳನ್ನು ತಪ್ಪದೆ ತುಂಬಿ.</li><li>ಹಾಳೆಯನ್ನು ಮಡಚಬೇಡಿ, ಮೂಲೆಯ ಕಪ್ಪು ಚೌಕಗಳ ಮೇಲೆ ಬರೆಯಬೇಡಿ.</li></ul>
+   <button class="btn p" id="omrDl">🖨 ಅಭ್ಯಾಸಕ್ಕಾಗಿ ಖಾಲಿ OMR ಮುದ್ರಿಸಿ</button></div></section>
+ <section class="sec reveal" id="rules"><h2><span>ನಿಯಮಗಳು</span></h2><div class="card"><ol class="rules">${(C.rules||[]).map(r=>`<li>${esc(r)}</li>`).join('')}</ol></div></section>`;
+ if(res.published){h+=`<section class="sec reveal" id="results"><h2><span>🏅 ಫಲಿತಾಂಶ – ವಿಜೇತರು</span></h2><p class="lead">ಎಲ್ಲಾ ವಿಜೇತರಿಗೆ ಹೃತ್ಪೂರ್ವಕ ಅಭಿನಂದನೆಗಳು!</p><div class="grid res">`+
+  cls.map(c=>{const l=(res.lists||{})[c]||[];return `<div class="card"><h3 style="margin:0 0 8px">${c}ನೇ ತರಗತಿ</h3>${l.length?`<table><tr><th>ಸ್ಥಾನ</th><th>ಹೆಸರು</th><th>ಅಂಕ</th></tr>${l.map(x=>`<tr><td>${x.rank<=3?`<span class="medal">${['🥇','🥈','🥉'][x.rank-1]}</span>`:x.rank}</td><td><b>${esc(x.name)}</b><br><small>${esc(x.school||'')}</small></td><td>${x.score}/${x.of}</td></tr>`).join('')}</table>`:'<p class="empty">—</p>'}</div>`}).join('')+'</div></section>';$('#navRes').style.display=''}
+ if((C.sponsors||[]).length)h+=`<section class="sec reveal" id="sponsors"><h2><span>ಪ್ರಾಯೋಜಕರು</span></h2><p class="lead">ಮಕ್ಕಳ ಪ್ರತಿಭೆಗೆ ಪ್ರೋತ್ಸಾಹ ನೀಡುತ್ತಿರುವ ಸಹೃದಯರಿಗೆ ಧನ್ಯವಾದಗಳು 🙏</p><div class="sp">${C.sponsors.map(s=>`<div class="card"><b>${esc(s.name)}</b><br><span style="color:var(--mut)">${esc(s.note||'')}</span></div>`).join('')}</div></section>`;
+ h+=`<footer id="contact"><b>${esc(C.examName)} ${esc(C.activeYear)}</b><br>${esc(C.school||'')}${C.address?'<br>'+esc(C.address):''}${C.contact?`<br>📞 <a style="color:#fff" href="tel:${esc(C.contact)}">${esc(C.contact)}</a>`:''}${C.hm?'<br>ಮುಖ್ಯ ಶಿಕ್ಷಕರು: '+esc(C.hm):''}</footer>`;
+ root.innerHTML=h;
+ document.querySelectorAll('#sylTabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#sylTabs button').forEach(x=>x.classList.toggle('on',x===b));showSyl(+b.dataset.c)});if(cls.length)showSyl(cls[0]);
+ document.querySelectorAll('[data-mock]').forEach(b=>b.onclick=()=>openMock(+b.dataset.mock));
+ $('#omrDl').onclick=()=>doPrint(`<div class="page">${omrSVG(C,null,Math.max(...cls.map(c=>(sv[c]||{}).total||100)))}</div>`);
+ tick();setInterval(tick,30000);
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll('.reveal').forEach(x=>io.observe(x))}
+function tick(){const el=$('#cd');if(!el)return;const d=D(C.examDate);if(!d){el.innerHTML='';return}const m=(C.examTime||'').match(/(\d{1,2})[:.](\d{2})/);d.setHours(m?+m[1]:10,m?+m[2]:0);
+ const ms=d-new Date();if(ms<=0){el.innerHTML=ms>-86400000?'<div><b>ಇಂದು</b><span>ಪರೀಕ್ಷೆ</span></div>':'';return}
+ const dd=Math.floor(ms/864e5),hh=Math.floor(ms%864e5/36e5),mm=Math.floor(ms%36e5/6e4);el.innerHTML=`<div><b>${dd}</b><span>ದಿನಗಳು</span></div><div><b>${hh}</b><span>ಗಂಟೆ</span></div><div><b>${mm}</b><span>ನಿಮಿಷ</span></div>`}
+function showSyl(c){const v=(C.syllabusView||{})[c];const box=$('#sylBox');if(!v){box.innerHTML='<p class="empty">ಪಠ್ಯಕ್ರಮ ಶೀಘ್ರದಲ್ಲೇ ಪ್ರಕಟವಾಗಲಿದೆ</p>';return}
+ const notes=v.notes||{};
+ box.innerHTML=`<h3 style="margin-top:0">${c}ನೇ ತರಗತಿ – ಪ್ರಶ್ನೆಗಳ ಹಂಚಿಕೆ</h3><table class="pt"><tr><th>ವಿಭಾಗ</th><th>ಪ್ರಶ್ನೆಗಳು</th></tr>${v.pattern.map(p=>`<tr><td>${esc(p.name)}</td><td><b>${p.n}</b></td></tr>`).join('')}<tr><td><b>ಒಟ್ಟು</b></td><td><b>${v.total}</b></td></tr></table>
+ <div class="subj">${v.subjects.map(s=>`<h3>📘 ${esc(s.name)}</h3><ul>${s.items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul>`).join('')}
+ ${['gk','mat','ca','lang'].filter(k=>v.pattern.some(p=>p.sec===k)&&notes[k]).map(k=>`<h3>✨ ${esc(SECS[k].kn)}</h3><p style="margin:0">${esc(notes[k])}</p>`).join('')}</div>`}
+let MK=null;
+async function openMock(c){$('#mockModal').style.display='block';document.body.style.overflow='hidden';$('#mkBody').innerHTML='<div class="loadbox">ಲೋಡ್ ಆಗುತ್ತಿದೆ…</div>';
+ try{MK=await PUB.get('pratibha_public/mock_'+c)}catch(e){MK=null}
+ if(!MK){$('#mkBody').innerHTML='<div class="loadbox">ಮಾದರಿ ಪತ್ರಿಕೆ ಲಭ್ಯವಿಲ್ಲ</div>';return}
+ for(const q of MK.qs){if(q.img&&q.img.startsWith('PUB:')){try{const d=await PUB.get('pratibha_public/'+q.img.slice(4));q.img=d?d.data:''}catch(e){q.img=''}}}
+ $('#mkTitle').textContent=MK.title;
+ $('#mkBody').innerHTML=`<p style="color:var(--mut)">ಒಟ್ಟು ${MK.qs.length} ಪ್ರಶ್ನೆಗಳು. ಉತ್ತರಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ ಕೊನೆಯಲ್ಲಿ "ಮುಗಿಸಿ" ಒತ್ತಿ.</p>`+MK.qs.map((q,i)=>{const s=MK.sections.find(s=>s.from===i);
+  return (s?`<h3 style="margin:18px 0 0;color:var(--p)">${esc(s.name)}</h3>`:'')+`<div class="mq" id="mq${i}"><div class="q">${i+1}. ${esc(q.q_kn)}</div>${q.q_en?`<div class="en">${esc(q.q_en)}</div>`:''}${q.img?`<img src="${q.img}" alt="">`:''}
+  ${q.opt_kn.map((o,k)=>`<label data-k="${LET[k]}"><input type="radio" name="m${i}" value="${LET[k]}"><span><b>${LET[k]})</b> ${esc(o)}${q.opt_en&&q.opt_en[k]?` <span style="color:var(--mut)">/ ${esc(q.opt_en[k])}</span>`:''}</span></label>`).join('')}
+  <div class="ex">✔ ಸರಿಯುತ್ತರ: <b>${q.ans}</b>${q.exp_kn?' – '+esc(q.exp_kn):''}</div></div>`}).join('')+`<div id="mkScore"></div><div style="text-align:center;margin:14px 0"><button class="btn p" id="mkDone">✔ ಮುಗಿಸಿ – ಅಂಕ ನೋಡಿ</button></div>`;
+ $('#mkDone').onclick=()=>{let sc=0,att=0;MK.qs.forEach((q,i)=>{const sel=document.querySelector(`input[name=m${i}]:checked`);const box=$('#mq'+i);if(sel)att++;
+  box.querySelectorAll('label').forEach(l=>{l.classList.remove('ok','no');if(l.dataset.k===q.ans)l.classList.add('ok');else if(sel&&sel.value===l.dataset.k)l.classList.add('no')});
+  box.querySelector('.ex').style.display='block';if(sel&&sel.value===q.ans)sc++});
+  const pct=Math.round(sc/MK.qs.length*100);$('#mkScore').innerHTML=`<div class="score">ನಿಮ್ಮ ಅಂಕ: ${sc} / ${MK.qs.length} (${pct}%)<br><small style="font-size:15px;font-weight:600">ಉತ್ತರಿಸಿದ್ದು ${att} • ${pct>=80?'ಅದ್ಭುತ! 🌟':pct>=60?'ಉತ್ತಮ! ಇನ್ನಷ್ಟು ಅಭ್ಯಾಸ ಮಾಡಿ 👍':'ಚಿಂತೆ ಬೇಡ – ಸರಿಯುತ್ತರಗಳನ್ನು ಓದಿ, ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ 💪'}</small></div>`;
+  $('#mkScore').scrollIntoView({behavior:'smooth'})}}
+$('#mkClose').onclick=()=>{$('#mockModal').style.display='none';document.body.style.overflow=''};
+$('#mkPrint').onclick=()=>{if(!MK)return;const op=a=>`<div style="display:grid;grid-template-columns:1fr 1fr;gap:1mm 4mm">${a.map((o,k)=>`<div>${LET[k]}) ${esc(o)}</div>`).join('')}</div>`;
+ let h=`<div class="flow" style="font-size:3.3mm;color:#000"><h2 style="text-align:center;margin:0 0 3mm">${esc(MK.title)}</h2><table style="width:100%;border-collapse:collapse">`;
+ MK.qs.forEach((q,i)=>{const s=MK.sections.find(s=>s.from===i);if(s)h+=`<tr><td colspan="2" style="border:.25mm solid #000;background:#eee;font-weight:700;text-align:center;padding:1.5mm">${esc(s.name)}</td></tr>`;
+  h+=`<tr><td style="border:.25mm solid #000;padding:1.5mm;width:50%;vertical-align:top"><b>${i+1}.</b> ${esc(q.q_kn)}${op(q.opt_kn)}</td><td style="border:.25mm solid #000;padding:1.5mm;vertical-align:top">${q.q_en?`<b>${i+1}.</b> ${esc(q.q_en)}${op(q.opt_en)}`:''}</td></tr>`;
+  if(q.img)h+=`<tr><td colspan="2" style="border:.25mm solid #000;text-align:center"><img src="${q.img}" style="max-height:50mm;max-width:120mm"></td></tr>`});
+ h+=`</table><h3 style="margin-top:6mm">ಉತ್ತರ ಕೀ</h3><p>${MK.qs.map((q,i)=>`${i+1}-${q.ans}`).join(', ')}</p></div>`;doPrint(h)};
+document.write('<style>@media print{@page flow{size:A4;margin:11mm 10mm}.flow{page:flow}.flow tr{break-inside:avoid}}</style>');
+boot();
 </script>
 </body>
 </html>

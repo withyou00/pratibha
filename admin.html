@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ಅಡ್ಮಿನ್ – ಪ್ರತಿಭಾನ್ವೇಷಣೆ ಪರೀಕ್ಷೆ</title>
+<style>
+:root{--p:#1d4ed8;--pd:#1e3a8a;--g:#15803d;--r:#b91c1c;--y:#ca8a04;--bg:#f3f5f9;--bd:#d6dbe4;--tx:#1f2937;--mut:#6b7280}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Noto Sans Kannada','Tunga','Nirmala UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);font-size:15px}
+header{background:linear-gradient(135deg,var(--pd),var(--p));color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+header h1{margin:0;font-size:19px}header small{opacity:.85}
+nav{display:flex;gap:2px;overflow-x:auto;background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:5}
+nav button{flex:0 0 auto;border:0;background:none;padding:11px 12px;font:inherit;color:var(--mut);border-bottom:3px solid transparent;cursor:pointer}
+nav button.on{color:var(--p);border-bottom-color:var(--p);font-weight:600}
+main{max-width:1150px;margin:0 auto;padding:12px}
+.tab{display:none}.tab.on{display:block}
+.card{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:14px}
+.card h2{margin:0 0 10px;font-size:17px;color:var(--pd)}
+.card h3{margin:14px 0 6px;font-size:15px;color:var(--pd)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--mut)}
+input,select,textarea{font:inherit;padding:8px;border:1px solid var(--bd);border-radius:7px;background:#fff;color:var(--tx);width:100%}
+textarea{min-height:80px}
+input[type=checkbox]{width:auto}
+.btn,button.b{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:8px;padding:8px 13px;font:inherit;background:var(--p);color:#fff;cursor:pointer;margin:3px 4px 3px 0;text-decoration:none}
+.btn.sec,button.b.sec{background:#e5e9f2;color:var(--tx)}
+.btn.red,button.b.red{background:var(--r)}.btn.green,button.b.green{background:var(--g)}.btn.yel,button.b.yel{background:#f59e0b;color:#111}
+button.b.sm{padding:4px 9px;font-size:13px}
+button.b:disabled{opacity:.5;cursor:not-allowed}
+.note{font-size:13px;color:var(--mut);margin:6px 0}
+.warn{background:#fef9c3;border:1px solid #fde047;padding:8px 10px;border-radius:8px;font-size:13px;margin:8px 0}
+.okbox{background:#dcfce7;border:1px solid #86efac;padding:8px 10px;border-radius:8px;font-size:13px;margin:8px 0}
+.errbox{background:#fee2e2;border:1px solid #fca5a5;padding:8px 10px;border-radius:8px;font-size:13px;margin:8px 0}
+.ok{color:var(--g)}.bad{color:var(--r)}
+table.t{width:100%;border-collapse:collapse;font-size:14px}
+table.t th,table.t td{border-bottom:1px solid var(--bd);padding:6px;text-align:left;vertical-align:top}
+table.t th{background:#eef2f8;position:sticky;top:0;z-index:1}
+table.t tr.click{cursor:pointer}table.t tr.click:hover{background:#f5f8ff}
+table.t input,table.t select{padding:5px}
+.tw{overflow:auto;max-height:560px}
+.pill{display:inline-block;padding:1px 8px;border-radius:20px;font-size:12px;background:#e5e9f2;margin:1px 3px 1px 0;white-space:nowrap}
+.pill.y{background:#fef08a}.pill.r{background:#fecaca}.pill.g{background:#bbf7d0}.pill.b{background:#dbeafe}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{background:#f8fafc;border:1px solid var(--bd);border-radius:10px;padding:10px}.stat b{display:block;font-size:22px;color:var(--pd)}
+.meter{height:12px;background:#e5e7eb;border-radius:8px;overflow:hidden}.meter div{height:100%;background:var(--g)}
+.qcard{border:1px solid var(--bd);border-radius:9px;padding:9px 11px;margin:7px 0;background:#fff}
+.qcard.ret{opacity:.55;background:#f9fafb}
+.qcard .top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--mut)}
+.qcard .qt{margin:5px 0;font-weight:600}
+.qcard ol{margin:2px 0 0;padding-left:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:2px 12px;font-size:14px}
+.qcard li.ok{color:var(--g);font-weight:700}
+.qcard img{max-width:220px;max-height:140px;border:1px solid var(--bd);border-radius:6px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;overflow:auto;padding:10px}
+.modal.hidden{display:none}
+.mbox{background:#fff;max-width:1000px;margin:0 auto;border-radius:10px;padding:14px}
+.mhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.mhead h2{margin:0;font-size:17px;color:var(--pd)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:760px){.two{grid-template-columns:1fr}}
+.mgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+@media(max-width:800px){.mgrid{grid-template-columns:1fr}}
+#revCanvas{width:100%;border:1px solid var(--bd);border-radius:6px}
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:4px;max-height:520px;overflow:auto}
+.agrid div{display:flex;align-items:center;gap:3px;font-size:12px;padding:2px;border-radius:5px}
+.agrid div.d{background:#fde68a}.agrid div.w{background:#fee2e2}.agrid div.c{background:#dcfce7}
+.agrid select{padding:2px;font-size:12px}
+#camWrap{position:relative;background:#000;border-radius:10px;overflow:hidden;display:none;max-width:min(560px,calc(62vh * 0.75));margin:8px auto}
+#camWrap video{width:100%;display:block}
+#overlay{position:absolute;inset:0;width:100%;height:100%}
+#camMsg{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);color:#fff;padding:8px;text-align:center}
+.res{border-radius:10px;padding:12px;margin:8px 0;border:2px solid var(--bd);background:#fff}
+.res.g{border-color:var(--g)}.res.y{border-color:var(--y);background:#fffbea}
+.big{font-size:26px;font-weight:700}
+#scanLog{font-size:13px;max-height:260px;overflow:auto}#scanLog div{padding:3px 0;border-bottom:1px dashed var(--bd)}
+#login{max-width:380px;margin:60px auto}
+#loading{position:fixed;inset:0;background:rgba(255,255,255,.85);display:none;align-items:center;justify-content:center;z-index:60;font-size:17px;flex-direction:column;gap:10px}
+.spin{width:38px;height:38px;border:4px solid #c7d2fe;border-top-color:var(--p);border-radius:50%;animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 16px;border-radius:10px;z-index:70;display:none;max-width:90vw}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chk{display:flex;gap:6px;align-items:flex-start;font-size:14px;padding:3px 0}
+.chk input{margin-top:4px}
+.paperq{border-bottom:1px dashed var(--bd);padding:6px 0;font-size:14px}
+.paperq .n{font-weight:700;color:var(--pd)}
+/* paper print */
+.ppr{font-size:3.3mm;color:#000}
+.ppr .cover{border:.4mm solid #000;padding:6mm;height:270mm;position:relative}
+.ppr h1{font-size:6mm;text-align:center;margin:0}.ppr h2{font-size:4.6mm;text-align:center;margin:1mm 0}
+.ppr .set{font-size:16mm;font-weight:700;border:.6mm solid #000;width:24mm;height:24mm;display:flex;align-items:center;justify-content:center;position:absolute;right:6mm;top:6mm}
+.ppr table.info{width:100%;border-collapse:collapse;margin:4mm 0}.ppr table.info td{border:.25mm solid #000;padding:2mm;font-size:3.6mm;text-align:center}
+.ppr ol.ins{font-size:3.4mm;line-height:1.55}
+.ppr table.q{width:100%;border-collapse:collapse}
+.ppr table.q td{border:.25mm solid #000;padding:1.6mm 2mm;vertical-align:top;width:50%;font-size:3.25mm;line-height:1.35}
+.ppr table.q td.sec{background:#e5e7eb;font-weight:700;text-align:center;font-size:3.5mm}
+.ppr .op{display:grid;grid-template-columns:1fr 1fr;gap:.5mm 3mm;margin-top:1mm}
+.ppr .qi{text-align:center}.ppr .qi img{max-width:120mm;max-height:55mm}
+.ppr .regbox{display:flex;gap:1mm;justify-content:center;margin:2mm 0}.ppr .regbox span{width:7mm;height:8mm;border:.3mm solid #000;display:inline-block}
+.ht{height:148mm;padding:9mm 12mm;border-bottom:1px dashed #888;font-size:3.6mm;color:#000}
+.ht-head{text-align:center;border-bottom:.5mm solid #000;padding-bottom:2mm}
+.ht-head .t1{font-size:5.2mm;font-weight:700}.ht-head .t2{font-size:4.4mm;font-weight:700;margin-top:1mm}
+.ht-body{display:flex;gap:5mm;margin-top:3mm}.ht-body table{flex:1;border-collapse:collapse}
+.ht-body td{border:.25mm solid #000;padding:1.4mm 2mm;font-size:3.5mm}.ht-body td:first-child{width:45mm;background:#f2f2f2}
+.ht .reg{font-size:5mm;font-weight:700;letter-spacing:.8mm}
+.photo{width:32mm;height:40mm;border:.3mm solid #000;display:flex;align-items:center;justify-content:center;text-align:center;font-size:3mm;color:#555}
+.sig{display:flex;justify-content:space-between;margin-top:9mm;font-size:3.3mm}.sig span{border-top:.25mm solid #000;padding-top:1mm;min-width:55mm;text-align:center}
+.ht ol{margin:3mm 0 0;padding-left:5mm;font-size:3.1mm;line-height:1.45}
+.lp{padding:12mm;font-size:3.6mm;color:#000}.lp h3{text-align:center;margin:0 0 1mm;font-size:5mm}.lp h4{text-align:center;margin:0 0 4mm;font-size:4mm;font-weight:normal}
+.lp table{width:100%;border-collapse:collapse}.lp th,.lp td{border:.25mm solid #000;padding:1.6mm;font-size:3.4mm;text-align:left}.lp th{background:#eee}
+.lp .att td{height:8.5mm}
+.cert{width:210mm;height:297mm;padding:12mm;color:#000;page-break-after:always;break-after:page;overflow:hidden}
+.cert .in{border:2.5mm double #7c2d12;height:100%;padding:22mm 16mm;text-align:center;display:flex;flex-direction:column;justify-content:space-between;background:#fffbeb}
+.cert h1{font-size:13mm;margin:0;color:#7c2d12}.cert .nm{font-size:10mm;font-weight:700;border-bottom:.4mm solid #000;display:inline-block;padding:0 10mm;margin:4mm 0}
+.cert p{font-size:5mm;margin:2mm 0;line-height:1.5}
+@media print{@page flow{size:A4;margin:11mm 10mm}.flow{page:flow}}
+</style>
+<script src="common.js"></script>
+<script>document.write('<style>'+PRINT_CSS+'</style>')</script>
+</head>
+<body>
+<div id="app">
+<header><div><h1>ಪ್ರತಿಭಾನ್ವೇಷಣೆ – ಅಡ್ಮಿನ್</h1><small id="hdrInfo"></small></div><div id="hdrBtns" style="display:none"><a class="btn sec" href="index.html" target="_blank">🌐 ವೆಬ್‌ಸೈಟ್</a><button class="b sec" id="logoutBtn">ಲಾಗ್ ಔಟ್</button></div></header>
+
+<div id="login" class="card" style="display:none">
+ <h2>ಅಡ್ಮಿನ್ ಲಾಗಿನ್</h2>
+ <label class="f">ಇಮೇಲ್<input id="lgEmail" type="email" autocomplete="username"></label>
+ <label class="f" style="margin-top:8px">ಪಾಸ್‌ವರ್ಡ್<input id="lgPw" type="password" autocomplete="current-password"></label>
+ <button class="b" id="lgBtn" style="margin-top:10px">ಲಾಗಿನ್</button>
+ <div id="lgMsg" class="note"></div>
+</div>
+
+<div id="appMain" style="display:none">
+<nav id="tabs">
+ <button data-t="dash" class="on">ಮುಖಪುಟ</button>
+ <button data-t="site">ವೆಬ್‌ಸೈಟ್</button>
+ <button data-t="syl">ಪಠ್ಯಕ್ರಮ</button>
+ <button data-t="bank">ಪ್ರಶ್ನೆ ಬ್ಯಾಂಕ್</button>
+ <button data-t="paper">ಪ್ರಶ್ನೆಪತ್ರಿಕೆ</button>
+ <button data-t="stu">ವಿದ್ಯಾರ್ಥಿಗಳು</button>
+ <button data-t="scan">OMR ಸ್ಕ್ಯಾನ್</button>
+ <button data-t="res">ಫಲಿತಾಂಶ</button>
+</nav>
+<main>
+<!-- DASHBOARD -->
+<section class="tab on" id="t-dash">
+ <div class="card"><h2>ಸ್ಥಿತಿ</h2><div class="stats" id="dashStats"></div></div>
+ <div class="card"><h2>Firebase ಸಂಗ್ರಹ ಬಳಕೆ</h2><div class="meter"><div id="meterBar" style="width:0"></div></div><p class="note" id="meterTxt"></p>
+  <button class="b sec" id="connTest">🔌 ಸಂಪರ್ಕ ಪರೀಕ್ಷೆ</button><div id="connRes"></div></div>
+ <div class="card"><h2>ಪರೀಕ್ಷಾ ವರ್ಷ</h2>
+  <p class="note">ಈಗಿನ ವರ್ಷ: <b id="yrNow"></b>. ಹೊಸ ವರ್ಷದ ಪರೀಕ್ಷೆ ಆರಂಭಿಸಿದಾಗ ವಿದ್ಯಾರ್ಥಿಗಳು, ಪತ್ರಿಕೆಗಳು ಮತ್ತು ಫಲಿತಾಂಶ ಹೊಸದಾಗಿ ಶುರುವಾಗುತ್ತವೆ. ಹಳೆಯ ವರ್ಷದ ದಾಖಲೆಗಳು ಮತ್ತು ಬಳಸಿದ ಪ್ರಶ್ನೆಗಳ ಪಟ್ಟಿ ಉಳಿಯುತ್ತವೆ. ಪ್ರಶ್ನೆ ಬ್ಯಾಂಕ್ ಹಾಗೆಯೇ ಇರುತ್ತದೆ.</p>
+  <div class="row"><input id="newYr" placeholder="ಉದಾ: 2027-28" style="max-width:180px"><button class="b yel" id="newYrBtn">ಹೊಸ ಪರೀಕ್ಷಾ ವರ್ಷ ಆರಂಭಿಸು</button></div></div>
+ <div class="card"><h2>ಪೂರ್ಣ ಬ್ಯಾಕಪ್</h2>
+  <p class="note">ಪ್ರಶ್ನೆಗಳು, ಚಿತ್ರಗಳು, ಸೆಟ್ಟಿಂಗ್ಸ್, ಬಳಸಿದ ಪ್ರಶ್ನೆಗಳ ಪಟ್ಟಿ ಮತ್ತು ಈ ವರ್ಷದ ವಿದ್ಯಾರ್ಥಿಗಳು/ಪತ್ರಿಕೆಗಳು/ಫಲಿತಾಂಶ ಎಲ್ಲವೂ ಒಂದು ಫೈಲ್‌ನಲ್ಲಿ. ತಿಂಗಳಿಗೊಮ್ಮೆ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ Google Drive ನಲ್ಲಿ ಇಡಿ.</p>
+  <button class="b" id="bkAll">⬇ ಪೂರ್ಣ ಬ್ಯಾಕಪ್ ಡೌನ್‌ಲೋಡ್</button>
+  <label class="btn sec">⬆ ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸು<input type="file" id="bkRestore" accept=".json" hidden></label></div>
+</section>
+
+<!-- SITE -->
+<section class="tab" id="t-site">
+ <div class="card"><h2>ಪರೀಕ್ಷೆ ಮತ್ತು ಶಾಲೆಯ ವಿವರ</h2>
+  <div class="grid">
+   <label class="f">ಪರೀಕ್ಷೆಯ ಹೆಸರು<input data-c="examName"></label>
+   <label class="f">ಉಪಶೀರ್ಷಿಕೆ<input data-c="tagline"></label>
+   <label class="f">ಶಾಲೆಯ ಹೆಸರು<input data-c="school"></label>
+   <label class="f">ವಿಳಾಸ<input data-c="address"></label>
+   <label class="f">ಸಂಪರ್ಕ ಸಂಖ್ಯೆ<input data-c="contact"></label>
+   <label class="f">ಮುಖ್ಯ ಶಿಕ್ಷಕರ ಹೆಸರು<input data-c="hm"></label>
+   <label class="f">ಶಾಲಾ ಕೋಡ್ (3 ಅಂಕೆ)<input data-c="schoolCode" maxlength="3"></label>
+   <label class="f">ಪರೀಕ್ಷಾ ಕೇಂದ್ರ<input data-c="center"></label>
+   <label class="f">ಪರೀಕ್ಷಾ ದಿನಾಂಕ<input data-c="examDate" type="date"></label>
+   <label class="f">ಸಮಯ<input data-c="examTime"></label>
+   <label class="f">ಅವಧಿ (ನಿಮಿಷ)<input data-c="durationMin" type="number"></label>
+   <label class="f">ತರಗತಿಗಳು (ಅಲ್ಪವಿರಾಮದಿಂದ)<input data-c="classes"></label>
+   <label class="f">ಪ್ರಶ್ನೆಪತ್ರಿಕೆ ಸೆಟ್‌ಗಳು<select data-c="sets"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label>
+   <label class="f">ಪ್ರಚಲಿತ ವಿದ್ಯಮಾನದ ವರ್ಷ<input data-c="caYear" type="number"></label>
+   <label class="f">ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ತೋರಿಸುವ ವಿಜೇತರ ಸಂಖ್ಯೆ (ಪ್ರತಿ ತರಗತಿ)<input data-c="resultsTopN" type="number"></label>
+  </div>
+  <label class="f" style="margin-top:10px">ಸೂಚನೆ / ಪ್ರಕಟಣೆ (ವೆಬ್‌ಸೈಟ್ ಮೇಲ್ಭಾಗದಲ್ಲಿ ಕಾಣುತ್ತದೆ)<input data-c="announcement"></label>
+  <label class="f" style="margin-top:10px">ಪರೀಕ್ಷೆಯ ನಿಯಮಗಳು (ಪ್ರತಿ ಸಾಲಿಗೆ ಒಂದು)<textarea data-c="rulesTxt" rows="6"></textarea></label>
+  <label class="f" style="margin-top:10px">ಬಹುಮಾನದ ಟಿಪ್ಪಣಿ<input data-c="prizeNote"></label>
+ </div>
+ <div class="card"><h2>ಬಹುಮಾನಗಳು</h2><div id="prizeEd"></div><button class="b sec sm" id="prizeAdd">+ ಬಹುಮಾನ ಸೇರಿಸು</button></div>
+ <div class="card"><h2>ಪ್ರಮುಖ ದಿನಾಂಕಗಳು</h2><div id="tlEd"></div><button class="b sec sm" id="tlAdd">+ ದಿನಾಂಕ ಸೇರಿಸು</button></div>
+ <div class="card"><h2>ಪ್ರಾಯೋಜಕರು</h2><p class="note">ಪ್ರಾಯೋಜಕರು ಸಿಕ್ಕಾಗ ಇಲ್ಲಿ ಸೇರಿಸಿ. ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಧನ್ಯವಾದಗಳೊಂದಿಗೆ ಕಾಣುತ್ತದೆ.</p><div id="spEd"></div><button class="b sec sm" id="spAdd">+ ಪ್ರಾಯೋಜಕರನ್ನು ಸೇರಿಸು</button></div>
+ <button class="b green" id="siteSave">✔ ಉಳಿಸಿ ವೆಬ್‌ಸೈಟ್‌ಗೆ ಪ್ರಕಟಿಸು</button> <span id="siteMsg" class="note"></span>
+</section>
+
+<!-- SYLLABUS -->
+<section class="tab" id="t-syl">
+ <div class="card"><h2>ಪಠ್ಯಕ್ರಮ ಮತ್ತು ಪ್ರಶ್ನೆಗಳ ಹಂಚಿಕೆ (ನೀಲನಕ್ಷೆ)</h2>
+  <p class="note">ಇಲ್ಲಿ ಆಯ್ಕೆ ಮಾಡಿದ ಅಧ್ಯಾಯಗಳಿಂದ ಮಾತ್ರ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ ತಯಾರಾಗುತ್ತದೆ. ಇದೇ ಪಟ್ಟಿ ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಮಕ್ಕಳಿಗೆ ಕಾಣುತ್ತದೆ.</p>
+  <label class="f" style="max-width:220px">ತರಗತಿ<select id="sylCls"></select></label>
+  <div id="sylBody"></div>
+ </div>
+ <div class="card"><h2>ಹೊಸ ಅಧ್ಯಾಯ ಸೇರಿಸು</h2><p class="note">ಪ್ರಶ್ನೆಗಳು ಇನ್ನೂ ಬಾರದ ಅಧ್ಯಾಯವನ್ನು ಪಠ್ಯಕ್ರಮದಲ್ಲಿ ತೋರಿಸಲು ಇಲ್ಲಿ ಸೇರಿಸಿ. ಪ್ರಶ್ನೆಗಳನ್ನು ಆಮದು ಮಾಡಿದಾಗ ಅಧ್ಯಾಯಗಳು ತಾನಾಗಿಯೇ ಸೇರುತ್ತವೆ.</p>
+  <div class="grid"><label class="f">ವಿಷಯ<select id="catSec"><option value="sci">ವಿಜ್ಞಾನ</option><option value="math">ಗಣಿತ</option><option value="ss">ಸಮಾಜ ವಿಜ್ಞಾನ</option></select></label>
+   <label class="f">ತರಗತಿ<input id="catCls" type="number" value="6"></label><label class="f">ಭಾಗ<select id="catPart"><option value="1">ಭಾಗ 1</option><option value="2">ಭಾಗ 2</option></select></label>
+   <label class="f">ಅಧ್ಯಾಯ ಸಂಖ್ಯೆ<input id="catCh" type="number"></label><label class="f">ಅಧ್ಯಾಯದ ಹೆಸರು<input id="catTitle"></label></div>
+  <button class="b sec" id="catAdd">+ ಸೇರಿಸು</button></div>
+ <button class="b green" id="sylSave">✔ ಉಳಿಸಿ ವೆಬ್‌ಸೈಟ್‌ಗೆ ಪ್ರಕಟಿಸು</button> <span id="sylMsg" class="note"></span>
+</section>
+
+<!-- BANK -->
+<section class="tab" id="t-bank">
+ <div class="card"><h2>ಪ್ರಶ್ನೆ ಸೇರಿಸಿ</h2>
+  <button class="b" id="qAddBtn">✍ ಹೊಸ ಪ್ರಶ್ನೆ ಬರೆಯಿರಿ</button>
+  <label class="btn">📥 JSON ಫೈಲ್ ಆಮದು<input type="file" id="jsonIn" accept=".json,application/json" hidden></label>
+  <label class="btn sec">📊 Excel (CSV) ಆಮದು<input type="file" id="csvIn" accept=".csv,text/csv" hidden></label>
+  <button class="b sec" id="csvTpl">⬇ Excel ಮಾದರಿ ಫೈಲ್</button>
+  <p class="note">Excel ನಲ್ಲಿ ಮಾದರಿ ಫೈಲ್ ತುಂಬಿ <b>Save As → CSV UTF-8</b> ಆಗಿ ಉಳಿಸಿ ಆಮದು ಮಾಡಿ.</p>
+ </div>
+ <div class="card"><h2>ಪ್ರಶ್ನೆಗಳು <span class="pill b" id="bankCount"></span></h2>
+  <div class="grid">
+   <label class="f">ವಿಭಾಗ<select id="fSec"><option value="">ಎಲ್ಲಾ</option></select></label>
+   <label class="f">ತರಗತಿ (ಪುಸ್ತಕ)<select id="fCls"><option value="">ಎಲ್ಲಾ</option></select></label>
+   <label class="f">ಅಧ್ಯಾಯ<select id="fCh"><option value="">ಎಲ್ಲಾ</option></select></label>
+   <label class="f">ಸ್ಥಿತಿ<select id="fStat"><option value="active">ಸಕ್ರಿಯ</option><option value="retired">ನಿವೃತ್ತ</option><option value="">ಎಲ್ಲಾ</option><option value="volatile">ಪರಿಶೀಲಿಸಬೇಕಾದವು (ಬದಲಾಗಬಹುದು)</option><option value="used">ಬಳಕೆಯಾದವು</option><option value="unused">ಬಳಕೆಯಾಗದವು</option></select></label>
+   <label class="f">ಕಠಿಣತೆ<select id="fDiff"><option value="">ಎಲ್ಲಾ</option><option value="easy">ಸುಲಭ</option><option value="medium">ಮಧ್ಯಮ</option><option value="hard">ಕಠಿಣ</option></select></label>
+   <label class="f">ಹುಡುಕು (ಪದ ಅಥವಾ ID)<input id="fTxt"></label>
+  </div>
+  <div id="bankList"></div><div id="bankMore"></div>
+ </div>
+ <div class="card"><h2>ಸಾಮೂಹಿಕ ಕ್ರಿಯೆಗಳು</h2>
+  <h3>ಅಧ್ಯಾಯದ ಎಲ್ಲಾ ಪ್ರಶ್ನೆಗಳನ್ನು ನಿವೃತ್ತಿಗೊಳಿಸು / ಸಕ್ರಿಯಗೊಳಿಸು</h3>
+  <p class="note">ಪಠ್ಯಪುಸ್ತಕ ಬದಲಾದಾಗ ಬಳಸಿ. ಮೇಲಿನ ಫಿಲ್ಟರ್‌ನಲ್ಲಿ ವಿಭಾಗ, ತರಗತಿ ಮತ್ತು ಅಧ್ಯಾಯ ಆರಿಸಿ ನಂತರ ಒತ್ತಿ. ನಿವೃತ್ತ ಪ್ರಶ್ನೆಗಳು ಅಳಿಯುವುದಿಲ್ಲ, ಪತ್ರಿಕೆಗೆ ಬರುವುದಿಲ್ಲ ಅಷ್ಟೆ.</p>
+  <button class="b yel" id="bulkRetire">⏸ ಫಿಲ್ಟರ್‌ನಲ್ಲಿರುವ ಎಲ್ಲವನ್ನೂ ನಿವೃತ್ತಿಗೊಳಿಸು</button>
+  <button class="b sec" id="bulkActivate">▶ ಫಿಲ್ಟರ್‌ನಲ್ಲಿರುವ ಎಲ್ಲವನ್ನೂ ಸಕ್ರಿಯಗೊಳಿಸು</button>
+  <h3>ಹಳೆಯ ಪ್ರಚಲಿತ ವಿದ್ಯಮಾನ ಪ್ರಶ್ನೆಗಳನ್ನು ಅಳಿಸು</h3>
+  <div class="row"><span>ಈ ವರ್ಷಕ್ಕಿಂತ ಹಳೆಯವು:</span><input id="caDelYr" type="number" style="max-width:110px"><button class="b red" id="caDel">🗑 ಅಳಿಸು (ಮೊದಲು ಬ್ಯಾಕಪ್ ಡೌನ್‌ಲೋಡ್ ಆಗುತ್ತದೆ)</button></div>
+  <h3>ಪ್ರಶ್ನೆ ಬ್ಯಾಂಕ್ ಮಾತ್ರ ರಫ್ತು</h3>
+  <button class="b sec" id="bankExport">⬇ ಫಿಲ್ಟರ್‌ನಲ್ಲಿರುವ ಪ್ರಶ್ನೆಗಳನ್ನು JSON ಆಗಿ ಡೌನ್‌ಲೋಡ್</button>
+ </div>
+</section>
+
+<!-- PAPER -->
+<section class="tab" id="t-paper">
+ <div class="card"><h2>ಪ್ರಶ್ನೆಪತ್ರಿಕೆ ತಯಾರಿಕೆ</h2>
+  <div class="grid"><label class="f">ತರಗತಿ<select id="pCls"></select></label>
+   <label class="f">ಪತ್ರಿಕೆಯ ವಿಧ<select id="pType"><option value="final">ಮುಖ್ಯ ಪರೀಕ್ಷೆ (ಅಂತಿಮ)</option><option value="mock">ಮಾದರಿ / ಅಣಕು ಪತ್ರಿಕೆ (ವೆಬ್‌ಸೈಟ್‌ಗೆ)</option></select></label></div>
+  <p class="note">ಮೊದಲು <b>ಅಂತಿಮ ಪತ್ರಿಕೆ</b> ತಯಾರಿಸಿ ಲಾಕ್ ಮಾಡಿ, ನಂತರ ಮಾದರಿ ಪತ್ರಿಕೆ ತಯಾರಿಸಿ. ಆಗ ಎರಡರಲ್ಲೂ ಒಂದೇ ಪ್ರಶ್ನೆ ಬರುವುದಿಲ್ಲ. ಹಿಂದಿನ ವರ್ಷಗಳಲ್ಲಿ ಬಳಸಿದ ಮತ್ತು ನಿವೃತ್ತ ಪ್ರಶ್ನೆಗಳು ಬರುವುದಿಲ್ಲ.</p>
+  <div id="paperStatus"></div>
+  <div id="paperBtns"></div>
+ </div>
+ <div class="card" id="paperView" style="display:none"><h2>ಪತ್ರಿಕೆಯ ಪ್ರಶ್ನೆಗಳು</h2><div id="paperList"></div></div>
+</section>
+
+<!-- STUDENTS -->
+<section class="tab" id="t-stu">
+ <div class="card"><h2>ವಿದ್ಯಾರ್ಥಿಗಳನ್ನು ಸೇರಿಸಿ</h2>
+  <p class="note">Excel‌ನಿಂದ ಕಾಪಿ ಮಾಡಿ ಅಂಟಿಸಿ. ಪ್ರತಿ ಸಾಲು: <b>ಹೆಸರು | ತಂದೆಯ ಹೆಸರು | ತರಗತಿ | SATS | ಶಾಲೆ (ಐಚ್ಛಿಕ)</b>. ನೋಂದಣಿ ಸಂಖ್ಯೆ = ವರ್ಷ(2) + ತರಗತಿ(1) + ಶಾಲಾ ಕೋಡ್(3) + ಕ್ರಮಸಂಖ್ಯೆ(3).</p>
+  <textarea id="stuIn" placeholder="ರಮೇಶ ಪಾಟೀಲ	ಶಿವಪ್ಪ ಪಾಟೀಲ	7	123456789"></textarea>
+  <button class="b" id="stuAdd">ಪಟ್ಟಿಗೆ ಸೇರಿಸು</button> <span id="stuMsg" class="note"></span>
+ </div>
+ <div class="card"><h2>ವಿದ್ಯಾರ್ಥಿಗಳ ಪಟ್ಟಿ <span id="stuCount" class="pill b"></span></h2>
+  <div class="tw"><table class="t" id="stuTbl"></table></div>
+  <button class="b red sm" id="stuClear">ಪಟ್ಟಿ ಅಳಿಸು</button>
+ </div>
+ <div class="card"><h2>ಮುದ್ರಣ</h2>
+  <div class="grid"><label class="f">ತರಗತಿ<select id="prCls"></select></label><label class="f">ಖಾಲಿ OMR ಪ್ರತಿಗಳು<input id="prCopies" type="number" value="1" min="1" max="300"></label></div>
+  <button class="b" id="prHall">🖨 ಹಾಲ್ ಟಿಕೆಟ್ (A4 ಗೆ 2)</button>
+  <button class="b" id="prOmr">🖨 ವಿದ್ಯಾರ್ಥಿವಾರು OMR</button>
+  <button class="b sec" id="prBlank">🖨 ಖಾಲಿ OMR</button>
+  <button class="b sec" id="prAtt">🖨 ಹಾಜರಾತಿ ಪಟ್ಟಿ</button>
+  <div class="warn">ಮುದ್ರಿಸುವಾಗ: Paper A4, Margins = None, Scale 100%, Headers and footers ಆಫ್.</div>
+ </div>
+</section>
+
+<!-- SCAN -->
+<section class="tab" id="t-scan">
+ <div class="card"><h2>OMR ಸ್ಕ್ಯಾನ್</h2>
+  <div id="scanKeyInfo"></div>
+  <p class="note">ಹಾಳೆಯನ್ನು ಮೇಜಿನ ಮೇಲಿಟ್ಟು ನಾಲ್ಕೂ ಮೂಲೆಯ ಕಪ್ಪು ಚೌಕಗಳು ಕಾಣುವಂತೆ ಹಿಡಿಯಿರಿ. ಹಸಿರು ಚೌಕಟ್ಟು ಸ್ಥಿರವಾದಾಗ ತಾನಾಗಿಯೇ ಸ್ಕ್ಯಾನ್ ಆಗಿ "ಬೀಪ್" ಶಬ್ದ ಬರುತ್ತದೆ.</p>
+  <button class="b" id="camStart">📷 ಕ್ಯಾಮೆರಾ ಆರಂಭಿಸು</button>
+  <button class="b sec" id="camStop" disabled>⏹ ನಿಲ್ಲಿಸು</button>
+  <button class="b sec" id="camShot" disabled>⚡ ಈಗಲೇ ಸ್ಕ್ಯಾನ್</button>
+  <button class="b sec" id="camTorch" disabled>💡 ಬೆಳಕು</button>
+  <label class="btn sec">🖼 ಫೋಟೋ / PDF ಅಪ್‌ಲೋಡ್<input type="file" id="fileIn" accept="image/*,application/pdf" multiple hidden></label>
+  <div id="camWrap"><video id="video" playsinline muted autoplay></video><canvas id="overlay"></canvas><div id="camMsg">ಕ್ಯಾಮೆರಾ ಸಿದ್ಧವಾಗುತ್ತಿದೆ…</div></div>
+  <div id="lastResult"></div><p id="scanStat" class="note"></p><div id="scanLog"></div>
+ </div>
+</section>
+
+<!-- RESULTS -->
+<section class="tab" id="t-res">
+ <div class="card"><h2>ಫಲಿತಾಂಶ</h2>
+  <div class="grid"><label class="f">ತರಗತಿ<select id="rCls"></select></label>
+   <label class="f">ತೋರಿಸು<select id="rFilter"><option value="all">ಎಲ್ಲರೂ</option><option value="doubt">ಪರಿಶೀಲನೆ ಬೇಕಾದವು ಮಾತ್ರ</option></select></label></div>
+  <div id="rSummary" class="note"></div>
+  <div class="tw"><table class="t" id="resTbl"></table></div>
+  <button class="b sec" id="rReload">↻ ಮರುಲೋಡ್</button>
+  <button class="b" id="rCsv">⬇ Excel (CSV)</button>
+  <button class="b sec" id="rPrint">🖨 ಮೆರಿಟ್ ಪಟ್ಟಿ</button>
+  <button class="b sec" id="rCert">🏅 ಪ್ರಮಾಣಪತ್ರ (ಮೊದಲ 3 ಸ್ಥಾನ)</button>
+  <button class="b green" id="rPublish">🌐 ವಿಜೇತರನ್ನು ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಪ್ರಕಟಿಸು</button>
+  <button class="b sec" id="rUnpublish">ವೆಬ್‌ಸೈಟ್‌ನಿಂದ ತೆಗೆ</button>
+  <p class="note">ಸಾಲಿನ ಮೇಲೆ ಒತ್ತಿದರೆ ಸ್ಕ್ಯಾನ್ ಚಿತ್ರ ಮತ್ತು ಉತ್ತರಗಳನ್ನು ನೋಡಿ ಸರಿಪಡಿಸಬಹುದು (ಸ್ಕ್ಯಾನ್ ಚಿತ್ರ ಸ್ಕ್ಯಾನ್ ಮಾಡಿದ ಸಾಧನದಲ್ಲಿ ಮಾತ್ರ ಇರುತ್ತದೆ). ಬಹುಮಾನಕ್ಕೆ ಆಯ್ಕೆಯಾದವರ OMR ಅನ್ನು ಒಮ್ಮೆ ಕೈಯಿಂದಲೂ ಪರಿಶೀಲಿಸಿ.</p>
+ </div>
+</section>
+</main>
+</div>
+</div>
+
+<!-- Question editor -->
+<div id="qModal" class="modal hidden"><div class="mbox">
+ <div class="mhead"><h2 id="qmTitle">ಪ್ರಶ್ನೆ</h2><button class="b sec" data-close="qModal">✕</button></div>
+ <div class="grid">
+  <label class="f">ವಿಭಾಗ<select id="qmSec"></select></label>
+  <label class="f qmSub">ಪುಸ್ತಕದ ತರಗತಿ<input id="qmCls" type="number"></label>
+  <label class="f qmSub">ಭಾಗ<select id="qmPart"><option value="1">1</option><option value="2">2</option></select></label>
+  <label class="f qmSub">ಅಧ್ಯಾಯ<select id="qmCh"></select></label>
+  <label class="f qmNon">ಮಟ್ಟ<select id="qmLevel"><option value="jr">7–8ನೇ ತರಗತಿ</option><option value="sr">9–10ನೇ ತರಗತಿ</option><option value="all">ಎಲ್ಲರಿಗೂ</option></select></label>
+  <label class="f qmCa">ಘಟನೆಯ ವರ್ಷ<input id="qmYear" type="number"></label>
+  <label class="f">ಕಠಿಣತೆ<select id="qmDiff"><option value="easy">ಸುಲಭ</option><option value="medium" selected>ಮಧ್ಯಮ</option><option value="hard">ಕಠಿಣ</option></select></label>
+  <label class="chk" style="align-self:end"><input type="checkbox" id="qmVol"> ಉತ್ತರ ಮುಂದೆ ಬದಲಾಗಬಹುದು (ಪ್ರತಿ ವರ್ಷ ಪರಿಶೀಲಿಸು)</label>
+ </div>
+ <div class="two" style="margin-top:10px">
+  <div><label class="f">ಪ್ರಶ್ನೆ (ಕನ್ನಡ)<textarea id="qmQkn" rows="3"></textarea></label>
+   <div id="qmOkn"></div></div>
+  <div><label class="f">Question (English)<textarea id="qmQen" rows="3"></textarea></label>
+   <div id="qmOen"></div></div>
+ </div>
+ <div class="grid" style="margin-top:8px">
+  <label class="f">ಸರಿಯುತ್ತರ<select id="qmAns"><option>A</option><option>B</option><option>C</option><option>D</option></select></label>
+  <label class="f">ವಿವರಣೆ (ಐಚ್ಛಿಕ)<input id="qmExp"></label>
+ </div>
+ <div style="margin-top:8px"><span class="note">ಚಿತ್ರ (ಐಚ್ಛಿಕ):</span> <label class="btn sec sm" style="padding:4px 9px">📷 ಚಿತ್ರ ಆರಿಸು<input type="file" id="qmImgIn" accept="image/*" hidden></label> <button class="b sec sm" id="qmImgDel">ಚಿತ್ರ ತೆಗೆ</button>
+  <div id="qmImgPrev" style="margin-top:6px"></div></div>
+ <div id="qmMsg" class="note"></div>
+ <button class="b green" id="qmSave">✔ ಉಳಿಸು</button>
+</div></div>
+
+<!-- Import preview -->
+<div id="impModal" class="modal hidden"><div class="mbox">
+ <div class="mhead"><h2>ಆಮದು ಮುನ್ನೋಟ</h2><button class="b sec" data-close="impModal">✕</button></div>
+ <div id="impBody"></div>
+</div></div>
+
+<!-- Review -->
+<div id="revModal" class="modal hidden"><div class="mbox" style="max-width:1100px">
+ <div class="mhead"><h2 id="revTitle">ಪರಿಶೀಲನೆ</h2><button class="b sec" data-close="revModal">✕</button></div>
+ <div class="mgrid">
+  <div><canvas id="revCanvas" width="630" height="891"></canvas><p class="note">ಹಸಿರು = ಸರಿ, ಕೆಂಪು = ತಪ್ಪು (ಹಸಿರು ಉಂಗುರ = ಸರಿಯುತ್ತರ), ಹಳದಿ = ಸಂದೇಹ.</p></div>
+  <div><div class="grid"><label class="f">ನೋಂದಣಿ ಸಂಖ್ಯೆ<input id="revReg" inputmode="numeric" maxlength="9"></label>
+   <label class="f">ಸೆಟ್<select id="revSet"><option>A</option><option>B</option><option>C</option><option>D</option></select></label></div>
+   <div id="revInfo" class="note"></div><div class="agrid" id="revAns"></div>
+   <button class="b green" id="revSave">✔ ಉಳಿಸು</button><button class="b red" id="revDel">ಈ ಸ್ಕ್ಯಾನ್ ಅಳಿಸು</button></div>
+ </div>
+</div></div>
+
+<div id="loading"><div class="spin"></div><div id="loadTxt">ಲೋಡ್ ಆಗುತ್ತಿದೆ…</div></div>
+<div id="toast"></div>
+<div id="printArea"></div>
+<script src="admin.js"></script>
+</body>
+</html>
