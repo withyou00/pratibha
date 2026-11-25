@@ -169,6 +169,14 @@ table.t input,table.t select{padding:5px}
 .paperq{border-bottom:1px dashed var(--bd);padding:6px 0;font-size:14px}
 .paperq .n{font-weight:700;color:var(--pd)}
 
+.step{display:flex;gap:12px;padding:12px;border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;background:#fff}
+.step.done{background:#f0fdf4;border-color:#bbf7d0}
+.step .sn{flex:0 0 34px;height:34px;border-radius:50%;background:var(--p);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.step.done .sn{background:var(--g)}
+.step .sb{flex:1;min-width:0}.step .note{margin:3px 0 6px}
+.good{color:var(--g)}
+details.card>summary{cursor:pointer;font-size:16px;color:var(--pd)}
+
 </style>
 <style>
 /* paper print */
@@ -470,7 +478,9 @@ document.write('<style>'+PRINT_CSS+'</style>');
 <main>
 <!-- DASHBOARD -->
 <section class="tab on" id="t-dash">
+ <div class="card"><h2>📋 ಮಾಡಬೇಕಾದ ಕೆಲಸಗಳು – ಹಂತ ಹಂತವಾಗಿ</h2><p class="note">ಮೇಲಿನಿಂದ ಕೆಳಗೆ ಒಂದೊಂದಾಗಿ ಮಾಡಿ. ಮುಗಿದ ಹಂತಕ್ಕೆ ✔ ಬರುತ್ತದೆ. ಬೇರೆ ಟ್ಯಾಬ್‌ಗಳಿಗೆ ಹೋಗುವ ಅಗತ್ಯವಿಲ್ಲ – ಇಲ್ಲಿನ ಬಟನ್ ಒತ್ತಿದರೆ ಸರಿಯಾದ ಜಾಗಕ್ಕೆ ಹೋಗುತ್ತದೆ.</p><div id="steps"></div></div>
  <div class="card"><h2>ಸ್ಥಿತಿ</h2><div class="stats" id="dashStats"></div></div>
+ <details class="card" id="setBox"><summary><b>⚙ ಸೆಟ್ಟಿಂಗ್ಸ್: GitHub ಟೋಕನ್, Firebase ಪರೀಕ್ಷೆ, ಹೊಸ ವರ್ಷ, ಬ್ಯಾಕಪ್</b></summary>
  <div class="card"><h2>📚 ಪ್ರಶ್ನೆ ಬ್ಯಾಂಕ್ – GitHub ಸಂಪರ್ಕ</h2>
   <div id="ghStatus"></div>
   <div class="grid"><label class="f">GitHub ಖಾತೆ<input id="ghOwner" placeholder="withyou00"></label><label class="f">ರೆಪೊ<input id="ghRepo" placeholder="pratibha"></label>
@@ -490,6 +500,7 @@ document.write('<style>'+PRINT_CSS+'</style>');
   <p class="note">ಪ್ರಶ್ನೆಗಳು, ಚಿತ್ರಗಳು, ಸೆಟ್ಟಿಂಗ್ಸ್, ಬಳಸಿದ ಪ್ರಶ್ನೆಗಳ ಪಟ್ಟಿ ಮತ್ತು ಈ ವರ್ಷದ ವಿದ್ಯಾರ್ಥಿಗಳು/ಪತ್ರಿಕೆಗಳು/ಫಲಿತಾಂಶ ಎಲ್ಲವೂ ಒಂದು ಫೈಲ್‌ನಲ್ಲಿ. ತಿಂಗಳಿಗೊಮ್ಮೆ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ Google Drive ನಲ್ಲಿ ಇಡಿ.</p>
   <button class="b" id="bkAll">⬇ ಪೂರ್ಣ ಬ್ಯಾಕಪ್ ಡೌನ್‌ಲೋಡ್</button>
   <label class="btn sec">⬆ ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸು<input type="file" id="bkRestore" accept=".json" hidden></label></div>
+ </details>
 </section>
 
 <!-- SITE -->
@@ -510,6 +521,7 @@ document.write('<style>'+PRINT_CSS+'</style>');
    <label class="f">ತರಗತಿಗಳು (ಅಲ್ಪವಿರಾಮದಿಂದ)<input data-c="classes"></label>
    <label class="f">ಪ್ರಶ್ನೆಪತ್ರಿಕೆ ಸೆಟ್‌ಗಳು<select data-c="sets"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label>
    <label class="f">ಪ್ರಚಲಿತ ವಿದ್ಯಮಾನದ ವರ್ಷ<input data-c="caYear" type="number"></label>
+   <label class="f">ಬಳಸಿದ ಪ್ರಶ್ನೆ ಮತ್ತೆ ಬರಲು<select data-c="reuseGap"><option value="1">1 ವರ್ಷ ಬಿಟ್ಟು</option><option value="2">2 ವರ್ಷ ಬಿಟ್ಟು</option><option value="3">3 ವರ್ಷ ಬಿಟ್ಟು</option><option value="99">ಎಂದಿಗೂ ಬೇಡ</option></select></label>
    <label class="f">ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ತೋರಿಸುವ ವಿಜೇತರ ಸಂಖ್ಯೆ (ಪ್ರತಿ ತರಗತಿ)<input data-c="resultsTopN" type="number"></label>
    <label class="f">ಆನ್‌ಲೈನ್ ಅರ್ಜಿ ಸ್ವೀಕಾರ<select data-c="appsOpen"><option value="true">ತೆರೆದಿದೆ</option><option value="false">ಮುಚ್ಚಿದೆ</option></select></label>
    <label class="f">ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಕೊನೆಯ ದಿನಾಂಕ<input data-c="appsLastDate" type="date"></label>
@@ -542,13 +554,40 @@ document.write('<style>'+PRINT_CSS+'</style>');
 
 <!-- BANK -->
 <section class="tab" id="t-bank">
- <div class="card"><h2>ಪ್ರಶ್ನೆ ಸೇರಿಸಿ</h2>
-  <button class="b" id="qAddBtn">✍ ಹೊಸ ಪ್ರಶ್ನೆ ಬರೆಯಿರಿ</button>
+ <div class="card"><h2>✍ ಪ್ರಶ್ನೆಗಳನ್ನು ಸೇರಿಸಿ – ಸುಲಭ ವಿಧಾನ</h2>
+  <ol class="note" style="margin:0 0 8px;padding-left:20px"><li>ವಿಭಾಗ ಆರಿಸಿ (ವಿಜ್ಞಾನ/ಗಣಿತ/ಸಮಾಜ ಆದರೆ ತರಗತಿ, ಭಾಗ, ಅಧ್ಯಾಯ ಕೂಡ).</li><li>ಕೆಳಗಿನ ಪೆಟ್ಟಿಗೆಯಲ್ಲಿ ಮಾದರಿಯಂತೆ ಪ್ರಶ್ನೆಗಳನ್ನು ಕನ್ನಡದಲ್ಲಿ ಬರೆಯಿರಿ ಅಥವಾ Word/PDF ನಿಂದ ಅಂಟಿಸಿ. ಒಮ್ಮೆಗೆ ಎಷ್ಟು ಪ್ರಶ್ನೆಗಳಾದರೂ ಸರಿ.</li><li><b>ಪರಿಶೀಲಿಸು</b> ಒತ್ತಿ – ಇಂಗ್ಲಿಷ್ ತಾನಾಗಿಯೇ ಬರುತ್ತದೆ. ಸರಿ ಇದ್ದರೆ <b>ಉಳಿಸು</b>.</li></ol>
+  <div class="grid"><label class="f">ವಿಭಾಗ<select id="ezSec"></select></label>
+   <label class="f ezS">ತರಗತಿ<select id="ezCls"></select></label><label class="f ezS">ಭಾಗ<select id="ezPart"><option value="1">ಭಾಗ-1</option><option value="2">ಭಾಗ-2</option></select></label>
+   <label class="f ezS">ಅಧ್ಯಾಯ ಸಂಖ್ಯೆ<input id="ezCh" type="number" min="1" max="40"></label><label class="f ezS">ಅಧ್ಯಾಯದ ಹೆಸರು<input id="ezChName" list="ezChList"><datalist id="ezChList"></datalist></label>
+   <label class="f ezCA">ವರ್ಷ<input id="ezYear" type="number"></label>
+   <label class="f">ಕಠಿಣತೆ (ಬರೆಯದಿದ್ದರೆ)<select id="ezDiff"><option value="easy">ಸುಲಭ</option><option value="medium" selected>ಮಧ್ಯಮ</option><option value="hard">ಕಠಿಣ</option></select></label></div>
+  <textarea id="ezIn" rows="12" style="margin-top:8px" placeholder="1. ಸಸ್ಯಗಳು ಆಹಾರ ತಯಾರಿಸುವ ಕ್ರಿಯೆ ಯಾವುದು?
+A) ಉಸಿರಾಟ
+B) ದ್ಯುತಿಸಂಶ್ಲೇಷಣೆ
+C) ಬಾಷ್ಪವಿಸರ್ಜನೆ
+D) ಜೀರ್ಣಕ್ರಿಯೆ
+ಉತ್ತರ: B
+
+2. 12 × 5 = ?
+A) 50  B) 60  C) 70  D) 65
+ಉತ್ತರ: B"></textarea>
+  <label class="chk"><input type="checkbox" id="ezTr" checked> ಇಂಗ್ಲಿಷ್ ಅನುವಾದ ತಾನಾಗಿಯೇ ಮಾಡು</label>
+  <button class="b" id="ezCheck">🔍 ಪರಿಶೀಲಿಸು</button> <button class="b green" id="ezSave" disabled>✔ ಪ್ರಶ್ನೆ ಬ್ಯಾಂಕ್‌ಗೆ ಉಳಿಸು</button>
+  <div id="ezOut"></div>
+  <details style="margin-top:12px"><summary><b>ಮಾದರಿ ಬರೆಯುವ ನಿಯಮಗಳು</b></summary><ul class="note">
+   <li>ಪ್ರತಿ ಪ್ರಶ್ನೆಗೆ 4 ಆಯ್ಕೆ: <b>A) B) C) D)</b> ಅಥವಾ <b>ಅ) ಆ) ಇ) ಈ)</b> ಅಥವಾ <b>(a) (b) (c) (d)</b>. ಆಯ್ಕೆಗಳು ಬೇರೆ ಸಾಲುಗಳಲ್ಲಿ ಅಥವಾ ಒಂದೇ ಸಾಲಿನಲ್ಲಿ ಇರಬಹುದು.</li>
+   <li>ಸರಿ ಉತ್ತರ: <b>ಉತ್ತರ: B</b> ಎಂಬ ಸಾಲು, ಅಥವಾ ಸರಿಯಾದ ಆಯ್ಕೆಯ ಕೊನೆಗೆ <b>*</b> ಹಾಕಿ.</li>
+   <li>ಕಠಿಣತೆ ಬೇಕಿದ್ದರೆ ಪ್ರಶ್ನೆಯ ಕೆಳಗೆ <b>ಕಠಿಣತೆ: ಸುಲಭ / ಮಧ್ಯಮ / ಕಠಿಣ</b>.</li>
+   <li>ಇಂಗ್ಲಿಷ್ ನೀವೇ ಬರೆಯಬೇಕಿದ್ದರೆ ಕನ್ನಡ ಪ್ರಶ್ನೆಯ ಕೆಳಗೆ <b>EN: ...</b> ಸಾಲು ಮತ್ತು ಆಯ್ಕೆಗಳನ್ನು <b>EN: A) .. B) .. C) .. D) ..</b> ಎಂದು ಬರೆಯಿರಿ.</li>
+   <li>ಚಿತ್ರ ಇರುವ ಪ್ರಶ್ನೆಗಳನ್ನು ಕೆಳಗಿನ "ಒಂದು ಪ್ರಶ್ನೆ ಬರೆಯಿರಿ" ಮೂಲಕ ಸೇರಿಸಿ.</li></ul></details>
+ </div>
+ <details class="card"><summary><b>ಇತರ ವಿಧಾನಗಳು: ಒಂದು ಪ್ರಶ್ನೆ (ಚಿತ್ರ ಸಹಿತ), JSON ಫೈಲ್, Excel</b></summary><div style="margin-top:10px">
+  <button class="b" id="qAddBtn">✍ ಒಂದು ಪ್ರಶ್ನೆ ಬರೆಯಿರಿ (ಚಿತ್ರ ಸಹಿತ)</button>
   <label class="btn">📥 JSON ಫೈಲ್ ಆಮದು<input type="file" id="jsonIn" accept=".json,application/json" hidden></label>
   <label class="btn sec">📊 Excel (CSV) ಆಮದು<input type="file" id="csvIn" accept=".csv,text/csv" hidden></label>
   <button class="b sec" id="csvTpl">⬇ Excel ಮಾದರಿ ಫೈಲ್</button>
-  <p class="note">Excel ನಲ್ಲಿ ಮಾದರಿ ಫೈಲ್ ತುಂಬಿ <b>Save As → CSV UTF-8</b> ಆಗಿ ಉಳಿಸಿ ಆಮದು ಮಾಡಿ.</p>
- </div>
+  <p class="note">Excel ನಲ್ಲಿ ಮಾದರಿ ಫೈಲ್ ತುಂಬಿ <b>Save As → CSV UTF-8</b> ಆಗಿ ಉಳಿಸಿ ಆಮದು ಮಾಡಿ. ನಾನು (Claude) ಕೊಡುವ JSON ಫೈಲ್‌ಗಳನ್ನು "JSON ಫೈಲ್ ಆಮದು" ಮೂಲಕ ಸೇರಿಸಿ.</p>
+ </div></details>
  <div class="card"><h2>ಪ್ರಶ್ನೆಗಳು <span class="pill b" id="bankCount"></span></h2>
   <div class="grid">
    <label class="f">ವಿಭಾಗ<select id="fSec"><option value="">ಎಲ್ಲಾ</option></select></label>
@@ -560,7 +599,7 @@ document.write('<style>'+PRINT_CSS+'</style>');
   </div>
   <div id="bankList"></div><div id="bankMore"></div>
  </div>
- <div class="card"><h2>ಸಾಮೂಹಿಕ ಕ್ರಿಯೆಗಳು</h2>
+ <details class="card"><summary><b>ಸಾಮೂಹಿಕ ಕ್ರಿಯೆಗಳು (ಪಠ್ಯಪುಸ್ತಕ ಬದಲಾದಾಗ, ಹಳೆಯ ಪ್ರಚಲಿತ ಪ್ರಶ್ನೆ ಅಳಿಸಲು)</b></summary>
   <h3>ಅಧ್ಯಾಯದ ಎಲ್ಲಾ ಪ್ರಶ್ನೆಗಳನ್ನು ನಿವೃತ್ತಿಗೊಳಿಸು / ಸಕ್ರಿಯಗೊಳಿಸು</h3>
   <p class="note">ಪಠ್ಯಪುಸ್ತಕ ಬದಲಾದಾಗ ಬಳಸಿ. ಮೇಲಿನ ಫಿಲ್ಟರ್‌ನಲ್ಲಿ ವಿಭಾಗ, ತರಗತಿ ಮತ್ತು ಅಧ್ಯಾಯ ಆರಿಸಿ ನಂತರ ಒತ್ತಿ. ನಿವೃತ್ತ ಪ್ರಶ್ನೆಗಳು ಅಳಿಯುವುದಿಲ್ಲ, ಪತ್ರಿಕೆಗೆ ಬರುವುದಿಲ್ಲ ಅಷ್ಟೆ.</p>
   <button class="b yel" id="bulkRetire">⏸ ಫಿಲ್ಟರ್‌ನಲ್ಲಿರುವ ಎಲ್ಲವನ್ನೂ ನಿವೃತ್ತಿಗೊಳಿಸು</button>
@@ -569,7 +608,7 @@ document.write('<style>'+PRINT_CSS+'</style>');
   <div class="row"><span>ಈ ವರ್ಷಕ್ಕಿಂತ ಹಳೆಯವು:</span><input id="caDelYr" type="number" style="max-width:110px"><button class="b red" id="caDel">🗑 ಅಳಿಸು (ಮೊದಲು ಬ್ಯಾಕಪ್ ಡೌನ್‌ಲೋಡ್ ಆಗುತ್ತದೆ)</button></div>
   <h3>ಪ್ರಶ್ನೆ ಬ್ಯಾಂಕ್ ಮಾತ್ರ ರಫ್ತು</h3>
   <button class="b sec" id="bankExport">⬇ ಫಿಲ್ಟರ್‌ನಲ್ಲಿರುವ ಪ್ರಶ್ನೆಗಳನ್ನು JSON ಆಗಿ ಡೌನ್‌ಲೋಡ್</button>
- </div>
+ </details>
 </section>
 
 <!-- PAPER -->
@@ -588,6 +627,7 @@ document.write('<style>'+PRINT_CSS+'</style>');
 <section class="tab" id="t-apps">
  <div class="card"><h2>ಆನ್‌ಲೈನ್ ಅರ್ಜಿಗಳು <span class="pill b" id="appCount"></span></h2>
   <p class="note">ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ವಿದ್ಯಾರ್ಥಿಗಳು ಸಲ್ಲಿಸಿದ ಅರ್ಜಿಗಳು ಇಲ್ಲಿ ಬರುತ್ತವೆ. "✔" ಒತ್ತಿ ಅನುಮೋದಿಸಿದಾಗ ನೋಂದಣಿ ಸಂಖ್ಯೆ ತಾನಾಗಿಯೇ ಬರುತ್ತದೆ, ವಿದ್ಯಾರ್ಥಿ ಪಟ್ಟಿಗೆ ಸೇರುತ್ತದೆ ಮತ್ತು ವಿದ್ಯಾರ್ಥಿ ತನ್ನ ಅರ್ಜಿ ಸಂಖ್ಯೆಯಿಂದ ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಹಾಲ್ ಟಿಕೆಟ್ ಪಡೆಯಬಹುದು (ವೆಬ್‌ಸೈಟ್ ಟ್ಯಾಬ್‌ನಲ್ಲಿ "ಹಾಲ್ ಟಿಕೆಟ್ ಡೌನ್‌ಲೋಡ್ – ಲಭ್ಯ" ಮಾಡಿದ ನಂತರ).</p>
+  <label class="chk" style="font-size:15px;margin:6px 0 10px"><input type="checkbox" id="apAuto"> <b>ಅರ್ಜಿಗಳನ್ನು ತಾನಾಗಿಯೇ ಅನುಮೋದಿಸು</b> (ಅಡ್ಮಿನ್ ತೆರೆದಾಗ ಹೊಸ ಅರ್ಜಿಗಳಿಗೆ ನೋಂದಣಿ ಸಂಖ್ಯೆ ಮತ್ತು ಹಾಲ್ ಟಿಕೆಟ್ ತಾನಾಗಿಯೇ ತಯಾರಾಗುತ್ತವೆ)</label>
   <div class="stats" id="appStats"></div>
   <div class="grid" style="margin-top:10px"><label class="f">ಸ್ಥಿತಿ<select id="apFilter"><option value="pending">ಬಾಕಿ</option><option value="approved">ಅನುಮೋದಿತ</option><option value="rejected">ತಿರಸ್ಕೃತ</option><option value="">ಎಲ್ಲಾ</option></select></label><label class="f">ತರಗತಿ<select id="apCls"></select></label></div>
   <button class="b sec" id="apReload">↻ ಮರುಲೋಡ್</button><button class="b green" id="apApproveAll">✔ ಬಾಕಿ ಇರುವ ಎಲ್ಲವನ್ನೂ ಅನುಮೋದಿಸು</button><button class="b sec" id="apCsv">⬇ Excel</button>
@@ -597,10 +637,16 @@ document.write('<style>'+PRINT_CSS+'</style>');
 
 <!-- STUDENTS -->
 <section class="tab" id="t-stu">
- <div class="card"><h2>ವಿದ್ಯಾರ್ಥಿಗಳನ್ನು ಸೇರಿಸಿ</h2>
-  <p class="note">Excel‌ನಿಂದ ಕಾಪಿ ಮಾಡಿ ಅಂಟಿಸಿ. ಪ್ರತಿ ಸಾಲು: <b>ಹೆಸರು | ತಂದೆಯ ಹೆಸರು | ತರಗತಿ | SATS | ಶಾಲೆ (ಐಚ್ಛಿಕ)</b>. ನೋಂದಣಿ ಸಂಖ್ಯೆ = ವರ್ಷ(2) + ತರಗತಿ(1) + ಶಾಲಾ ಕೋಡ್(3) + ಕ್ರಮಸಂಖ್ಯೆ(3).</p>
+ <div class="card"><h2>➕ ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಸೇರಿಸಿ</h2>
+  <p class="note">ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಅರ್ಜಿ ಹಾಕಿದ ವಿದ್ಯಾರ್ಥಿಗಳು <b>ತಾನಾಗಿಯೇ</b> ಕೆಳಗಿನ ಪಟ್ಟಿಗೆ ಸೇರುತ್ತಾರೆ. ಅರ್ಜಿ ಹಾಕದವರನ್ನು ಮಾತ್ರ ಇಲ್ಲಿ ಸೇರಿಸಿ.</p>
+  <div class="grid"><label class="f">ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು *<input id="s1Name"></label><label class="f">ತಂದೆಯ ಹೆಸರು<input id="s1Father"></label>
+   <label class="f">ತರಗತಿ *<select id="s1Cls"></select></label><label class="f">SATS ಸಂಖ್ಯೆ<input id="s1Sats" inputmode="numeric"></label>
+   <label class="f">ಶಾಲೆ<select id="s1Sch"></select></label><label class="f" id="s1SchO" style="display:none">ಶಾಲೆಯ ಹೆಸರು<input id="s1SchName"></label></div>
+  <button class="b" id="s1Add">➕ ಸೇರಿಸು</button> <span id="s1Msg" class="note"></span>
+  <details style="margin-top:12px"><summary><b>ಹಲವು ವಿದ್ಯಾರ್ಥಿಗಳನ್ನು ಒಟ್ಟಿಗೆ ಸೇರಿಸಿ (Excel ಅಥವಾ ಟೈಪ್ ಮಾಡಿ)</b></summary>
+  <p class="note">ಪ್ರತಿ ಸಾಲಿಗೆ ಒಬ್ಬ ವಿದ್ಯಾರ್ಥಿ. Excel‌ನಿಂದ ಕಾಪಿ ಮಾಡಿ ಅಂಟಿಸಬಹುದು ಅಥವಾ ಖಾಲಿ ಜಾಗ ಬಿಟ್ಟು ಟೈಪ್ ಮಾಡಬಹುದು. ಉದಾ: <b>ರಮೇಶ ಪಾಟೀಲ ಶಿವಪ್ಪ 7 123456789</b> (ಹೆಸರು, ತಂದೆಯ ಹೆಸರು, ತರಗತಿ, SATS, ಶಾಲೆ – ಶಾಲೆ ಬರೆಯದಿದ್ದರೆ ನಮ್ಮ ಶಾಲೆ). ಪ್ರತಿ ಸಾಲು: <b>ಹೆಸರು | ತಂದೆಯ ಹೆಸರು | ತರಗತಿ | SATS | ಶಾಲೆ (ಐಚ್ಛಿಕ)</b>. ನೋಂದಣಿ ಸಂಖ್ಯೆ = ವರ್ಷ(2) + ತರಗತಿ(1) + ಶಾಲಾ ಕೋಡ್(3) + ಕ್ರಮಸಂಖ್ಯೆ(3).</p>
   <textarea id="stuIn" placeholder="ರಮೇಶ ಪಾಟೀಲ	ಶಿವಪ್ಪ ಪಾಟೀಲ	7	123456789"></textarea>
-  <button class="b" id="stuAdd">ಪಟ್ಟಿಗೆ ಸೇರಿಸು</button> <span id="stuMsg" class="note"></span>
+  <button class="b" id="stuAdd">ಪಟ್ಟಿಗೆ ಸೇರಿಸು</button> <span id="stuMsg" class="note"></span></details>
  </div>
  <div class="card"><h2>ವಿದ್ಯಾರ್ಥಿಗಳ ಪಟ್ಟಿ <span id="stuCount" class="pill b"></span></h2>
   <div class="tw"><table class="t" id="stuTbl"></table></div>
@@ -839,7 +885,7 @@ function defCfg(){return {activeYear:'2026-27',examName:'ಪ್ರತಿಭಾ�
  sponsors:[],rules:['ಎಲ್ಲಾ ಪ್ರಶ್ನೆಗಳು ಬಹು ಆಯ್ಕೆಯವು. ಪ್ರತಿ ಪ್ರಶ್ನೆಗೆ 1 ಅಂಕ. ತಪ್ಪು ಉತ್ತರಕ್ಕೆ ಅಂಕ ಕಳೆಯುವುದಿಲ್ಲ.','ಉತ್ತರಗಳನ್ನು OMR ಹಾಳೆಯಲ್ಲಿ ನೀಲಿ/ಕಪ್ಪು ಬಾಲ್‌ಪೆನ್‌ನಿಂದ ವೃತ್ತ ತುಂಬಿ ಗುರುತಿಸಬೇಕು.','ಹಾಲ್ ಟಿಕೆಟ್ ಇಲ್ಲದೆ ಪರೀಕ್ಷಾ ಕೊಠಡಿಗೆ ಪ್ರವೇಶವಿಲ್ಲ.','ಮೊಬೈಲ್ ಮತ್ತು ಕ್ಯಾಲ್ಕುಲೇಟರ್ ನಿಷೇಧ.','ಸಮಾನ ಅಂಕ ಬಂದರೆ ಮಾನಸಿಕ ಸಾಮರ್ಥ್ಯ, ನಂತರ ಗಣಿತ ವಿಭಾಗದ ಅಂಕ ಪರಿಗಣಿಸಲಾಗುತ್ತದೆ.','ಪ್ರತಿ ತರಗತಿಗೆ ಪ್ರತ್ಯೇಕ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ ಮತ್ತು ಪ್ರತ್ಯೇಕ ಬಹುಮಾನ.'],
  blueprint:{7:DEF_BP.map(x=>({...x})),8:DEF_BP.map(x=>({...x}))},diffMix:{easy:30,medium:50,hard:20},tieOrder:['mat','math'],
  syllabus:{7:{chapters:[],notes:{...DEF_NOTES}},8:{chapters:[],notes:{...DEF_NOTES}}},syllabusView:{},catalog:{},
- results:{published:false,lists:{}},mockPublished:{},appsOpen:false,appsLastDate:'2026-12-15',htOpen:false,ghOwner:'withyou00',ghRepo:'pratibha',ghDir:'qbank'}}
+ results:{published:false,lists:{}},mockPublished:{},appsOpen:false,appsLastDate:'2026-12-15',htOpen:false,autoApprove:true,reuseGap:2,ghOwner:'withyou00',ghRepo:'pratibha',ghDir:'qbank'}}
 const classes=()=>(CFG.classes||[]).map(Number).filter(x=>x>0);
 const nqOf=c=>Math.min(100,(CFG.blueprint[c]||[]).reduce((a,b)=>a+(+b.n||0),0));
 const nsets=()=>Math.max(1,Math.min(4,+CFG.sets||1));
@@ -877,6 +923,10 @@ async function loadAll(){busy(true,'ಮಾಹಿತಿ ಲೋಡ್ ಆಗುತ
   USED=await STORE.get(P.used)||{};
   $('#loadTxt').textContent='ಪ್ರಶ್ನೆ ಬ್ಯಾಂಕ್ (GitHub) ಲೋಡ್ ಆಗುತ್ತಿದೆ…';await loadBank();
   await loadExam();
+  {let ch=false;for(const k of Object.keys(CFG.catalog||{})){const c=+k.split('|')[1];if(!classes().includes(c)&&![...BANK.values()].some(q=>chKey(q)===k)){delete CFG.catalog[k];ch=true}}
+   classes().forEach(c=>{const s=CFG.syllabus[c];const n=s.chapters.length;s.chapters=s.chapters.filter(k=>CFG.catalog[k]&&+k.split('|')[1]===c);if(s.chapters.length!==n)ch=true});
+   if(ch&&saved)await STORE.set(P.site,CFG)}
+  try{await loadApps();await autoApprove(true)}catch(e){console.warn('apps',e)}
   if(!saved){await STORE.set(P.site,CFG)}
  }catch(e){console.error(e);alert('ಲೋಡ್ ದೋಷ: '+errMsg(e))}
  busy(false);renderAll()}
@@ -884,7 +934,7 @@ async function loadExam(){EXAM=await STORE.get(P.exam())||{students:[]};EXAM.stu
  for(const c of classes())for(const t of ['final','mock']){const p=await STORE.get(P.paper(c,t));if(p)PAPERS[c+'_'+t]=p}
  SCANS=null}
 function renderAll(){$('#hdrInfo').textContent=`${CFG.examName} • ${CFG.activeYear}${MOCK?' • ಪರೀಕ್ಷಾ ಮೋಡ್':''}`;
- fillClassSelects();renderDash();renderSite();renderSyl();initBankFilters();renderBank();renderPaper();renderStudents();scanKeyInfo()}
+ fillClassSelects();fillS1();ezFill();renderDash();renderSite();renderSyl();initBankFilters();renderBank();renderPaper();renderStudents();scanKeyInfo()}
 function fillClassSelects(){const o=classes().map(c=>`<option value="${c}">${c}ನೇ ತರಗತಿ</option>`).join('');
  ['#sylCls','#pCls','#rCls'].forEach(s=>{const v=$(s).value;$(s).innerHTML=o;if(v&&classes().includes(+v))$(s).value=v});
  {const v=$('#apCls').value;$('#apCls').innerHTML='<option value="">ಎಲ್ಲಾ</option>'+o;if(v)$('#apCls').value=v}
@@ -895,10 +945,10 @@ document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>{
  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.id==='t-'+b.dataset.t));
  const t=b.dataset.t;if(t!=='scan'&&cam.run)camStop();
  if(t==='dash')renderDash();if(t==='bank')renderBank();if(t==='paper')renderPaper();if(t==='syl')renderSyl();
- if(t==='scan'){scanKeyInfo();ensureScans().then(scanStat)}if(t==='apps'){if(!APPS)guard(async()=>{await loadApps();renderApps()},'ಅರ್ಜಿಗಳು ಲೋಡ್ ಆಗುತ್ತಿವೆ…');else renderApps()}if(t==='res')ensureScans().then(renderResults)});
+ if(t==='scan'){scanKeyInfo();ensureScans().then(scanStat)}if(t==='apps'){guard(async()=>{await loadApps();await autoApprove();renderApps()},'ಅರ್ಜಿಗಳು ಲೋಡ್ ಆಗುತ್ತಿವೆ…')}if(t==='res')ensureScans().then(renderResults)});
 
 /* ---------- DASHBOARD ---------- */
-function renderDash(){const act=[...BANK.values()].filter(q=>q.status!=='retired');
+function renderDash(){renderSteps();if(!BANK_ERR)document.getElementById('setBox').open=false;else document.getElementById('setBox').open=true;const act=[...BANK.values()].filter(q=>q.status!=='retired');
  const cnt=s=>act.filter(q=>q.sec===s).length;
  $('#dashStats').innerHTML=`<div class="stat"><b>${BANK.size}</b>ಒಟ್ಟು ಪ್ರಶ್ನೆಗಳು</div><div class="stat"><b>${act.length}</b>ಸಕ್ರಿಯ</div>`+
   SEC_ORDER.map(s=>`<div class="stat"><b>${cnt(s)}</b>${secName(s)}</div>`).join('')+
@@ -954,7 +1004,7 @@ function readSite(){document.querySelectorAll('[data-c]').forEach(el=>{const k=e
   if(k==='classes'){const cs=[...new Set(v.split(/[,\s]+/).map(Number).filter(x=>x>0&&x<=12))];if(!cs.length)throw new Error('ಕನಿಷ್ಠ ಒಂದು ತರಗತಿ ಬೇಕು');CFG.classes=cs;return}
   if(k==='rulesTxt'){CFG.rules=v.split('\n').map(x=>x.trim()).filter(Boolean);return}
   if(['appsOpen','htOpen'].includes(k)){CFG[k]=v==='true';return}
-  if(['durationMin','sets','caYear','resultsTopN'].includes(k))v=+v||0;if(k==='schoolCode')v=(v.replace(/\D/g,'')||'1').padStart(3,'0').slice(-3);CFG[k]=v});}
+  if(['durationMin','sets','caYear','resultsTopN','reuseGap'].includes(k))v=+v||0;if(k==='schoolCode')v=(v.replace(/\D/g,'')||'1').padStart(3,'0').slice(-3);CFG[k]=v});}
 $('#siteSave').onclick=()=>guard(async()=>{readSite();
  CFG.timeline.sort((a,b)=>String(a.date).localeCompare(String(b.date)));CFG.sponsors=CFG.sponsors.filter(s=>s.name);
  classes().forEach(c=>{if(!CFG.blueprint[c])CFG.blueprint[c]=DEF_BP.map(x=>({...x}));if(!CFG.syllabus[c])CFG.syllabus[c]={chapters:[],notes:{...DEF_NOTES}}});
@@ -967,12 +1017,12 @@ function inSyl(q,c){if(q.status==='retired')return false;const s=SECS[q.sec];if(
  if(q.sec==='ca')return +q.year===+CFG.caYear;return true}
 function renderSyl(){const c=+$('#sylCls').value||classes()[0];if(!c){$('#sylBody').innerHTML='';return}
  const bp=CFG.blueprint[c],syl=CFG.syllabus[c];const tot=bp.reduce((a,b)=>a+(+b.n||0),0);
- const avail=s=>[...BANK.values()].filter(q=>q.sec===s&&inSyl(q,c)&&!USED[q.id]).length;
+ const avail=s=>[...BANK.values()].filter(q=>q.sec===s&&inSyl(q,c)&&!blocked(q.id,'')).length;
  let h=`<h3>${c}ನೇ ತರಗತಿ: ವಿಭಾಗವಾರು ಪ್ರಶ್ನೆಗಳು (ಒಟ್ಟು <span id="bpTot">${tot}</span>/100)</h3>
  <table class="t"><tr><th>ವಿಭಾಗ</th><th>ಪ್ರಶ್ನೆಗಳ ಸಂಖ್ಯೆ</th><th>ಬ್ಯಾಂಕ್‌ನಲ್ಲಿ ಲಭ್ಯ (ಬಳಸದವು)</th></tr>${bp.map((b,i)=>{const a=avail(b.sec);return `<tr><td>${secName(b.sec)}</td><td><input type="number" min="0" max="100" data-bp="${i}" value="${b.n}" style="max-width:90px"></td><td>${a} ${a<b.n?'<span class="pill r">ಕಡಿಮೆ</span>':a<b.n*3?'<span class="pill y">ಇನ್ನಷ್ಟು ಬೇಕು</span>':'<span class="pill g">ಸಾಕು</span>'}</td></tr>`}).join('')}</table>
  <p class="note">ಮುಂದಿನ ವರ್ಷಗಳಲ್ಲಿ ಪುನರಾವರ್ತನೆ ಆಗದಿರಲು ಪ್ರತಿ ವಿಭಾಗದಲ್ಲಿ ಬೇಕಾದುದರ ಕನಿಷ್ಠ 3 ಪಟ್ಟು ಪ್ರಶ್ನೆಗಳಿರಲಿ.</p>
  <h3>ವಿಷಯಗಳ ಅಧ್ಯಾಯಗಳು</h3><button class="b sec sm" id="sylAuto">ಸ್ವಯಂ ಆಯ್ಕೆ: ${c}ನೇ ತರಗತಿ ಭಾಗ-1 ಮತ್ತು ಭಾಗ-2</button> <button class="b sec sm" id="sylNone">ಎಲ್ಲಾ ತೆಗೆ</button>`;
- for(const s of SEC_ORDER.filter(s=>SECS[s].subj)){const keys=Object.keys(CFG.catalog).filter(k=>k.startsWith(s+'|')).sort((a,b)=>{const A=a.split('|').map(Number),B=b.split('|').map(Number);return A[1]-B[1]||A[2]-B[2]||A[3]-B[3]});
+ for(const s of SEC_ORDER.filter(s=>SECS[s].subj)){const keys=Object.keys(CFG.catalog).filter(k=>k.startsWith(s+'|')&&+k.split('|')[1]===c).sort((a,b)=>{const A=a.split('|').map(Number),B=b.split('|').map(Number);return A[1]-B[1]||A[2]-B[2]||A[3]-B[3]});
   h+=`<div style="margin-top:8px"><b>${secName(s)}</b>${keys.length?'':' <span class="note">– ಇನ್ನೂ ಅಧ್ಯಾಯಗಳಿಲ್ಲ (ಪ್ರಶ್ನೆ ಆಮದು ಮಾಡಿ ಅಥವಾ ಕೆಳಗೆ ಸೇರಿಸಿ)</span>'}`+
    keys.map(k=>{const n=[...BANK.values()].filter(q=>chKey(q)===k&&q.status!=='retired').length;return `<label class="chk"><input type="checkbox" data-ck="${esc(k)}" ${syl.chapters.includes(k)?'checked':''}> ${esc(chLabel(k))} <span class="pill">${n} ಪ್ರಶ್ನೆ</span></label>`}).join('')+'</div>'}
  h+=`<h3>ಇತರ ವಿಭಾಗಗಳ ಪಠ್ಯಕ್ರಮ (ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಕಾಣುತ್ತದೆ)</h3>`+['gk','mat','ca'].map(s=>`<label class="f" style="margin-top:6px">${secName(s)}<input data-note="${s}" value="${esc(syl.notes[s]||'')}"></label>`).join('')+
@@ -1184,7 +1234,10 @@ $('#csvIn').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f
 function rng(seed){let s=seed>>>0||1;return ()=>{s^=s<<13;s>>>=0;s^=s>>17;s^=s<<5;s>>>=0;return s/4294967296}}
 function shuffle(a,r){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function paperLabel(c,t){return `${CFG.activeYear} ${t==='final'?'ಮುಖ್ಯ':'ಮಾದರಿ'} ${c}ನೇ`}
-function excludeFor(c,t){const ex=new Set();const mine=paperLabel(c,t);for(const [id,labs] of Object.entries(USED)){if(labs.some(l=>l!==mine))ex.add(id)}
+const yrOf=l=>parseInt(l,10)||0;
+function blocked(id,mine){const labs=USED[id];if(!labs)return false;const cur=yrOf(CFG.activeYear);const gap=CFG.reuseGap===0?0:(+CFG.reuseGap||99);
+ return labs.some(l=>l!==mine&&(gap>=99||cur-yrOf(l)<=gap))}
+function excludeFor(c,t){const ex=new Set();const mine=paperLabel(c,t);for(const id of Object.keys(USED)){if(blocked(id,mine))ex.add(id)}
  const other=PAPERS[`${c}_${t==='final'?'mock':'final'}`];if(other)other.qs.forEach(q=>ex.add(q.id));return ex}
 function poolFor(c,sec,ex){return [...BANK.values()].filter(q=>q.sec===sec&&inSyl(q,c)&&!ex.has(q.id))}
 function pickMix(pool,n,r){const mix=CFG.diffMix;const by={easy:[],medium:[],hard:[]};shuffle(pool,r).forEach(q=>(by[q.diff]||by.medium).push(q));
@@ -1196,7 +1249,8 @@ function buildSets(p){const r=rng(p.seed+7);p.sets={};p.keys={};const n=p.qs.len
  LET.slice(0,nsets()).forEach((L,si)=>{let perm=[...Array(n).keys()];if(si>0){perm=[];for(const s of p.sections){const idx=[];for(let i=s.from;i<=s.to;i++)idx.push(i);perm.push(...shuffle(idx,r))}}
   p.sets[L]=perm;p.keys[L]=perm.map(i=>p.qs[i].ans).join('')})}
 async function genPaper(c,t){const ex=excludeFor(c,t);const seed=Date.now()%2147483647;const r=rng(seed);const qs=[],sections=[],short=[];
- for(const b of CFG.blueprint[c]){const n=+b.n;if(!n)continue;const pool=poolFor(c,b.sec,ex);const picked=pickMix(pool,n,r);if(picked.length<n)short.push(`${secName(b.sec)}: ${n-picked.length}`);
+ for(const b of CFG.blueprint[c]){const n=+b.n;if(!n)continue;const pool=poolFor(c,b.sec,ex);const fresh=pool.filter(q=>!USED[q.id]),old=pool.filter(q=>USED[q.id]);
+  let picked=pickMix(fresh,n,r);if(picked.length<n){const ord={easy:0,medium:1,hard:2};picked=picked.concat(pickMix(old,n-picked.length,r)).sort((a,b)=>ord[a.diff]-ord[b.diff])}if(picked.length<n)short.push(`${secName(b.sec)}: ${n-picked.length}`);
   if(!picked.length)continue;sections.push({sec:b.sec,name:secName(b.sec),from:qs.length,to:qs.length+picked.length-1});qs.push(...picked.map(strip))}
  if(!qs.length)throw new Error('ಪಠ್ಯಕ್ರಮದಲ್ಲಿ ಯಾವುದೇ ಪ್ರಶ್ನೆ ಲಭ್ಯವಿಲ್ಲ. ಪಠ್ಯಕ್ರಮ ಟ್ಯಾಬ್‌ನಲ್ಲಿ ಅಧ್ಯಾಯ ಆಯ್ಕೆ ಮಾಡಿ ಉಳಿಸಿ.');
  if(short.length&&!confirm('ಕೆಲವು ವಿಭಾಗಗಳಲ್ಲಿ ಪ್ರಶ್ನೆಗಳ ಕೊರತೆ ಇದೆ:\n'+short.join('\n')+`\n\nಒಟ್ಟು ${qs.length} ಪ್ರಶ್ನೆಗಳ ಪತ್ರಿಕೆ ತಯಾರಿಸಬೇಕೇ?`))return;
@@ -1268,7 +1322,7 @@ function renderStudents(){const rows=EXAM.students.slice().sort((a,b)=>a.reg.loc
  $('#stuTbl').innerHTML='<tr><th>ನೋಂದಣಿ ಸಂಖ್ಯೆ</th><th>ಹೆಸರು</th><th>ತಂದೆ</th><th>ತರಗತಿ</th><th>SATS</th><th>ಶಾಲೆ</th><th></th></tr>'+rows.map(s=>`<tr><td><b>${esc(s.reg)}</b></td><td>${esc(s.name)}</td><td>${esc(s.father)}</td><td>${esc(s.cls)}</td><td>${esc(s.sats)}</td><td>${esc(s.school||'')}</td><td><button class="b sec sm" data-sdel="${esc(s.reg)}">✕</button></td></tr>`).join('');
  document.querySelectorAll('[data-sdel]').forEach(b=>b.onclick=()=>{if(confirm('ಈ ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಅಳಿಸಬೇಕೇ?'))guard(async()=>{EXAM.students=EXAM.students.filter(s=>s.reg!==b.dataset.sdel);await saveExam();renderStudents()})})}
 $('#stuAdd').onclick=()=>guard(async()=>{const cs=classes();const errs=[];let added=0;
- $('#stuIn').value.split('\n').map(l=>l.trim()).filter(Boolean).forEach((l,i)=>{const p=(l.includes('\t')?l.split('\t'):l.split(',')).map(x=>x.trim());const [name,father,cl,sats,school]=p;const c=parseInt(cl,10);
+ $('#stuIn').value.split('\n').map(l=>l.trim()).filter(Boolean).forEach((l,i)=>{const [name,father,cl,sats,school]=parseStu(l,cs);const c=parseInt(cl,10);
   if(!name||!cs.includes(c)){errs.push(`ಸಾಲು ${i+1}: "${l.slice(0,30)}" – ಹೆಸರು/ತರಗತಿ ಸರಿಯಿಲ್ಲ`);return}
   if(sats&&EXAM.students.some(s=>s.sats&&s.sats===sats)){errs.push(`ಸಾಲು ${i+1}: SATS ${sats} ಈಗಾಗಲೇ ಇದೆ`);return}
   let reg;try{reg=nextReg(c,schoolCodeFor(school||CFG.school))}catch(e){errs.push(e.message);return}
@@ -1448,7 +1502,7 @@ function schoolCodeFor(name){EXAM.schools=EXAM.schools||{};const n=normS(name);i
 function nextReg(cls,code){const pre=yy()+String(cls%10)+code;const n=Math.max(0,...EXAM.students.filter(s=>s.reg.startsWith(pre)).map(s=>+s.reg.slice(-3)))+1;if(n>999)throw new Error('999 ಮಿತಿ ಮೀರಿದೆ');return pre+String(n).padStart(3,'0')}
 async function loadApps(){APPS=(await STORE.list('pratibha_apps')).map(d=>Object.assign({},d.data,{_id:d.id})).sort((a,b)=>(a.at||0)-(b.at||0))}
 async function saveApp(ap){const o={...ap};delete o._id;await STORE.set('pratibha_apps/'+ap._id,o)}
-function renderApps(){if(!APPS)return;const f=$('#apFilter').value,c=$('#apCls').value;
+function renderApps(){if(!APPS)return;$('#apAuto').checked=!!CFG.autoApprove;const f=$('#apFilter').value,c=$('#apCls').value;
  const cnt=(st,cl)=>APPS.filter(a=>(a.status||'pending')===st&&(!cl||+a.cls===+cl)).length;
  $('#appCount').textContent=APPS.length;
  $('#appStats').innerHTML=`<div class="stat"><b>${cnt('pending')}</b>ಬಾಕಿ ಅರ್ಜಿಗಳು</div><div class="stat"><b>${cnt('approved')}</b>ಅನುಮೋದಿತ</div><div class="stat"><b>${cnt('rejected')}</b>ತಿರಸ್ಕೃತ</div>`+
@@ -1465,13 +1519,13 @@ function renderApps(){if(!APPS)return;const f=$('#apFilter').value,c=$('#apCls')
  document.querySelectorAll('[data-apno]').forEach(b=>b.onclick=()=>{if(confirm('ಈ ಅರ್ಜಿ ತಿರಸ್ಕರಿಸಬೇಕೇ?'))guard(async()=>{await rejectApp(APPS.find(a=>a._id===b.dataset.apno));renderApps()})});
  const sch=Object.values(EXAM.schools||{});$('#schoolTbl').innerHTML=`<table class="t"><tr><th>ಕೋಡ್</th><th>ಶಾಲೆ</th><th>ವಿದ್ಯಾರ್ಥಿಗಳು</th></tr><tr><td>${esc(CFG.schoolCode)}</td><td>${esc(CFG.school||'(ನಮ್ಮ ಶಾಲೆ)')}</td><td>${EXAM.students.filter(s=>s.reg.slice(3,6)===String(CFG.schoolCode)).length}</td></tr>`+
   sch.map(s=>`<tr><td>${esc(s.code)}</td><td>${esc(s.name)}</td><td>${EXAM.students.filter(x=>x.reg.slice(3,6)===s.code).length}</td></tr>`).join('')+'</table>'}
-async function approveApps(list){let n=0;for(const a of list){if(!a||a.status==='approved')continue;
+async function approveApps(list,quiet){let n=0;for(const a of list){if(!a||a.status==='approved')continue;
   if(!classes().includes(+a.cls))continue;
   if(a.sats&&EXAM.students.some(s=>s.sats&&s.sats===a.sats)){a.status='rejected';a.note='ಇದೇ SATS ಈಗಾಗಲೇ ನೋಂದಾಯಿತ';await saveApp(a);continue}
   const code=schoolCodeFor(a.school);const reg=nextReg(+a.cls,code);
   const st={name:a.name,father:a.father||'',cls:+a.cls,sats:a.sats||'',school:a.school||'',place:a.place||'',mobile:a.mobile||'',reg,appId:a._id};EXAM.students.push(st);
   a.status='approved';a.reg=reg;await saveApp(a);await STORE.set('pratibha_public/ht_'+a._id,{name:st.name,father:st.father,cls:st.cls,school:st.school,sats:st.sats,reg});n++}
- await saveExam();renderStudents();toast(n+' ಅರ್ಜಿ ಅನುಮೋದಿಸಲಾಗಿದೆ')}
+ await saveExam();renderStudents();if(!quiet)toast(n+' ಅರ್ಜಿ ಅನುಮೋದಿಸಲಾಗಿದೆ')}
 async function rejectApp(a){if(a.status==='approved'){EXAM.students=EXAM.students.filter(s=>s.appId!==a._id);await saveExam();renderStudents();try{await STORE.del('pratibha_public/ht_'+a._id)}catch(e){}}
  a.status='rejected';delete a.reg;await saveApp(a)}
 $('#apFilter').onchange=renderApps;$('#apCls').onchange=renderApps;
@@ -1480,6 +1534,107 @@ $('#apApproveAll').onclick=()=>{const f=$('#apFilter').value,c=$('#apCls').value
  if(confirm(`${l.length} ಅರ್ಜಿಗಳನ್ನು ಅನುಮೋದಿಸಬೇಕೇ? ಪ್ರತಿಯೊಬ್ಬರಿಗೂ ನೋಂದಣಿ ಸಂಖ್ಯೆ ಮತ್ತು ಹಾಲ್ ಟಿಕೆಟ್ ತಯಾರಾಗುತ್ತದೆ.`))guard(async()=>{await approveApps(l);renderApps()},'ಅನುಮೋದಿಸಲಾಗುತ್ತಿದೆ…')};
 $('#apCsv').onclick=()=>{if(!APPS)return;const out=[['ಅರ್ಜಿ ಸಂಖ್ಯೆ','ಹೆಸರು','ತಂದೆ','ತರಗತಿ','ಶಾಲೆ','ಊರು','SATS','ಮೊಬೈಲ್','ಸ್ಥಿತಿ','ನೋಂದಣಿ ಸಂಖ್ಯೆ']];APPS.forEach(a=>out.push([a._id,a.name,a.father,a.cls,a.school,a.place,a.sats,a.mobile,a.status||'pending',a.reg||'']));
  dl('pratibha_applications.csv','\ufeff'+out.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n'),'text/csv')};
+
+/* ---------- ವಿದ್ಯಾರ್ಥಿ ಸಾಲು ಓದುವುದು (tab, |, ಅಲ್ಪವಿರಾಮ ಅಥವಾ ಖಾಲಿ ಜಾಗ) ---------- */
+function parseStu(l,cs){const isC=x=>/^\d{1,2}$/.test(x)&&cs.includes(+x);
+ let p=null;for(const re of [/\t/,/\s*\|\s*/,/\s*,\s*/,/\s{2,}/]){const a=l.split(re).map(x=>x.trim()).filter((x,i,arr)=>x!==''||i<arr.length-1);if(a.length>=2&&a.some(isC)){p=a;break}}
+ if(p){const ci=p.findIndex(isC);const before=p.slice(0,ci);let name=before[0]||'',father=before.slice(1).join(' ');
+  if(before.length===1&&before[0].split(/\s+/).length>=3){const w=before[0].split(/\s+/);father=w.pop();name=w.join(' ')}
+  const after=p.slice(ci+1);let sats='',school='';if(after[0]&&/^\d{5,}$/.test(after[0])){sats=after[0];school=after.slice(1).join(' ')}else school=after.join(' ');
+  return [name,father,p[ci],sats,school]}
+ const w=l.split(/\s+/);const ci=w.findIndex(isC);if(ci<1)return ['','',''];
+ const b=w.slice(0,ci);const father=b.length>=2?b.pop():'';const after=w.slice(ci+1);let sats='';if(after[0]&&/^\d{5,}$/.test(after[0]))sats=after.shift();
+ return [b.join(' '),father,w[ci],sats,after.join(' ')]}
+$('#s1Sch').onchange=()=>{$('#s1SchO').style.display=$('#s1Sch').value==='other'?'':'none'};
+$('#s1Add').onclick=()=>guard(async()=>{const name=$('#s1Name').value.trim(),father=$('#s1Father').value.trim(),c=+$('#s1Cls').value,sats=$('#s1Sats').value.trim();
+ const school=$('#s1Sch').value==='other'?$('#s1SchName').value.trim():CFG.school;
+ if(!name){alert('ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು ಬರೆಯಿರಿ');return}if(!classes().includes(c)){alert('ತರಗತಿ ಆರಿಸಿ');return}if($('#s1Sch').value==='other'&&!school){alert('ಶಾಲೆಯ ಹೆಸರು ಬರೆಯಿರಿ');return}
+ if(sats&&EXAM.students.some(s=>s.sats&&s.sats===sats)){alert('ಈ SATS ಸಂಖ್ಯೆಯ ವಿದ್ಯಾರ್ಥಿ ಈಗಾಗಲೇ ಪಟ್ಟಿಯಲ್ಲಿದ್ದಾರೆ');return}
+ const reg=nextReg(c,schoolCodeFor(school||CFG.school));EXAM.students.push({name,father,cls:c,sats,school:school||CFG.school||'',reg});await saveExam();renderStudents();
+ ['#s1Name','#s1Father','#s1Sats'].forEach(s=>$(s).value='');$('#s1Msg').innerHTML=`✔ <b>${esc(name)}</b> ಸೇರಿಸಲಾಗಿದೆ – ನೋಂದಣಿ ಸಂಖ್ಯೆ <b>${reg}</b>`;$('#s1Name').focus()});
+function fillS1(){const o=classes().map(c=>`<option value="${c}">${c}ನೇ ತರಗತಿ</option>`).join('');const v=$('#s1Cls').value;$('#s1Cls').innerHTML=o;if(v)$('#s1Cls').value=v;
+ $('#s1Sch').innerHTML=`<option value="own">${esc(CFG.school||'ನಮ್ಮ ಶಾಲೆ')}</option><option value="other">ಬೇರೆ ಶಾಲೆ</option>`;$('#s1SchO').style.display='none'}
+
+/* ---------- ಅರ್ಜಿಗಳ ಸ್ವಯಂ ಅನುಮೋದನೆ ---------- */
+async function autoApprove(quiet){if(!CFG.autoApprove||!APPS)return 0;const l=APPS.filter(a=>(a.status||'pending')==='pending');if(!l.length)return 0;
+ await approveApps(l,quiet);return l.length}
+setInterval(()=>{if(!CFG||!STORE.user||document.hidden||$('#loading').style.display==='flex')return;
+ loadApps().then(()=>autoApprove(true)).then(n=>{if(n){toast(n+' ಹೊಸ ಅರ್ಜಿ – ವಿದ್ಯಾರ್ಥಿ ಪಟ್ಟಿಗೆ ಸೇರಿಸಲಾಗಿದೆ');renderApps();renderDash()}}).catch(()=>{})},90000);
+$('#apAuto').onchange=()=>guard(async()=>{CFG.autoApprove=$('#apAuto').checked;await STORE.set(P.site,CFG);if(CFG.autoApprove){await autoApprove();renderApps()}});
+
+/* ---------- ಮುಖಪುಟ: ಹಂತ ಹಂತದ ಕೆಲಸಗಳು ---------- */
+function goTab(t){const b=document.querySelector(`#tabs button[data-t="${t}"]`);if(b){b.click();window.scrollTo(0,0)}}
+async function toggleCfg(k){CFG[k]=!CFG[k];await STORE.set(P.site,CFG);renderSite();renderDash();toast(CFG[k]?'ಆನ್ ಮಾಡಲಾಗಿದೆ – ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಕಾಣುತ್ತದೆ':'ಆಫ್ ಮಾಡಲಾಗಿದೆ')}
+function renderSteps(){const cs=classes();const pend=APPS?APPS.filter(a=>(a.status||'pending')==='pending').length:0,appN=APPS?APPS.length:0;
+ const need=c=>CFG.blueprint[c].reduce((a,b)=>a+(+b.n||0),0);
+ const qok=cs.every(c=>CFG.blueprint[c].every(b=>!+b.n||[...BANK.values()].filter(q=>q.sec===b.sec&&q.status!=='retired'&&(!SECS[b.sec].subj||q.cls===c)).length>=+b.n));
+ const qtxt=cs.map(c=>`${c}ನೇ: `+CFG.blueprint[c].filter(b=>+b.n).map(b=>{const a=[...BANK.values()].filter(q=>q.sec===b.sec&&q.status!=='retired'&&(!SECS[b.sec].subj||q.cls===c)).length;return `${secName(b.sec)} <b class="${a>=b.n?'':'bad'}">${a}</b>/${b.n}`}).join(', ')).join('<br>');
+ const papOk=cs.every(c=>PAPERS[c+'_final']&&PAPERS[c+'_final'].locked);
+ const nScan=SCANS?new Set(SCANS.map(s=>s.reg)).size:null;
+ const S=[
+  {ok:!!(CFG.school&&CFG.examDate),t:'ಶಾಲೆ ಮತ್ತು ಪರೀಕ್ಷೆಯ ವಿವರ',d:CFG.school?`${esc(CFG.school)} • ಪರೀಕ್ಷೆ: <b>${esc(fmtDate(CFG.examDate))}</b>`:'ಶಾಲೆಯ ಹೆಸರು, ಪರೀಕ್ಷಾ ದಿನಾಂಕ, ಬಹುಮಾನ, ಪ್ರಾಯೋಜಕರು ತುಂಬಿ ಉಳಿಸಿ.',b:[['✏ ತುಂಬಿ/ಬದಲಿಸಿ',"goTab('site')"]]},
+  {ok:!BANK_ERR,t:'ಪ್ರಶ್ನೆ ಬ್ಯಾಂಕ್ (GitHub) ಸಂಪರ್ಕ',d:BANK_ERR?'GitHub ಟೋಕನ್ ಹಾಕಬೇಕು (ಈ ಸಾಧನದಲ್ಲಿ ಒಮ್ಮೆ).':'ಸಂಪರ್ಕವಿದೆ.',b:[['⚙ ಟೋಕನ್',"document.getElementById('setBox').open=true;document.getElementById('setBox').scrollIntoView()"]]},
+  {ok:CFG.appsOpen,t:'ಆನ್‌ಲೈನ್ ಅರ್ಜಿ ಸ್ವೀಕಾರ',d:(CFG.appsOpen?`<b class="good">ಆನ್ ಆಗಿದೆ</b> – ಕೊನೆಯ ದಿನ ${esc(fmtShort(CFG.appsLastDate))}. `:'<b class="bad">ಆಫ್ ಆಗಿದೆ</b> – ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಅರ್ಜಿ ನಮೂನೆ ಕಾಣುವುದಿಲ್ಲ. ')+`ಬಂದ ಅರ್ಜಿಗಳು: <b>${appN}</b>${pend?` (ಬಾಕಿ ${pend})`:''}. ${CFG.autoApprove?'ಅರ್ಜಿಗಳು ತಾನಾಗಿಯೇ ವಿದ್ಯಾರ್ಥಿ ಪಟ್ಟಿಗೆ ಸೇರುತ್ತವೆ.':''}`,b:[[CFG.appsOpen?'⏸ ಅರ್ಜಿ ನಿಲ್ಲಿಸು':'▶ ಅರ್ಜಿ ಆರಂಭಿಸು',"guard(()=>toggleCfg('appsOpen'))"],['👀 ಅರ್ಜಿಗಳು',"goTab('apps')"]]},
+  {ok:EXAM.students.length>0,t:'ವಿದ್ಯಾರ್ಥಿಗಳು',d:`ಪಟ್ಟಿಯಲ್ಲಿ <b>${EXAM.students.length}</b> ವಿದ್ಯಾರ್ಥಿಗಳು (${cs.map(c=>`${c}ನೇ: ${EXAM.students.filter(s=>s.cls===c).length}`).join(', ')}). ಅರ್ಜಿ ಹಾಕದವರನ್ನು ಕೈಯಾರೆ ಸೇರಿಸಬಹುದು.`,b:[['➕ ವಿದ್ಯಾರ್ಥಿ ಸೇರಿಸಿ',"goTab('stu')"]]},
+  {ok:qok,t:'ಪ್ರಶ್ನೆಗಳು',d:'ಪ್ರತಿ ವಿಭಾಗದಲ್ಲಿ ಇರುವ / ಬೇಕಾದ ಪ್ರಶ್ನೆಗಳು:<br>'+qtxt,b:[['✍ ಪ್ರಶ್ನೆ ಸೇರಿಸಿ',"goTab('bank')"]]},
+  {ok:cs.every(c=>CFG.syllabus[c].chapters.length),t:'ಪಠ್ಯಕ್ರಮ (ಅಧ್ಯಾಯಗಳ ಆಯ್ಕೆ)',d:cs.map(c=>`${c}ನೇ: ${CFG.syllabus[c].chapters.length} ಅಧ್ಯಾಯ`).join(' • ')+' – ಪ್ರಶ್ನೆಗಳನ್ನು ಸೇರಿಸಿದ ನಂತರ "ಸ್ವಯಂ ಆಯ್ಕೆ" ಒತ್ತಿ ಉಳಿಸಿ.',b:[['📖 ಪಠ್ಯಕ್ರಮ',"goTab('syl')"]]},
+  {ok:papOk,t:'ಪ್ರಶ್ನೆಪತ್ರಿಕೆ ತಯಾರಿ ಮತ್ತು ಮುದ್ರಣ',d:cs.map(c=>{const p=PAPERS[c+'_final'];return `${c}ನೇ: ${p?(p.locked?'<b class="good">ಅಂತಿಮ 🔒</b>':'ತಯಾರಾಗಿದೆ, ಅಂತಿಮಗೊಳಿಸಿಲ್ಲ'):'ಇನ್ನೂ ಇಲ್ಲ'}`}).join(' • '),b:[['📝 ಪ್ರಶ್ನೆಪತ್ರಿಕೆ',"goTab('paper')"]]},
+  {ok:CFG.htOpen,t:'ಹಾಲ್ ಟಿಕೆಟ್',d:(CFG.htOpen?'<b class="good">ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಲಭ್ಯ</b>':'ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಇನ್ನೂ ತೋರಿಸಿಲ್ಲ')+' – ಪರೀಕ್ಷೆಗೆ ಸುಮಾರು 7–10 ದಿನ ಮೊದಲು ಆನ್ ಮಾಡಿ. ಶಾಲೆಯಲ್ಲೇ ಮುದ್ರಿಸಿ ಕೊಡಲು "ವಿದ್ಯಾರ್ಥಿಗಳು" ಟ್ಯಾಬ್.',b:[[CFG.htOpen?'⏸ ಮರೆಮಾಡು':'▶ ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ತೋರಿಸು',"guard(()=>toggleCfg('htOpen'))"],['🖨 ಹಾಲ್ ಟಿಕೆಟ್/OMR ಮುದ್ರಿಸು',"goTab('stu')"]]},
+  {ok:nScan!==null&&EXAM.students.length>0&&nScan>=EXAM.students.length,t:'ಪರೀಕ್ಷೆಯ ನಂತರ: OMR ಸ್ಕ್ಯಾನ್',d:nScan===null?'ಮೊಬೈಲ್ ಕ್ಯಾಮೆರಾದಿಂದ OMR ಹಾಳೆಗಳನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ.':`ಸ್ಕ್ಯಾನ್ ಆಗಿದ್ದು: <b>${nScan}</b> / ${EXAM.students.length}`,b:[['📷 ಸ್ಕ್ಯಾನ್',"goTab('scan')"]]},
+  {ok:!!(CFG.results&&CFG.results.published),t:'ಫಲಿತಾಂಶ ಪ್ರಕಟ ಮತ್ತು ಪ್ರಮಾಣಪತ್ರ',d:CFG.results&&CFG.results.published?'<b class="good">ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಪ್ರಕಟವಾಗಿದೆ</b>':'ಸ್ಕ್ಯಾನ್ ಮುಗಿದ ಮೇಲೆ ಫಲಿತಾಂಶ ಪರಿಶೀಲಿಸಿ ಪ್ರಕಟಿಸಿ.',b:[['🏅 ಫಲಿತಾಂಶ',"goTab('res')"]]}];
+ $('#steps').innerHTML=S.map((s,i)=>`<div class="step ${s.ok?'done':''}"><div class="sn">${s.ok?'✔':i+1}</div><div class="sb"><b>${s.t}</b><div class="note">${s.d}</div><div>${s.b.map(([l,f])=>`<button class="b ${s.ok?'sec':''} sm" onclick="${f}">${l}</button>`).join(' ')}</div></div></div>`).join('')}
+
+/* ---------- ಸುಲಭ ಪ್ರಶ್ನೆ ಸೇರಿಸುವಿಕೆ (ಅಂಟಿಸಿ) ---------- */
+let EZ=[];
+const KN_L={'ಅ':'A','ಆ':'B','ಇ':'C','ಈ':'D','a':'A','b':'B','c':'C','d':'D','A':'A','B':'B','C':'C','D':'D','1':'A','2':'B','3':'C','4':'D'};
+const KN_D=s=>/ಸುಲಭ|easy/i.test(s)?'easy':/ಕಠಿಣ|hard/i.test(s)?'hard':/ಮಧ್ಯಮ|medium/i.test(s)?'medium':'';
+function ezFill(){const v=$('#ezSec').value;$('#ezSec').innerHTML=SEC_ORDER.map(s=>`<option value="${s}">${secName(s)}</option>`).join('');if(v)$('#ezSec').value=v;
+ const c=$('#ezCls').value;$('#ezCls').innerHTML=classes().map(x=>`<option value="${x}">${x}ನೇ ತರಗತಿ</option>`).join('');if(c)$('#ezCls').value=c;
+ if(!$('#ezYear').value)$('#ezYear').value=CFG.caYear;ezSecChg()}
+function ezSecChg(){const s=$('#ezSec').value;document.querySelectorAll('.ezS').forEach(e=>e.style.display=SECS[s].subj?'':'none');document.querySelectorAll('.ezCA').forEach(e=>e.style.display=s==='ca'?'':'none');ezChList()}
+function ezChList(){const s=$('#ezSec').value,c=$('#ezCls').value,p=$('#ezPart').value;const ks=Object.keys(CFG.catalog).filter(k=>{const a=k.split('|');return a[0]===s&&a[1]===c&&a[2]===p});
+ $('#ezChList').innerHTML=ks.map(k=>`<option value="${esc(CFG.catalog[k])}">`).join('');const k=`${s}|${c}|${p}|${+$('#ezCh').value}`;if(CFG.catalog[k])$('#ezChName').value=CFG.catalog[k]}
+['#ezSec'].forEach(s=>$(s).onchange=ezSecChg);['#ezCls','#ezPart','#ezCh'].forEach(s=>$(s).onchange=ezChList);
+$('#ezChName').onchange=()=>{const s=$('#ezSec').value,c=$('#ezCls').value,p=$('#ezPart').value;const k=Object.keys(CFG.catalog).find(k=>{const a=k.split('|');return a[0]===s&&a[1]===c&&a[2]===p&&CFG.catalog[k]===$('#ezChName').value.trim()});if(k)$('#ezCh').value=k.split('|')[3]};
+$('#ezIn').oninput=()=>{$('#ezSave').disabled=true};
+function splitOpts(line){// "A) x B) y C) z D) w" -> [[L,text],...]
+ const re=/(?:^|\s)\(?([A-Da-dಅಆಇಈ])\s*[).:]\s*/g;const m=[];let x;while((x=re.exec(line)))m.push({L:KN_L[x[1]],i:x.index,e:re.lastIndex});
+ if(!m.length||m[0].i>1)return null;const out=[];for(let j=0;j<m.length;j++)out.push([m[j].L,line.slice(m[j].e,j+1<m.length?m[j+1].i:line.length).trim()]);return out}
+function ezParse(txt){const lines=txt.replace(/\r/g,'').split('\n');const qs=[];let cur=null;
+ const start=()=>{cur={q:[],o:{},en:[],eo:{},ans:'',diff:'',err:[]};qs.push(cur)};
+ for(let raw of lines){let l=raw.trim();if(!l){if(cur&&cur.ans)cur=null;continue}
+  let m;
+  if((m=l.match(/^(?:ಉತ್ತರ|ಉ|ಸರಿ ಉತ್ತರ|ans(?:wer)?|key)\s*[:：\-=.]\s*\(?\s*([A-Da-dಅಆಇಈ1-4])/i))){if(!cur)continue;cur.ans=KN_L[m[1]];continue}
+  if((m=l.match(/^(?:ಕಠಿಣತೆ|difficulty)\s*[:：\-]\s*(.+)/i))){if(cur)cur.diff=KN_D(m[1]);continue}
+  const en=l.match(/^EN\s*[:：]\s*(.*)$/i);const body=en?en[1]:l;
+  const ops=splitOpts(body);
+  if(ops&&cur&&(ops.length>=2||ops[0][0]==='A'||Object.keys(en?cur.eo:cur.o).length)){for(let [L,t] of ops){let star=false;if(/\*\s*$/.test(t)||/✔|✓/.test(t)){star=true;t=t.replace(/\s*[*✔✓]\s*$/,'').trim()}(en?cur.eo:cur.o)[L]=t;if(star&&!en)cur.ans=L}continue}
+  if(en){if(cur)cur.en.push(body);continue}
+  const qm=l.match(/^(?:ಪ್ರ|Q)?\s*\d{1,3}\s*[.)](?:\s+|$)(.*)$/i);
+  if(qm||!cur||Object.keys(cur.o).length){if(!(cur&&!Object.keys(cur.o).length&&!qm))start();cur.q.push(qm?qm[1]:l)}else cur.q.push(l)}
+ return qs.map(q=>{const o=LET.map(L=>q.o[L]||'');const eo=LET.map(L=>q.eo[L]||'');const r={q_kn:q.q.join(' ').trim(),opt_kn:o,q_en:q.en.join(' ').trim(),opt_en:eo,ans:q.ans,diff:q.diff,err:[]};
+  if(!r.q_kn)r.err.push('ಪ್ರಶ್ನೆ ಇಲ್ಲ');if(o.some(x=>!x))r.err.push('4 ಆಯ್ಕೆಗಳು ಬೇಕು (ಸಿಕ್ಕಿದ್ದು '+o.filter(Boolean).length+')');if(!r.ans)r.err.push('ಉತ್ತರ ಇಲ್ಲ');
+  if(r.q_en&&eo.some(x=>!x))r.err.push('ಇಂಗ್ಲಿಷ್ 4 ಆಯ್ಕೆಗಳು ಬೇಕು');return r})}
+$('#ezCheck').onclick=()=>guard(async()=>{const s=$('#ezSec').value;const subj=SECS[s].subj;
+ if(subj&&(!+$('#ezCh').value||!$('#ezChName').value.trim())){alert('ಅಧ್ಯಾಯ ಸಂಖ್ಯೆ ಮತ್ತು ಅಧ್ಯಾಯದ ಹೆಸರು ಬರೆಯಿರಿ');return}
+ EZ=ezParse($('#ezIn').value);if(!EZ.length){alert('ಪ್ರಶ್ನೆಗಳು ಸಿಗಲಿಲ್ಲ. ಮಾದರಿಯಂತೆ ಬರೆಯಿರಿ.');return}
+ const have=new Set([...BANK.values()].map(q=>q.q_kn.replace(/\s+/g,'')));EZ.forEach(q=>{if(have.has(q.q_kn.replace(/\s+/g,'')))q.dup=true});
+ let trFail=0;if($('#ezTr').checked){let i=0;for(const q of EZ){i++;$('#loadTxt').textContent=`ಇಂಗ್ಲಿಷ್ ಅನುವಾದ ${i}/${EZ.length}…`;if(q.err.length||q.q_en)continue;
+   try{const src=[q.q_kn,...q.opt_kn];let out=(await translate(src.join('\n'),'kn','en')).split('\n').map(x=>x.trim());if(out.length!==5)out=await Promise.all(src.map(x=>translate(x,'kn','en')));q.q_en=out[0];q.opt_en=out.slice(1,5);q.tr=true}catch(e){trFail++}}}
+ const ok=EZ.filter(q=>!q.err.length&&!q.dup).length;
+ $('#ezOut').innerHTML=`<p><b>${EZ.length}</b> ಪ್ರಶ್ನೆ ಸಿಕ್ಕಿವೆ: <b class="good">${ok} ಸರಿ</b>${EZ.length-ok?` • <b class="bad">${EZ.length-ok} ಸರಿಪಡಿಸಬೇಕು/ಈಗಾಗಲೇ ಇದೆ</b> (ಅವು ಉಳಿಯುವುದಿಲ್ಲ)`:''}${trFail?` • <b class="bad">${trFail} ಅನುವಾದ ಆಗಲಿಲ್ಲ</b> (ಇಂಗ್ಲಿಷ್ ಇಲ್ಲದೆ ಉಳಿಯುತ್ತವೆ; ನಂತರ ತಿದ್ದಬಹುದು)`:''}</p>`+
+  EZ.map((q,i)=>`<div class="qcard" style="${q.err.length||q.dup?'border-color:#fca5a5;background:#fef2f2':''}"><div class="top"><b>${i+1}</b>${q.err.length?` <span class="bad">⚠ ${q.err.join(', ')}</span>`:''}${q.dup?' <span class="bad">⚠ ಈ ಪ್ರಶ್ನೆ ಈಗಾಗಲೇ ಬ್ಯಾಂಕ್‌ನಲ್ಲಿದೆ</span>':''}</div>
+  <div class="two"><div>${esc(q.q_kn)}<ol type="A">${q.opt_kn.map((o,k)=>`<li${LET[k]===q.ans?' style="color:var(--g);font-weight:700"':''}>${LET[k]}) ${esc(o)}${LET[k]===q.ans?' ✔':''}</li>`).join('')}</ol></div>
+  <div class="note">${q.q_en?esc(q.q_en)+'<ol type="A">'+q.opt_en.map((o,k)=>`<li>${LET[k]}) ${esc(o)}</li>`).join('')+'</ol>':'(ಇಂಗ್ಲಿಷ್ ಇಲ್ಲ)'}</div></div></div>`).join('');
+ $('#ezSave').disabled=!ok},'ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ…');
+$('#ezSave').onclick=()=>guard(async()=>{const s=$('#ezSec').value;const subj=SECS[s].subj;const good=EZ.filter(q=>!q.err.length&&!q.dup);if(!good.length)return;
+ const base={sec:s,status:'active'};if(subj){Object.assign(base,{cls:+$('#ezCls').value,part:+$('#ezPart').value,ch:+$('#ezCh').value,ch_kn:$('#ezChName').value.trim()});CFG.catalog[`${s}|${base.cls}|${base.part}|${base.ch}`]=base.ch_kn}
+ else{base.level='jr';if(s==='ca')base.year=+$('#ezYear').value||+CFG.caYear;if(s==='ca')base.volatile=true}
+ const list=[];for(const q of good){const {q:n,e}=normQ(Object.assign({},base,{q_kn:q.q_kn,opt_kn:q.opt_kn,q_en:q.q_en,opt_en:q.q_en?q.opt_en:[],ans:q.ans,diff:q.diff||$('#ezDiff').value}));if(!e.length)list.push(n)}
+ const ids=await saveQs(list,(a,b)=>{$('#loadTxt').textContent=b?`ಉಳಿಸಲಾಗುತ್ತಿದೆ ${a}/${b}`:a});await STORE.set(P.site,CFG);
+ if(subj){const syl=CFG.syllabus[base.cls];const k=`${s}|${base.cls}|${base.part}|${base.ch}`;if(syl&&!syl.chapters.includes(k)){syl.chapters.push(k);await STORE.set(P.site,CFG)}}
+ $('#ezIn').value='';EZ=[];$('#ezSave').disabled=true;$('#ezOut').innerHTML=`<p class="good"><b>✔ ${ids.length} ಪ್ರಶ್ನೆಗಳು ಉಳಿದಿವೆ</b> (${esc(ids[0])} … ${esc(ids[ids.length-1])}). ಇನ್ನಷ್ಟು ಬರೆಯಬಹುದು.</p>`;
+ renderBank();renderSyl();renderDash()},'ಉಳಿಸಲಾಗುತ್ತಿದೆ…');
 
 </script>
 <script>
