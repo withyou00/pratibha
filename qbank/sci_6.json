@@ -1,39 +1,9 @@
 {
  "bank": "pratibha",
  "file": "sci_6.json",
- "updated": "2026-11-25T20:16:04.501Z",
- "count": 83,
+ "updated": "2026-11-25T20:17:07.417Z",
+ "count": 82,
  "questions": [
-  {
-   "id": "SC6P1-C2-01",
-   "sec": "sci",
-   "diff": "easy",
-   "q_kn": "ಒಂದು ಸಸ್ಯವು ಗಟ್ಟಿಯಾದ, ದಪ್ಪವಾದ, ಕಂದು ಬಣ್ಣದ ಕಾಂಡ ಹೊಂದಿದ್ದು, ಅದರ ರೆಂಬೆಗಳು ನೆಲದಿಂದ ಎತ್ತರದಲ್ಲಿ ಕಾಂಡದ ಮೇಲಿನ ಭಾಗದಲ್ಲಿ ಮೂಡುತ್ತವೆ. ಇದು ಯಾವ ಗುಂಪಿಗೆ ಸೇರುತ್ತದೆ?",
-   "q_en": "A plant has a hard, thick, brown stem with branches arising high above the ground on the upper part of the stem. It belongs to which group?",
-   "opt_kn": [
-    "ಮರ",
-    "ಪೊದೆ",
-    "ಗಿಡಮೂಲಿಕೆ",
-    "ನೆಲಬಳ್ಳಿ"
-   ],
-   "opt_en": [
-    "Tree",
-    "Shrub",
-    "Herb",
-    "Creeper"
-   ],
-   "ans": "A",
-   "exp_kn": "ದಪ್ಪ, ಗಟ್ಟಿ ಕಾಂಡ ಮತ್ತು ಎತ್ತರದಲ್ಲಿ ರೆಂಬೆಗಳು – ಇವು ಮರದ ಲಕ್ಷಣಗಳು (ಉದಾ: ಮಾವು).",
-   "img": "",
-   "status": "active",
-   "volatile": false,
-   "src": "",
-   "cls": 6,
-   "part": 1,
-   "ch": 2,
-   "ch_kn": "ಜೀವಜಗತ್ತಿನಲ್ಲಿ ವೈವಿಧ್ಯತೆ",
-   "updated": 1795637764500
-  },
   {
    "id": "SC6P1-C2-02",
    "sec": "sci",
