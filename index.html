@@ -470,6 +470,12 @@ const siteURL=code=>location.origin+location.pathname+(code?'?s='+code:'')+(MOCK
 const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const qtx=s=>{s=String(s??'');const m=s.match(/^([\s\S]*?(?:ಹೊಂದಿಸಿ|Match)[^:：]*[:：])\s*(\(1\)[\s\S]*?)\s+[–—-]\s+(\([aA]\)[\s\S]*)$/);if(!m)return esc(s).replace(/\s+(ಕಾರಣ \(R\)|Reason \(R\))/,'<br>$1');
+ const sp=(t,re)=>t.split(re).map(x=>x.trim()).filter(Boolean),A=sp(m[2],/\(\d\)/),B=sp(m[3],/\([a-eA-E]\)/);if(A.length<2||B.length<2)return esc(s);
+ const kn=/[ಀ-೿]/.test(m[1]),td='border:1px solid #444;padding:.15em .5em;vertical-align:top;text-align:left;font-weight:400';let r='';
+ for(let i=0;i<Math.max(A.length,B.length);i++)r+=`<tr><td style="${td}">${A[i]?`(${i+1}) ${esc(A[i])}`:''}</td><td style="${td}">${B[i]?`(${'abcde'[i]}) ${esc(B[i])}`:''}</td></tr>`;
+ const hd=/^\s*(ಹೊಂದಿಸಿ|Match)\s*[:：]\s*$/i.test(m[1])?(kn?'ಕೆಳಗಿನವುಗಳನ್ನು ಹೊಂದಿಸಿ ಬರೆಯಿರಿ:':'Match the following:'):esc(m[1]);
+ return `${hd}<table class="mtch" style="border-collapse:collapse;margin:.25em 0;width:100%;font-size:inherit"><tr><th style="${td};font-weight:700">${kn?'ಪಟ್ಟಿ - ಎ':'List - A'}</th><th style="${td};font-weight:700">${kn?'ಪಟ್ಟಿ - ಬಿ':'List - B'}</th></tr>${r}</table>`};
 const LET=['A','B','C','D'];
 const SECS={gk:{kn:'ಸಾಮಾನ್ಯ ಜ್ಞಾನ',en:'General Knowledge',subj:false},mat:{kn:'ಮಾನಸಿಕ ಸಾಮರ್ಥ್ಯ',en:'Mental Ability',subj:false},
  ca:{kn:'ಪ್ರಚಲಿತ ವಿದ್ಯಮಾನ',en:'Current Affairs',subj:false},lang:{kn:'ಭಾಷೆ',en:'Language',subj:false},
@@ -1091,7 +1097,7 @@ async function openMock(c){$('#mockModal').hidden=false;document.body.style.over
  for(const q of MK.qs){if(q.img&&q.img.startsWith('PUB:')){try{const d=await PUB.get(PP('public/')+''+q.img.slice(4));q.img=d?d.data:''}catch(e){q.img=''}}}
  $('#mkTitle').textContent=MK.title;
  $('#mkBody').innerHTML=`<p class="lead">ಒಟ್ಟು ${MK.qs.length} ಪ್ರಶ್ನೆಗಳು. ಉತ್ತರದ ವೃತ್ತ ಒತ್ತಿ, ಕೊನೆಯಲ್ಲಿ "ಮುಗಿಸಿ" ಒತ್ತಿ.</p>`+MK.qs.map((q,i)=>{const s=MK.sections.find(s=>s.from===i);
-  return (s?`<h3 class="msec">${esc(s.name)}</h3>`:'')+`<fieldset class="mq" id="mq${i}"><legend><b>${i+1}.</b> ${esc(q.q_kn)}${q.q_en?`<span class="en">${esc(q.q_en)}</span>`:''}</legend>${q.img?`<img src="${q.img}" alt="">`:''}
+  return (s?`<h3 class="msec">${esc(s.name)}</h3>`:'')+`<fieldset class="mq" id="mq${i}"><legend><b>${i+1}.</b> ${qtx(q.q_kn)}${q.q_en?`<div class="en">${qtx(q.q_en)}</div>`:''}</legend>${q.img?`<img src="${q.img}" alt="">`:''}
   ${q.opt_kn.map((o,k)=>`<label data-k="${LET[k]}"><input type="radio" name="m${i}" value="${LET[k]}"><i>${LET[k]}</i><span>${esc(o)}${q.opt_en&&q.opt_en[k]?` <small>${esc(q.opt_en[k])}</small>`:''}</span></label>`).join('')}
   <div class="ex">ಸರಿಯುತ್ತರ: <b>${q.ans}</b>${q.exp_kn?' – '+esc(q.exp_kn):''}</div></fieldset>`}).join('')+`<div id="mkScore" aria-live="polite"></div><div class="mend"><button class="btn p big" id="mkDone">ಮುಗಿಸಿ – ಅಂಕ ನೋಡಿ</button></div>`;
  $('#mkDone').onclick=()=>{let sc=0,att=0;MK.qs.forEach((q,i)=>{const sel=document.querySelector(`input[name=m${i}]:checked`);const box=$('#mq'+i);if(sel)att++;
@@ -1103,7 +1109,7 @@ $('#mkClose').onclick=closeMock;document.addEventListener('keydown',e=>{if(e.key
 $('#mkPrint').onclick=()=>{if(!MK)return;const op=a=>`<div style="display:grid;grid-template-columns:1fr 1fr;gap:1mm 4mm">${a.map((o,k)=>`<div>${LET[k]}) ${esc(o)}</div>`).join('')}</div>`;
  let h=`<div style="font-size:3.3mm;color:#000"><h2 style="text-align:center;margin:0 0 3mm">${esc(MK.title)}</h2><table style="width:100%;border-collapse:collapse">`;
  MK.qs.forEach((q,i)=>{const s=MK.sections.find(s=>s.from===i);if(s)h+=`<tr><td colspan="2" style="border:.25mm solid #000;background:#eee;font-weight:700;text-align:center;padding:1.5mm">${esc(s.name)}</td></tr>`;
-  h+=`<tr><td style="border:.25mm solid #000;padding:1.5mm;width:50%;vertical-align:top">${q.q_en?`<b>${i+1}.</b> ${esc(q.q_en)}${op(q.opt_en)}`:''}</td><td style="border:.25mm solid #000;padding:1.5mm;vertical-align:top"><b>${i+1}.</b> ${esc(q.q_kn)}${op(q.opt_kn)}</td></tr>`;
+  h+=`<tr><td style="border:.25mm solid #000;padding:1.5mm;width:50%;vertical-align:top">${q.q_en?`<b>${i+1}.</b> ${qtx(q.q_en)}${op(q.opt_en)}`:''}</td><td style="border:.25mm solid #000;padding:1.5mm;vertical-align:top"><b>${i+1}.</b> ${qtx(q.q_kn)}${op(q.opt_kn)}</td></tr>`;
   if(q.img)h+=`<tr><td colspan="2" style="border:.25mm solid #000;text-align:center"><img src="${q.img}" style="max-height:50mm;max-width:120mm"></td></tr>`});
  h+=`</table><h3 style="margin-top:6mm">ಉತ್ತರ ಕೀ</h3><p>${MK.qs.map((q,i)=>`${i+1}-${q.ans}`).join(', ')}</p></div>`;doPrint(flowWrap(h))};
 window.pubBoot=boot;
@@ -1573,7 +1579,7 @@ function renderPaper(){const c=+$('#pCls').value||classes()[0],t=$('#pType').val
  on('#pgPub',()=>guard(()=>publishMock(c,true),'ಪ್ರಕಟಿಸಲಾಗುತ್ತಿದೆ…'));on('#pgUnpub',()=>guard(()=>publishMock(c,false)));
  on('#pgKey',()=>printKeys(p));document.querySelectorAll('[data-pp]').forEach(b=>b.onclick=()=>guard(()=>printPaper(p,b.dataset.pp),'ಮುದ್ರಣಕ್ಕೆ ಸಿದ್ಧವಾಗುತ್ತಿದೆ…'));
  if(p){$('#paperView').style.display='block';$('#paperList').innerHTML=p.qs.map((q,i)=>{const s=p.sections.find(s=>s.from===i);return (s?`<h3>${esc(s.name)} (${s.from+1}–${s.to+1})</h3>`:'')+
-   `<div class="paperq"><span class="n">${i+1}.</span> ${esc(q.q_kn)} <span class="pill">${DIFF[q.diff]}</span> <span class="pill">${esc(q.id)}</span><br><span class="note">${q.opt_kn.map((o,k)=>`${LET[k]}) ${esc(o)}`).join(' &nbsp; ')} → <b>${q.ans}</b></span>${p.locked?'':` <button class="b sec sm" data-rq="${i}">⇄ ಬದಲಿಸು</button>`}</div>`}).join('');
+   `<div class="paperq"><span class="n">${i+1}.</span> ${qtx(q.q_kn)} <span class="pill">${DIFF[q.diff]}</span> <span class="pill">${esc(q.id)}</span><br><span class="note">${q.opt_kn.map((o,k)=>`${LET[k]}) ${esc(o)}`).join(' &nbsp; ')} → <b>${q.ans}</b></span>${p.locked?'':` <button class="b sec sm" data-rq="${i}">⇄ ಬದಲಿಸು</button>`}</div>`}).join('');
   document.querySelectorAll('[data-rq]').forEach(b=>b.onclick=()=>guard(()=>replaceQ(c,t,+b.dataset.rq)))}else $('#paperView').style.display='none'}
 $('#pCls').onchange=renderPaper;$('#pType').onchange=renderPaper;
 async function printPaper(p,L){const perm=p.sets[L];const imgs={};for(const q of p.qs)if(q.img)imgs[q.id]=await getImg(q.img);doPrint(paperHTML(p,L,imgs))}
@@ -1604,7 +1610,7 @@ function paperHTML(p,L,imgs){const n=p.qs.length;
  let t=`<table class="q">`;
  p.sets[L].forEach((qi,pos)=>{const q=p.qs[qi];const s=p.sections.find(s=>s.from===pos);if(s)t+=`<tr><td class="sec" colspan="2">${esc(SECS[s.sec].en)} / ${esc(s.name)} (${s.from+1}–${s.to+1})</td></tr>`;
   const op=(arr)=>`<div class="op">${arr.map((o,k)=>`<div>${LET[k]}) ${esc(o)}</div>`).join('')}</div>`;
-  t+=`<tr><td>${q.q_en?`<b>${pos+1}.</b> ${esc(q.q_en)}${op(q.opt_en)}`:''}</td><td><b>${pos+1}.</b> ${esc(q.q_kn)}${op(q.opt_kn)}</td></tr>`;
+  t+=`<tr><td>${q.q_en?`<b>${pos+1}.</b> ${qtx(q.q_en)}${op(q.opt_en)}`:''}</td><td><b>${pos+1}.</b> ${qtx(q.q_kn)}${op(q.opt_kn)}</td></tr>`;
   if(imgs[q.id])t+=`<tr><td colspan="2" class="qi"><img src="${imgs[q.id]}"></td></tr>`});
  t+=`</table><p style="text-align:center;margin-top:4mm">*****</p>`;
  return h+flowWrap(t,'ppr')+`<div class="page ppr"><div style="padding:12mm"><h2>ರಫ್ ಕೆಲಸಕ್ಕಾಗಿ / For Rough Work</h2></div></div>`}
