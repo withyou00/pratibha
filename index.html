@@ -214,6 +214,10 @@ footer a{color:#fff}.adm{color:#F4B9B9!important;font-size:13px;text-decoration:
 .kb i.on{background:var(--rd);border-color:var(--rd);color:#fff}
 .kfoot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-top:14px;color:var(--mut);font-size:14.5px}.kfoot p{margin:0;max-width:70ch}
 @media(max-width:560px){.kgrid{grid-template-columns:repeat(auto-fill,minmax(122px,1fr))}.cd .u{min-width:54px}}
+.pn.pmin{color:var(--rd);font-weight:700;font-style:normal}
+.pd .pzt{grid-column:2;font-style:normal;font-size:13px;font-weight:700;color:var(--rd)}
+.nopz{margin:10px 0 0;font-size:14px;color:var(--mut);background:var(--paper2,#fff7df);border-left:4px solid var(--rd);padding:8px 10px;border-radius:6px}
+.lead small{font-size:.8em;color:var(--mut)}
 
 </style>
 <style id="cssAdm" media="not all">
@@ -705,6 +709,9 @@ const PRINT_CSS=`#printArea{display:none}
 table.pgw{width:100%;border-collapse:collapse}table.pgw>thead>tr>td,table.pgw>tfoot>tr>td{height:11mm;padding:0;border:0}table.pgw>tbody>tr>td{padding:0;border:0}}
 .page svg{display:block}`;
 
+const prizeMinOf=C=>Math.max(0,+((C||{}).prizeMin)||0);
+const prizeRule=C=>{const m=prizeMinOf(C);return m?`ಬಹುಮಾನಕ್ಕೆ ಅರ್ಹರಾಗಲು ಕನಿಷ್ಠ ${m} ಅಂಕ ಪಡೆದಿರಬೇಕು. ಸ್ಥಾನ ಪಡೆದರೂ ${m} ಅಂಕಕ್ಕಿಂತ ಕಡಿಮೆ ಇದ್ದರೆ ಬಹುಮಾನ ನೀಡಲಾಗುವುದಿಲ್ಲ.`:''};
+
 document.write('<style>'+PRINT_CSS+'</style>');
 </script>
 </head>
@@ -885,7 +892,8 @@ document.write('<style>'+PRINT_CSS+'</style>');
    <label class="f">ಸಾಮಾನ್ಯ ಜ್ಞಾನ<input data-note="gk"></label><label class="f">ಮಾನಸಿಕ ಸಾಮರ್ಥ್ಯ<input data-note="mat"></label><label class="f">ಪ್ರಚಲಿತ ವಿದ್ಯಮಾನ (ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ "ನವೆಂಬರ್ 1 ರಿಂದ ಜನವರಿ 10 ರವರೆಗಿನ" ಎಂದು ತಾನಾಗಿಯೇ ಸೇರುತ್ತದೆ)<input data-note="ca"></label>
   </section>
   <section class="sheet wide"><h2>ಬಹುಮಾನಗಳು</h2><div class="tw" id="prizeEd"></div><button class="b ghost sm" id="prizeAdd">+ ಬಹುಮಾನ</button>
-   <label class="f">ಬಹುಮಾನದ ಟಿಪ್ಪಣಿ<input data-c="prizeNote"></label></section>
+   <div class="grid"><label class="f">ಬಹುಮಾನಕ್ಕೆ ಕನಿಷ್ಠ ಅಂಕ (0 = ಮಿತಿ ಇಲ್ಲ)<input data-c="prizeMin" type="number" min="0" max="100"></label><label class="f">ಬಹುಮಾನದ ಟಿಪ್ಪಣಿ<input data-c="prizeNote"></label></div>
+   <p class="note">ಸ್ಥಾನ ಪಡೆದರೂ ಕನಿಷ್ಠ ಅಂಕ ತಲುಪದಿದ್ದರೆ ಬಹುಮಾನ ಮತ್ತು ಪ್ರಶಂಸಾ ಪತ್ರ ಇಲ್ಲ. ಈ ಮಿತಿ ವೆಬ್‌ಸೈಟ್, ನಿಯಮಗಳು ಮತ್ತು ಪ್ರಶ್ನೆಪತ್ರಿಕೆಯ ಮುಖಪುಟದಲ್ಲಿ ತಾನಾಗಿ ಕಾಣುತ್ತದೆ.</p></section>
   <section class="sheet wide"><h2>ಪ್ರಮುಖ ದಿನಾಂಕಗಳು (ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ)</h2><div class="tw" id="tlEd"></div><button class="b ghost sm" id="tlAdd">+ ದಿನಾಂಕ</button></section>
   <section class="sheet wide"><h2>ಪ್ರಾಯೋಜಕರು</h2><div class="tw" id="spEd"></div><button class="b ghost sm" id="spAdd">+ ಪ್ರಾಯೋಜಕರು</button></section>
   <section class="sheet wide"><h2>ನಿಯಮಗಳು</h2><label class="f">ಪ್ರತಿ ಸಾಲಿಗೆ ಒಂದು ನಿಯಮ<textarea data-c="rulesTxt" rows="6"></textarea></label></section>
@@ -950,7 +958,7 @@ function render(){const cls=(C.classes||[]).map(Number);document.title=`${C.exam
  const notice=`<div class="hang" aria-label="ಬಹುಮಾನಗಳು ಮತ್ತು ಪ್ರಾಯೋಜಕರು"><span class="string" aria-hidden="true"></span><span class="pin" aria-hidden="true"></span>
   <div class="note"><div class="nh">ಬಹುಮಾನಗಳು</div>
    ${(C.prizes||[]).map(p=>`<div class="pz"><span>${esc(p.cls)}ನೇ ತರಗತಿ<small>${esc(p.title)}</small></span><b>${inr(p.amount)}</b></div>`).join('')}
-   ${C.prizeNote?`<p class="pn">${esc(C.prizeNote)}</p>`:''}
+   ${prizeMinOf(C)?`<p class="pn pmin">🏅 ಕನಿಷ್ಠ ${prizeMinOf(C)} ಅಂಕ ಪಡೆದವರಿಗೆ ಮಾತ್ರ ಬಹುಮಾನ</p>`:''}${C.prizeNote?`<p class="pn">${esc(C.prizeNote)}</p>`:''}
    <div class="nh2">ಬಹುಮಾನದ ಪ್ರಾಯೋಜಕರು</div>
    ${sp.length?`<ul class="spl">${sp.map(s=>`<li><b>${esc(s.name)}</b>${s.note?`<small>${esc(s.note)}</small>`:''}</li>`).join('')}</ul>`:'<p class="pn soon">ಶೀಘ್ರದಲ್ಲೇ ಪ್ರಕಟಿಸಲಾಗುವುದು</p>'}
   </div></div>`;
@@ -986,10 +994,10 @@ function render(){const cls=(C.classes||[]).map(Number);document.title=`${C.exam
     <div class="omrhow"><div><span class="bb"><i>A</i><i>B</i><i class="f"></i><i>D</i></span><small>ಸರಿ</small></div><div><span class="bb"><i>✓</i><i>✗</i><i class="h"></i><i>•</i></span><small>ತಪ್ಪು</small></div></div>
     <button class="btn p" id="omrDl">ಖಾಲಿ OMR ನೋಡಿ / ಮುದ್ರಿಸಿ</button></div>
   </div></section>`;
- if(res.published){h+=`<section class="sec wrap" id="results"><h2>ಫಲಿತಾಂಶ</h2><p class="lead">ಎಲ್ಲಾ ವಿಜೇತರಿಗೆ ಅಭಿನಂದನೆಗಳು!</p><div class="resg">`+
-  cls.map(c=>{const l=(res.lists||{})[c]||[];const top=l.filter(x=>x.rank<=3);return `<div class="rc"><h3>${c}ನೇ ತರಗತಿ</h3>${l.length?`<div class="podium">${top.map(x=>`<div class="pd r${x.rank}"><span class="rk">${x.rank}</span><b>${esc(x.name)}</b><small>${esc(x.school||'')}</small><em>${x.score}/${x.of}</em></div>`).join('')}</div>
+ if(res.published){h+=`<section class="sec wrap" id="results"><h2>ಫಲಿತಾಂಶ</h2><p class="lead">ಎಲ್ಲಾ ವಿಜೇತರಿಗೆ ಅಭಿನಂದನೆಗಳು!${prizeMinOf(C)?` <small>(ಬಹುಮಾನಕ್ಕೆ ಕನಿಷ್ಠ ${prizeMinOf(C)} ಅಂಕ)</small>`:''}</p><div class="resg">`+
+  cls.map(c=>{const l=(res.lists||{})[c]||[];const top=l.filter(x=>x.rank<=3);return `<div class="rc"><h3>${c}ನೇ ತರಗತಿ</h3>${l.length?`<div class="podium">${top.map(x=>`<div class="pd r${x.rank}"><span class="rk">${x.rank}</span><b>${esc(x.name)}</b><small>${esc(x.school||'')}</small><em>${x.score}/${x.of}</em>${x.prize?`<i class="pzt">🏆 ${esc(x.prize)}</i>`:''}</div>`).join('')}</div>${prizeMinOf(C)&&!l.some(x=>x.prize)?`<p class="nopz">ಈ ತರಗತಿಯಲ್ಲಿ ಯಾರೂ ಕನಿಷ್ಠ ${prizeMinOf(C)} ಅಂಕ ತಲುಪದ ಕಾರಣ ಈ ವರ್ಷ ಬಹುಮಾನ ನೀಡಲಾಗುವುದಿಲ್ಲ.</p>`:''}
    ${l.length>top.length?`<table class="rt">${l.filter(x=>x.rank>3).map(x=>`<tr><td>${x.rank}</td><td><b>${esc(x.name)}</b><br><small>${esc(x.school||'')}</small></td><td>${x.score}/${x.of}</td></tr>`).join('')}</table>`:''}`:'<p class="empty">—</p>'}</div>`}).join('')+'</div></section>'}
- h+=`<section class="sec wrap" id="rules"><h2>ನಿಯಮಗಳು</h2><ol class="rules">${(C.rules||[]).map(r=>`<li>${esc(r)}</li>`).join('')}</ol></section>`;
+ h+=`<section class="sec wrap" id="rules"><h2>ನಿಯಮಗಳು</h2><ol class="rules">${(C.rules||[]).concat(prizeRule(C)?[prizeRule(C)]:[]).map(r=>`<li>${esc(r)}</li>`).join('')}</ol></section>`;
  h+=`<footer id="contact"><div class="fin wrap"><div class="fl1">${map3d('fmap')}<div><b>${esc(C.examName)} ${esc(C.activeYear)}</b><br>${esc(C.school||'')}${C.address?'<br>'+esc(C.address):''}${C.hm?'<br>ಮುಖ್ಯ ಶಿಕ್ಷಕರು: '+esc(C.hm):''}</div></div>
   <div>${C.contact?`ಸಂಪರ್ಕ: <a href="tel:${esc(C.contact)}">${esc(C.contact)}</a><br>`:''}<a class="adm" href="#admin">ಅಡ್ಮಿನ್</a></div></div><div class="flagband" aria-hidden="true"><i></i><i></i></div></footer>`;
  root.innerHTML=h;
@@ -1128,7 +1136,7 @@ const DEF_NOTES={gk:'ಭಾರತ, ಕರ್ನಾಟಕ ಮತ್ತು ಬೆ�
  ca:'ರಾಷ್ಟ್ರೀಯ, ರಾಜ್ಯ ಮತ್ತು ಅಂತರರಾಷ್ಟ್ರೀಯ ಪ್ರಮುಖ ಘಟನೆಗಳು, ಪ್ರಶಸ್ತಿಗಳು, ಕ್ರೀಡೆ, ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು'};
 function defCfg(){return {activeYear:'2026-27',examName:'ಪ್ರತಿಭಾನ್ವೇಷಣೆ ಪರೀಕ್ಷೆ',tagline:'7 ಮತ್ತು 8ನೇ ತರಗತಿ ವಿದ್ಯಾರ್ಥಿಗಳಿಗಾಗಿ',
  school:'',address:'',contact:'',schoolCode:'001',center:'',examDate:'2027-01-09',examTime:'ಬೆಳಿಗ್ಗೆ 10:00 ರಿಂದ 12:00',durationMin:120,hm:'',
- classes:[7,8],sets:4,resultsTopN:10,announcement:'',prizeNote:'ಗಣರಾಜ್ಯೋತ್ಸವದಂದು (ಜನವರಿ 26) ಬಹುಮಾನ ವಿತರಣೆ',
+ classes:[7,8],sets:4,resultsTopN:10,prizeMin:80,announcement:'',prizeNote:'ಗಣರಾಜ್ಯೋತ್ಸವದಂದು (ಜನವರಿ 26) ಬಹುಮಾನ ವಿತರಣೆ',
  prizes:[{cls:7,title:'ಪ್ರಥಮ ಬಹುಮಾನ',amount:1000},{cls:8,title:'ಪ್ರಥಮ ಬಹುಮಾನ',amount:1000}],
  timeline:[{date:'2026-12-01',label:'ಅರ್ಜಿ ಆರಂಭ'},{date:'2026-12-20',label:'ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಕೊನೆಯ ದಿನ'},{date:'2027-01-02',label:'ಹಾಲ್ ಟಿಕೆಟ್ ಡೌನ್‌ಲೋಡ್'},{date:'2027-01-09',label:'ಪರೀಕ್ಷೆ'},{date:'2027-01-10',label:'ಕೀ ಉತ್ತರ ಪ್ರಕಟಣೆ'},{date:'2027-01-16',label:'ಫಲಿತಾಂಶ'},{date:'2027-01-26',label:'ಬಹುಮಾನ ವಿತರಣೆ'}],
  sponsors:[],rules:['ಎಲ್ಲಾ ಪ್ರಶ್ನೆಗಳು ಬಹು ಆಯ್ಕೆಯವು. ಪ್ರತಿ ಪ್ರಶ್ನೆಗೆ 1 ಅಂಕ. ತಪ್ಪು ಉತ್ತರಕ್ಕೆ ಅಂಕ ಕಳೆಯುವುದಿಲ್ಲ.','ಉತ್ತರಗಳನ್ನು OMR ಹಾಳೆಯಲ್ಲಿ ನೀಲಿ/ಕಪ್ಪು ಬಾಲ್‌ಪೆನ್‌ನಿಂದ ವೃತ್ತ ತುಂಬಿ ಗುರುತಿಸಬೇಕು.','ಹಾಲ್ ಟಿಕೆಟ್ ಇಲ್ಲದೆ ಪರೀಕ್ಷಾ ಕೊಠಡಿಗೆ ಪ್ರವೇಶವಿಲ್ಲ.','ಮೊಬೈಲ್ ಮತ್ತು ಕ್ಯಾಲ್ಕುಲೇಟರ್ ನಿಷೇಧ.','ಸಮಾನ ಅಂಕ ಬಂದರೆ ಮಾನಸಿಕ ಸಾಮರ್ಥ್ಯ, ನಂತರ ಗಣಿತ ವಿಭಾಗದ ಅಂಕ ಪರಿಗಣಿಸಲಾಗುತ್ತದೆ.','ಪ್ರತಿ ತರಗತಿಗೆ ಪ್ರತ್ಯೇಕ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ ಮತ್ತು ಪ್ರತ್ಯೇಕ ಬಹುಮಾನ.'],
@@ -1466,7 +1474,7 @@ $('#spAdd').onclick=()=>{readSite(true);CFG.sponsors.push({name:'',note:''});ren
 function readSite(soft){document.querySelectorAll('[data-c]').forEach(el=>{const k=el.dataset.c;let v=el.value.trim();
   if(k==='classes'){const cs=[...new Set(v.split(/[,\s]+/).map(Number).filter(x=>x>0&&x<=12))];if(!cs.length){if(soft)return;throw new Error('ಕನಿಷ್ಠ ಒಂದು ತರಗತಿ ಬೇಕು')}CFG.classes=cs;return}
   if(k==='rulesTxt'){CFG.rules=v.split('\n').map(x=>x.trim()).filter(Boolean);return}
-  if(['durationMin','sets','resultsTopN','reuseGap'].includes(k))v=+v||0;if(k==='schoolCode')v=(v.replace(/\D/g,'')||'1').padStart(3,'0').slice(-3);CFG[k]=v});
+  if(['durationMin','sets','resultsTopN','reuseGap','prizeMin'].includes(k))v=Math.max(0,+v||0);if(k==='schoolCode')v=(v.replace(/\D/g,'')||'1').padStart(3,'0').slice(-3);CFG[k]=v});
  document.querySelectorAll('[data-note]').forEach(el=>CFG.sylNotes[el.dataset.note]=el.value.trim())}
 $('#siteSave').onclick=()=>guard(async()=>{readSite();for(const c of classes()){if(nqOf(c)>100)throw new Error(`${c}ನೇ ತರಗತಿಯ ಒಟ್ಟು ಪ್ರಶ್ನೆ 100 ಮೀರಬಾರದು`)}
  CFG.timeline.sort((a,b)=>String(a.date).localeCompare(String(b.date)));CFG.sponsors=CFG.sponsors.filter(s=>s.name);
@@ -1615,7 +1623,7 @@ function paperHTML(p,L,imgs){const n=p.qs.length;
  t+=`</table><p style="text-align:center;margin-top:4mm">*****</p>`;
  return h+flowWrap(t,'ppr')+`<div class="page ppr"><div style="padding:12mm"><h2>ರಫ್ ಕೆಲಸಕ್ಕಾಗಿ / For Rough Work</h2></div></div>`}
 function coverPrize(){const pz=(CFG.prizes||[]);const sp=(CFG.sponsors||[]).filter(s=>s.name);if(!pz.length&&!sp.length)return '';
- return `<div class="cprz"><div class="pzl"><div class="ttl">ಬಹುಮಾನಗಳು / Prizes</div>${pz.map(p=>`<div>${esc(p.cls)}ನೇ ತರಗತಿ ${esc(p.title)}: <b>₹${Number(p.amount||0).toLocaleString('en-IN')}</b></div>`).join('')}${CFG.prizeNote?`<small>${esc(CFG.prizeNote)}</small>`:''}</div>
+ return `<div class="cprz"><div class="pzl"><div class="ttl">ಬಹುಮಾನಗಳು / Prizes</div>${prizeMinOf(CFG)?`<div><b>ಕನಿಷ್ಠ ${prizeMinOf(CFG)} ಅಂಕ ಪಡೆದವರಿಗೆ ಮಾತ್ರ / Minimum ${prizeMinOf(CFG)} marks</b></div>`:''}${pz.map(p=>`<div>${esc(p.cls)}ನೇ ತರಗತಿ ${esc(p.title)}: <b>₹${Number(p.amount||0).toLocaleString('en-IN')}</b></div>`).join('')}${CFG.prizeNote?`<small>${esc(CFG.prizeNote)}</small>`:''}</div>
   <div class="spl"><div class="ttl">ಬಹುಮಾನದ ಪ್ರಾಯೋಜಕರು / Prize Sponsors</div><div class="spg">${sp.length?sp.slice(0,6).map(s=>`<div><b>${esc(s.name)}</b>${s.note?`<small>${esc(s.note)}</small>`:''}</div>`).join(''):'<div>—</div>'}</div></div></div>`}
 function keysHTML(p){let h='';LET.slice(0,nsets()).forEach(L=>{const k=p.keys[L];
   h+=`<div class="kblk"><h3>${esc(CFG.examName)} ${esc(CFG.activeYear)} – ${p.cls}ನೇ ತರಗತಿ ${p.type==='mock'?'(ಮಾದರಿ)':''}</h3><h4>ಉತ್ತರ ಕೀ / Answer Key – ಸೆಟ್ ${L} • ${k.length} ಪ್ರಶ್ನೆಗಳು</h4><table class="kt">`;
@@ -1661,7 +1669,7 @@ function scoreOf(rec){const c=rec.cls||clsFromReg(rec.reg);const p=finalPaper(c)
  const n=key.length,sec=p.sections.map(()=>0);let total=0;const per=[];
  for(let i=0;i<n;i++){const ok=rec.answers[i]===key[i];per.push(ok);if(ok){total++;const si=p.sections.findIndex(s=>i>=s.from&&i<=s.to);if(si>=0)sec[si]++}}
  return {total,n,sec,per,set,cls:c,sections:p.sections}}
-function needsReview(r){return r.doubts.length>0||r.regDoubt||r.setDoubt||!stuByReg(r.reg)||r.dup}
+function needsReview(r){return r.doubts.length>0||r.regDoubt||r.setDoubt||!stuByReg(r.reg)||r.dup||(!r.edited&&!!setAlt(r))}
 async function storeResult(g,src){await ensureScans();const c=clsFromReg(g.reg);const nq=c?nqOf(c):100;
  const rec={id:'s'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),reg:g.reg,cls:c,set:nsets()===1?'A':g.set,answers:g.answers.slice(0,100),doubts:g.doubts.filter(q=>q<nq),regDoubt:g.regDoubt,setDoubt:nsets()>1&&g.setDoubt,dup:false,edited:false,time:Date.now(),src,by:STORE.user&&STORE.user.email};
  const prevs=rec.regDoubt?[]:SCANS.filter(r=>r.reg===rec.reg);
@@ -1671,7 +1679,7 @@ async function storeResult(g,src){await ensureScans();const c=clsFromReg(g.reg);
  if(g.rect)await new Promise(res=>g.rect.toBlob(async b=>{try{await IDB.put(rec.id,b)}catch(e){}res()},'image/jpeg',0.72));
  return {rec}}
 function resultCard(rec,repeat){const st=stuByReg(rec.reg),sc=scoreOf(rec),rv=needsReview(rec);const issues=[];
- if(!st)issues.push('ನೋಂದಣಿ ಸಂಖ್ಯೆ ಪಟ್ಟಿಯಲ್ಲಿಲ್ಲ');if(rec.regDoubt)issues.push('ನೋಂದಣಿ ಸಂಖ್ಯೆ ಅಸ್ಪಷ್ಟ');if(rec.setDoubt)issues.push('ಸೆಟ್ ಅಸ್ಪಷ್ಟ');if(rec.doubts.length)issues.push(rec.doubts.length+' ಉತ್ತರ ಸಂದೇಹ');if(rec.dup)issues.push('ಇದೇ ನೋಂದಣಿ ಸಂಖ್ಯೆಯ ಇನ್ನೊಂದು ಸ್ಕ್ಯಾನ್ ಇದೆ');
+ if(!st)issues.push('ನೋಂದಣಿ ಸಂಖ್ಯೆ ಪಟ್ಟಿಯಲ್ಲಿಲ್ಲ');if(rec.regDoubt)issues.push('ನೋಂದಣಿ ಸಂಖ್ಯೆ ಅಸ್ಪಷ್ಟ');if(rec.setDoubt)issues.push('ಸೆಟ್ ಅಸ್ಪಷ್ಟ');{const a=setAlt(rec);if(a)issues.push(`ಸೆಟ್ ತಪ್ಪಾಗಿರಬಹುದು: ಸೆಟ್ ${rec.set} ಕೀಯಿಂದ ${a.own}, ಸೆಟ್ ${a.L} ಕೀಯಿಂದ ${a.t} ಅಂಕ – ಹಾಜರಾತಿ ಪಟ್ಟಿ ನೋಡಿ ಪರಿಶೀಲಿಸಿ`)}if(rec.doubts.length)issues.push(rec.doubts.length+' ಉತ್ತರ ಸಂದೇಹ');if(rec.dup)issues.push('ಇದೇ ನೋಂದಣಿ ಸಂಖ್ಯೆಯ ಇನ್ನೊಂದು ಸ್ಕ್ಯಾನ್ ಇದೆ');
  return `<div class="res ${repeat||rv?'y':'g'}"><div class="big">${sc.err?'—':sc.total+' / '+sc.n}</div><div><b>${esc(st?st.name:'ಅಪರಿಚಿತ')}</b> • ${esc(rec.reg)} • ${esc(rec.cls||'?')}ನೇ ತರಗತಿ • ಸೆಟ್ ${esc(rec.set)}</div>
  ${sc.err?`<div class="bad">${esc(sc.err)}</div>`:''}${repeat?'<div>ಈ ಹಾಳೆ ಈಗಾಗಲೇ ಸ್ಕ್ಯಾನ್ ಆಗಿದೆ.</div>':''}
  ${issues.length?`<div class="bad">⚠ ${issues.join(' • ')}</div><button class="b" onclick="openReview('${rec.id}')">ಪರಿಶೀಲಿಸಿ</button>`:'<div class="ok">✔ ಸರಿಯಾಗಿ ಓದಲಾಗಿದೆ</div>'}</div>`}
@@ -1730,28 +1738,33 @@ function ranked(c){const p=finalPaper(c);const tie=(CFG.tieOrder||[]).map(s=>p?p
  const rows=(SCANS||[]).filter(r=>String(r.cls||clsFromReg(r.reg))===String(c)).map(r=>({r,s:scoreOf(r),st:stuByReg(r.reg)}));
  const cmp=(a,b)=>{const as=a.s.err?-1:a.s.total,bs=b.s.err?-1:b.s.total;if(bs!==as)return bs-as;for(const i of tie){const d=(b.s.sec?b.s.sec[i]:0)-(a.s.sec?a.s.sec[i]:0);if(d)return d}return 0};
  rows.sort((a,b)=>cmp(a,b)||a.r.reg.localeCompare(b.r.reg));let rank=0;rows.forEach((x,i)=>{if(i===0||cmp(rows[i-1],x)!==0)rank=i+1;x.rank=x.s.err?'-':rank});return rows}
+function prizeFor(c,x){if(!x||x.s.err||x.rank==='-')return null;const pz=(CFG.prizes||[]).filter(p=>String(p.cls)===String(c));const m=prizeMinOf(CFG);
+ if(!(x.rank<=pz.length))return null;if(m&&x.s.total<m)return null;return pz[x.rank-1]}
+function setAlt(rec){if(nsets()<2)return null;const c=rec.cls||clsFromReg(rec.reg);const p=finalPaper(c);if(!p||!LET.includes(rec.set))return null;
+ const sc=L=>{const k=p.keys[L]||'';let t=0;for(let i=0;i<k.length;i++)if(rec.answers[i]===k[i])t++;return t};const own=sc(rec.set);let best=null;
+ LET.slice(0,nsets()).forEach(L=>{if(L===rec.set)return;const t=sc(L);if(t>=own+Math.max(8,Math.round(p.qs.length*0.1))&&(!best||t>best.t))best={L,t}});return best?{...best,own}:null}
 function renderResults(){const c=+$('#rCls').value||classes()[0];if(!c)return;const rows=ranked(c);const p=finalPaper(c);const secs=p?p.sections:[];const flt=$('#rFilter').value;
  const reg=EXAM.students.filter(s=>s.cls===c);const done=new Set(rows.map(x=>x.r.reg));const missing=reg.filter(s=>!done.has(s.reg));const nrev=rows.filter(x=>needsReview(x.r)).length;
- $('#rSummary').innerHTML=`ಸ್ಕ್ಯಾನ್: <b>${rows.length}</b> • ನೋಂದಾಯಿತ: <b>${reg.length}</b> • ಪರಿಶೀಲನೆ ಬೇಕಾದವು: <b class="${nrev?'bad':'ok'}">${nrev}</b>${CFG.results.published?' • 🌐 ವಿಜೇತರು ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಪ್ರಕಟ':''}`+(missing.length?`<br>ಸ್ಕ್ಯಾನ್ ಆಗದವರು/ಗೈರು: ${missing.map(s=>esc(s.reg+' '+s.name)).join(', ')}`:'')+(p?'':'<br><span class="bad">ಅಂತಿಮ ಪತ್ರಿಕೆ ಲಾಕ್ ಆಗಿಲ್ಲ – ಅಂಕ ಲೆಕ್ಕ ಸಾಧ್ಯವಿಲ್ಲ</span>');
+ $('#rSummary').innerHTML=`ಸ್ಕ್ಯಾನ್: <b>${rows.length}</b> • ನೋಂದಾಯಿತ: <b>${reg.length}</b> • ಪರಿಶೀಲನೆ ಬೇಕಾದವು: <b class="${nrev?'bad':'ok'}">${nrev}</b>${CFG.results.published?' • 🌐 ವಿಜೇತರು ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಪ್ರಕಟ':''}${prizeMinOf(CFG)?` • 🏆 ಬಹುಮಾನಕ್ಕೆ ಕನಿಷ್ಠ ${prizeMinOf(CFG)} ಅಂಕ: ಅರ್ಹರು <b>${rows.filter(x=>prizeFor(c,x)).length}</b>${rows.length&&!rows.some(x=>prizeFor(c,x))?' <span class="bad">(ಯಾರೂ ಅರ್ಹರಿಲ್ಲ – ಬಹುಮಾನ ಇಲ್ಲ)</span>':''}`:''}`+(missing.length?`<br>ಸ್ಕ್ಯಾನ್ ಆಗದವರು/ಗೈರು: ${missing.map(s=>esc(s.reg+' '+s.name)).join(', ')}`:'')+(p?'':'<br><span class="bad">ಅಂತಿಮ ಪತ್ರಿಕೆ ಲಾಕ್ ಆಗಿಲ್ಲ – ಅಂಕ ಲೆಕ್ಕ ಸಾಧ್ಯವಿಲ್ಲ</span>');
  $('#resTbl').innerHTML=`<tr><th>ಸ್ಥಾನ</th><th>ನೋಂದಣಿ</th><th>ಹೆಸರು</th><th>ಸೆಟ್</th>${secs.map(s=>`<th>${esc(s.name.slice(0,9))}</th>`).join('')}<th>ಒಟ್ಟು</th><th>ಸ್ಥಿತಿ</th></tr>`+
-  rows.filter(x=>flt==='all'||needsReview(x.r)).map(x=>{const r=x.r,s=x.s;const tags=[];if(!x.st)tags.push('<span class="pill r">ಪಟ್ಟಿಯಲ್ಲಿಲ್ಲ</span>');if(r.dup)tags.push('<span class="pill r">ನಕಲು</span>');if(r.regDoubt)tags.push('<span class="pill y">ನೋಂದಣಿ?</span>');if(r.setDoubt)tags.push('<span class="pill y">ಸೆಟ್?</span>');if(r.doubts.length)tags.push(`<span class="pill y">${r.doubts.length} ಸಂದೇಹ</span>`);if(r.edited)tags.push('<span class="pill g">ಪರಿಶೀಲಿಸಲಾಗಿದೆ</span>');
+  rows.filter(x=>flt==='all'||needsReview(x.r)).map(x=>{const r=x.r,s=x.s;const tags=[];if(!x.st)tags.push('<span class="pill r">ಪಟ್ಟಿಯಲ್ಲಿಲ್ಲ</span>');if(r.dup)tags.push('<span class="pill r">ನಕಲು</span>');if(r.regDoubt)tags.push('<span class="pill y">ನೋಂದಣಿ?</span>');if(r.setDoubt)tags.push('<span class="pill y">ಸೆಟ್?</span>');{const a=r.edited?null:setAlt(r);if(a)tags.push(`<span class="pill y" title="ಸೆಟ್ ${a.L} ಕೀಯಿಂದ ${a.t} ಅಂಕ">ಸೆಟ್ ${a.L} ಆಗಿರಬಹುದು?</span>`)}{const pz=prizeFor(c,x);if(pz)tags.push(`<span class="pill g">🏆 ${esc(pz.title)}</span>`)}if(r.doubts.length)tags.push(`<span class="pill y">${r.doubts.length} ಸಂದೇಹ</span>`);if(r.edited)tags.push('<span class="pill g">ಪರಿಶೀಲಿಸಲಾಗಿದೆ</span>');
   return `<tr class="click" data-id="${r.id}"><td>${x.rank}</td><td>${esc(r.reg)}</td><td>${esc(x.st?x.st.name:'?')}</td><td>${esc(r.set)}</td>${secs.map((_,i)=>`<td>${s.err?'':s.sec[i]}</td>`).join('')}<td><b>${s.err?'<span class="bad">'+esc(s.err)+'</span>':s.total}</b></td><td>${tags.join('')||'<span class="pill g">✔</span>'}</td></tr>`}).join('');
  document.querySelectorAll('#resTbl tr.click').forEach(tr=>tr.onclick=()=>openReview(tr.dataset.id));scanStat()}
 $('#rCls').onchange=renderResults;$('#rFilter').onchange=renderResults;$('#rReload').onclick=()=>guard(async()=>{SCANS=null;await ensureScans();renderResults()},'ಲೋಡ್ ಆಗುತ್ತಿದೆ…');
-$('#rCsv').onclick=()=>{const out=[['ತರಗತಿ','ಸ್ಥಾನ','ನೋಂದಣಿ ಸಂಖ್ಯೆ','ಹೆಸರು','ತಂದೆ','SATS','ಶಾಲೆ','ಸೆಟ್','ವಿಭಾಗವಾರು ಅಂಕ','ಒಟ್ಟು','ಪರಿಶೀಲನೆ']];
- classes().forEach(c=>ranked(c).forEach(x=>out.push([c,x.rank,x.r.reg,x.st?x.st.name:'',x.st?x.st.father:'',x.st?x.st.sats:'',x.st?x.st.school:'',x.r.set,x.s.err?'':x.s.sections.map((s,i)=>s.name+':'+x.s.sec[i]).join('; '),x.s.err?x.s.err:x.s.total,needsReview(x.r)?'ಬೇಕು':''])));
+$('#rCsv').onclick=()=>{const out=[['ತರಗತಿ','ಸ್ಥಾನ','ನೋಂದಣಿ ಸಂಖ್ಯೆ','ಹೆಸರು','ತಂದೆ','SATS','ಶಾಲೆ','ಸೆಟ್','ವಿಭಾಗವಾರು ಅಂಕ','ಒಟ್ಟು','ಬಹುಮಾನ','ಪರಿಶೀಲನೆ']];
+ classes().forEach(c=>ranked(c).forEach(x=>out.push([c,x.rank,x.r.reg,x.st?x.st.name:'',x.st?x.st.father:'',x.st?x.st.sats:'',x.st?x.st.school:'',x.r.set,x.s.err?'':x.s.sections.map((s,i)=>s.name+':'+x.s.sec[i]).join('; '),x.s.err?x.s.err:x.s.total,(prizeFor(c,x)||{}).title||'',needsReview(x.r)?'ಬೇಕು':''])));
  dl('pratibha_result.csv','﻿'+out.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n'),'text/csv')};
 $('#rPrint').onclick=()=>{const c=+$('#rCls').value;const rows=ranked(c);const p=finalPaper(c);if(!rows.length||!p){alert('ಫಲಿತಾಂಶ ಇಲ್ಲ');return}
- doPrint(chunk(rows,28).map(pg=>`<div class="page"><div class="lp"><h3>${esc(CFG.examName)} ${esc(CFG.activeYear)}</h3><h4>${esc(CFG.school)} • ${c}ನೇ ತರಗತಿ • ಮೆರಿಟ್ ಪಟ್ಟಿ (ಗರಿಷ್ಠ ಅಂಕ ${p.qs.length})</h4>
- <table><tr><th>ಸ್ಥಾನ</th><th>ನೋಂದಣಿ</th><th>ಹೆಸರು</th>${p.sections.map(s=>`<th style="font-size:2.8mm">${esc(s.name)}</th>`).join('')}<th>ಒಟ್ಟು</th></tr>${pg.map(x=>`<tr><td><b>${x.rank}</b></td><td>${esc(x.r.reg)}</td><td>${esc(x.st?x.st.name:'?')}</td>${p.sections.map((_,i)=>`<td>${x.s.err?'':x.s.sec[i]}</td>`).join('')}<td><b>${x.s.err?'-':x.s.total}</b></td></tr>`).join('')}</table>
+ doPrint(chunk(rows,28).map(pg=>`<div class="page"><div class="lp"><h3>${esc(CFG.examName)} ${esc(CFG.activeYear)}</h3><h4>${esc(CFG.school)} • ${c}ನೇ ತರಗತಿ • ಮೆರಿಟ್ ಪಟ್ಟಿ (ಗರಿಷ್ಠ ಅಂಕ ${p.qs.length})${prizeMinOf(CFG)?` • ಬಹುಮಾನಕ್ಕೆ ಕನಿಷ್ಠ ${prizeMinOf(CFG)} ಅಂಕ`:''}</h4>
+ <table><tr><th>ಸ್ಥಾನ</th><th>ನೋಂದಣಿ</th><th>ಹೆಸರು</th>${p.sections.map(s=>`<th style="font-size:2.8mm">${esc(s.name)}</th>`).join('')}<th>ಒಟ್ಟು</th></tr>${pg.map(x=>`<tr><td><b>${x.rank}</b></td><td>${esc(x.r.reg)}</td><td>${esc(x.st?x.st.name:'?')}</td>${p.sections.map((_,i)=>`<td>${x.s.err?'':x.s.sec[i]}</td>`).join('')}<td><b>${x.s.err?'-':x.s.total}</b>${prizeFor(c,x)?' 🏆':''}</td></tr>`).join('')}</table>
  <div class="sig" style="margin-top:12mm"><span>ಮೌಲ್ಯಮಾಪಕರ ಸಹಿ</span><span>ಮುಖ್ಯ ಶಿಕ್ಷಕರ ಸಹಿ</span></div></div></div>`).join(''))};
-$('#rCert').onclick=()=>{let h='';const pos={1:'ಪ್ರಥಮ',2:'ದ್ವಿತೀಯ',3:'ತೃತೀಯ'};classes().forEach(c=>ranked(c).filter(x=>x.rank>=1&&x.rank<=3&&x.st).forEach(x=>{
+$('#rCert').onclick=()=>{let h='';const pos={1:'ಪ್ರಥಮ',2:'ದ್ವಿತೀಯ',3:'ತೃತೀಯ'};classes().forEach(c=>ranked(c).filter(x=>x.rank>=1&&x.rank<=3&&x.st&&!x.s.err&&(!prizeMinOf(CFG)||x.s.total>=prizeMinOf(CFG))).forEach(x=>{
  h+=`<div class="cert"><div class="in"><div><h1>ಪ್ರಶಂಸಾ ಪತ್ರ</h1><p style="font-size:5.5mm"><b>${esc(CFG.examName)} ${esc(CFG.activeYear)}</b><br>${esc(CFG.school)}</p></div>
  <div><p>ಈ ಪ್ರಶಂಸಾ ಪತ್ರವನ್ನು</p><div class="nm">${esc(x.st.name)}</div><p>${c}ನೇ ತರಗತಿ${x.st.school?', '+esc(x.st.school):''} ಇವರು ಪ್ರತಿಭಾನ್ವೇಷಣೆ ಪರೀಕ್ಷೆಯಲ್ಲಿ ${x.s.n} ಅಂಕಗಳಿಗೆ <b>${x.s.total}</b> ಅಂಕಗಳನ್ನು ಪಡೆದು<br><b style="font-size:7mm">${pos[x.rank]} ಸ್ಥಾನ</b> ಗಳಿಸಿರುವುದಕ್ಕಾಗಿ ನೀಡಲಾಗಿದೆ. ಅಭಿನಂದನೆಗಳು!</p></div>
  <div class="sig"><span>ದಿನಾಂಕ: ${esc(fmtShort(CFG.timeline.find(t=>/ಬಹುಮಾನ/.test(t.label))?.date||''))}</span><span>ಮುಖ್ಯ ಶಿಕ್ಷಕರ ಸಹಿ${CFG.hm?'<br>'+esc(CFG.hm):''}</span></div></div></div>`}));
- if(!h){alert('ಮೊದಲ 3 ಸ್ಥಾನದ ಫಲಿತಾಂಶ ಇಲ್ಲ');return}doPrint(h)};
+ if(!h){alert(prizeMinOf(CFG)?`ಮೊದಲ 3 ಸ್ಥಾನಗಳಲ್ಲಿ ಕನಿಷ್ಠ ${prizeMinOf(CFG)} ಅಂಕ ಪಡೆದವರು ಇಲ್ಲ`:'ಮೊದಲ 3 ಸ್ಥಾನದ ಫಲಿತಾಂಶ ಇಲ್ಲ');return}doPrint(h)};
 $('#rPublish').onclick=()=>guard(async()=>{const lists={};const N=+CFG.resultsTopN||10;for(const c of classes()){const rows=ranked(c).filter(x=>x.rank!=='-'&&x.st&&x.rank<=N);
-  lists[c]=rows.map(x=>({rank:x.rank,name:x.st.name,school:x.st.school||CFG.school,score:x.s.total,of:x.s.n}))}
+  lists[c]=rows.map(x=>{const pz=prizeFor(c,x);return {rank:x.rank,name:x.st.name,school:x.st.school||CFG.school,score:x.s.total,of:x.s.n,prize:pz?pz.title:''}})}
  if(!Object.values(lists).some(l=>l.length)){alert('ಪ್ರಕಟಿಸಲು ಫಲಿತಾಂಶ ಇಲ್ಲ');return}
  if(!confirm('ವಿಜೇತರ ಹೆಸರು ಮತ್ತು ಅಂಕಗಳು ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಎಲ್ಲರಿಗೂ ಕಾಣುತ್ತವೆ. ಪರಿಶೀಲನೆ ಮುಗಿದಿದೆಯೇ?'))return;
  CFG.results={published:true,at:Date.now(),lists};await STORE.set(P.site,CFG);renderResults();toast('ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಪ್ರಕಟವಾಯಿತು')});
@@ -1768,7 +1781,7 @@ function renderReview(){const r=revRec;const tmp={...r,reg:$('#revReg').value.tr
  document.querySelectorAll('#revAns select').forEach(s=>{tmp.answers[+s.dataset.q]=s.value});tmp.cls=clsFromReg(tmp.reg);const sc=scoreOf(tmp);const p=finalPaper(tmp.cls);const key=p?p.keys[sc.set||tmp.set]||'':'';const st=stuByReg(tmp.reg);
  const nq=tmp.cls?nqOf(tmp.cls):100;
  $('#revTitle').textContent=`ಪರಿಶೀಲನೆ – ${st?st.name:'ಅಪರಿಚಿತ'} (${tmp.reg})`;
- $('#revInfo').innerHTML=(st?`${esc(st.name)} • ${esc(st.cls)}ನೇ ತರಗತಿ`:'<span class="bad">ಈ ನೋಂದಣಿ ಸಂಖ್ಯೆ ಪಟ್ಟಿಯಲ್ಲಿಲ್ಲ – ಸರಿಪಡಿಸಿ</span>')+' • '+(sc.err?`<span class="bad">${esc(sc.err)}</span>`:`<b>ಅಂಕ: ${sc.total} / ${sc.n}</b>`)+(r.doubts.length?` • ಹಳದಿ = ${r.doubts.length} ಸಂದೇಹ`:'');
+ $('#revInfo').innerHTML=(st?`${esc(st.name)} • ${esc(st.cls)}ನೇ ತರಗತಿ`:'<span class="bad">ಈ ನೋಂದಣಿ ಸಂಖ್ಯೆ ಪಟ್ಟಿಯಲ್ಲಿಲ್ಲ – ಸರಿಪಡಿಸಿ</span>')+' • '+(sc.err?`<span class="bad">${esc(sc.err)}</span>`:`<b>ಅಂಕ: ${sc.total} / ${sc.n}</b>`)+(r.doubts.length?` • ಹಳದಿ = ${r.doubts.length} ಸಂದೇಹ`:'')+(()=>{const al=setAlt(tmp);return al?`<br><span class="bad">⚠ ಸೆಟ್ ${tmp.set} ಕೀಯಿಂದ ${al.own} ಅಂಕ, ಆದರೆ ಸೆಟ್ ${al.L} ಕೀಯಿಂದ ${al.t} ಅಂಕ. ಹಾಜರಾತಿ ಪಟ್ಟಿಯಲ್ಲಿ ಈ ಮಗುವಿನ ಸೆಟ್ ನೋಡಿ, ಸರಿಯಾದರೆ ಮೇಲೆ ಸೆಟ್ ಬದಲಿಸಿ ಉಳಿಸಿ.</span>`:''})();
  if(!document.querySelector('#revAns select')){$('#revAns').innerHTML=Array.from({length:nq},(_,q)=>`<div data-q="${q}"><b>${q+1}</b><select data-q="${q}">${['','A','B','C','D','*'].map(v=>`<option value="${v}"${r.answers[q]===v?' selected':''}>${v===''?'–':v==='*'?'ಬಹು':v}</option>`).join('')}</select></div>`).join('');
   document.querySelectorAll('#revAns select').forEach(s=>s.onchange=renderReview)}
  document.querySelectorAll('#revAns div').forEach(d=>{const q=+d.dataset.q;d.className=r.doubts.includes(q)?'d':key[q]?(tmp.answers[q]===key[q]?'c':'w'):''});
