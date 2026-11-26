@@ -9,171 +9,193 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@500;600;700;800&family=Noto+Sans+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
 <script>/* ಮಾರ್ಗ: #admin ಇದ್ದರೆ ಅಡ್ಮಿನ್, ಇಲ್ಲದಿದ್ದರೆ ವೆಬ್‌ಸೈಟ್ */window.IS_ADMIN=location.hash==='#admin';</script>
 <style id="cssPub">
-:root{--paper:#fff;--tint:#FFF3F7;--drop:#CF2F6B;--rule:#F1C4D5;--ink:#2338A8;--inkd:#17277A;--text:#1F1D33;--mut:#68657C;--gold:#D98E04;--gold2:#FFF4D6;--ok:#157F4F;--bad:#C0262D;
+:root{--y:#FFC21A;--y1:#FFE15A;--y0:#FFF7DA;--r:#D4182B;--rd:#9E0F1F;--rx:#5E0712;--ink:#2B1A12;--mut:#6F5E52;--g:#2F7D4F;--b:#2D4FA0;--line:#F1DFB4;--card:#fff;
+ --sh:0 14px 34px -18px rgba(94,7,18,.35),0 2px 6px -2px rgba(94,7,18,.12);
  --disp:'Baloo Tamma 2','Noto Sans Kannada',system-ui,sans-serif;--body:'Noto Sans Kannada','Tunga','Nirmala UI',system-ui,sans-serif}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:64px}
-body{margin:0;font-family:var(--body);color:var(--text);background:#fff;line-height:1.65;font-size:16px}
-a{color:var(--ink)}
-h1,h2,h3{font-family:var(--disp);line-height:1.15}
-:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;font-family:var(--body);color:var(--ink);background:#FFFBF0;line-height:1.65;font-size:16px}
+a{color:var(--rd)}h1,h2,h3{font-family:var(--disp);line-height:1.15;margin:0}
+:focus-visible{outline:3px solid var(--b);outline-offset:2px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:10px 22px;border-radius:999px;border:2px solid var(--ink);font:600 16px var(--body);text-decoration:none;cursor:pointer}
-.btn.p{background:var(--ink);color:#fff}.btn.p:hover{background:var(--inkd);border-color:var(--inkd)}
-.btn.o{background:#fff;color:var(--ink);border-color:#C9D0EF}.btn.o:hover{border-color:var(--ink)}
-.btn.s{min-height:36px;padding:5px 14px;font-size:14px;background:#fff;color:var(--ink);border-color:#C9D0EF}
-.btn.big{min-height:52px;font-size:17px;padding:12px 30px}.btn:disabled{opacity:.5}
-.dots{display:inline-flex;gap:4px;vertical-align:middle}.dots i{width:14px;height:14px;border-radius:50%;border:2px solid var(--drop)}.dots i.f{background:var(--ink);border-color:var(--ink)}
-.ann{background:var(--drop);color:#fff;text-align:center;padding:8px 14px;font-weight:600;font-size:15px}
+.wrap{max-width:1180px;margin-left:auto;margin-right:auto;padding-left:20px;padding-right:20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:10px 24px;border-radius:14px;border:2px solid transparent;font:700 16px var(--body);text-decoration:none;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.btn.p{background:linear-gradient(180deg,#E42330,var(--rd));color:#fff;box-shadow:0 8px 18px -8px rgba(158,15,31,.7)}.btn.p:hover{transform:translateY(-2px)}
+.btn.o{background:#fff;color:var(--rd);border-color:#F0C9C9}.btn.o:hover{border-color:var(--r)}
+.btn.w{background:#fff;color:var(--rd)}.btn.ghostw{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.35);cursor:default;font-weight:600}
+.btn.s{min-height:38px;padding:5px 14px;font-size:14px;background:#fff;color:var(--rd);border-color:#F0C9C9;border-radius:10px}
+.btn.big{min-height:54px;font-size:17px;padding:12px 32px}.btn:disabled{opacity:.5}
+.ann{background:var(--rd);color:#fff;text-align:center;padding:8px 14px;font-weight:600;font-size:15px}
 /* ನ್ಯಾವ್ */
-.nav{position:sticky;top:0;z-index:40;background:#ffffffef;backdrop-filter:blur(6px);border-bottom:1.5px solid var(--rule)}
-.nav .in{max-width:1120px;margin:auto;display:flex;align-items:center;gap:14px;padding:8px 16px}
-.nb{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text);flex:0 0 auto}.nb b{font-family:var(--disp);font-size:19px}
+.nav{position:sticky;top:0;z-index:40;background:rgba(255,251,240,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .in{max-width:1180px;margin:auto;display:flex;align-items:center;gap:14px;padding:8px 20px}
+.nb{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);flex:0 0 auto}.nb b{font-family:var(--disp);font-size:20px;color:var(--rd)}
+.nbmap{width:22px;height:34px}.nbmap path{fill:url(#kaTop);stroke:var(--rd);stroke-width:8}
 .links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin-left:auto}.links::-webkit-scrollbar{display:none}
-.links a{white-space:nowrap;text-decoration:none;color:var(--text);font-size:14.5px;padding:6px 11px;border-radius:999px}.links a:hover{background:var(--tint);color:var(--drop)}
+.links a{white-space:nowrap;text-decoration:none;color:var(--ink);font-size:15px;font-weight:600;padding:7px 12px;border-radius:10px}.links a:hover{background:#FFF0C2;color:var(--rd)}
 .loadbox{min-height:60vh;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;color:var(--mut);text-align:center;padding:20px}
-.ld{display:flex;gap:8px}.ld i{width:18px;height:18px;border-radius:50%;border:2px solid var(--drop);animation:lf 1.2s infinite}.ld i:nth-child(2){animation-delay:.15s}.ld i:nth-child(3){animation-delay:.3s}.ld i:nth-child(4){animation-delay:.45s}
-@keyframes lf{40%{background:var(--ink);border-color:var(--ink)}}
-/* ಹೀರೋ – OMR ಹಾಳೆ */
-.hero{position:relative;max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr 310px;gap:28px;padding:44px 20px 40px 46px;
- background:linear-gradient(var(--rule) 1px,transparent 1px) 0 0/100% 34px,#fff}
-.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#fff 0 40px,transparent 40px);pointer-events:none}
-.tm{position:absolute;left:12px;top:44px;bottom:40px;width:14px;background:repeating-linear-gradient(to bottom,var(--text) 0 6px,transparent 6px 34px);z-index:1}
-.hin{position:relative;z-index:1;min-width:0}
-.sch{margin:0 0 6px;font-weight:600;color:var(--drop);font-size:15.5px}
-.hero h1{margin:0;color:var(--inkd)}
-.hero .t1{display:block;font-size:clamp(46px,9vw,96px);font-weight:800;letter-spacing:-.5px;line-height:1.02}
-.hero .yr{display:inline-block;font-size:clamp(20px,3vw,28px);font-weight:600;color:var(--text);background:#fff;padding:0 10px 0 0}
-.tag{font-size:18px;margin:8px 0 22px;color:var(--mut);background:#fff;display:inline-block;padding-right:8px}
-.hq{background:#fff;border:1.5px solid var(--rule);border-radius:10px;padding:14px 16px;max-width:620px}
-.qq{font-weight:600;margin-bottom:10px}.qq b{color:var(--drop);margin-right:4px}
-.qo{display:flex;flex-wrap:wrap;gap:8px 18px}
-.qo .o{display:inline-flex;align-items:center;gap:7px;font-size:15px;color:var(--mut)}
-.qo i{width:30px;height:30px;border-radius:50%;border:2px solid var(--drop);display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:700;color:var(--drop);position:relative;overflow:hidden}
-.qo .pick{color:var(--inkd);font-weight:700}
-.qo .pick i::after{content:'';position:absolute;inset:-2px;border-radius:50%;background:var(--ink);transform:scale(0);animation:ink .55s cubic-bezier(.2,.8,.3,1.2) .9s forwards}
-@keyframes ink{to{transform:scale(1)}}
-.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
-.exam{position:relative;z-index:1;align-self:start;background:var(--inkd);color:#fff;border-radius:14px;padding:20px 20px 18px;margin-top:8px}
-.exam .lbl{font-size:14px;opacity:.8}.exam .dt{font-family:var(--disp);font-size:25px;line-height:1.2;margin-top:2px}.exam .tm2{opacity:.9;font-size:14.5px}
-.cd{display:flex;gap:10px;margin-top:16px}.cd .u{text-align:center}.cd small{display:block;font-size:12.5px;opacity:.85;margin-top:4px}
-.dg{display:flex;gap:3px}.dg span{width:34px;height:44px;border:1.5px solid #ffffff66;border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:27px;font-weight:700;background:#ffffff12}
-.today{font-weight:700;font-size:18px;margin:12px 0 0}
-/* ಬಹುಮಾನ */
-.prizes{background:var(--gold2);border-top:1.5px solid #F2D58C;border-bottom:1.5px solid #F2D58C}
-.pin{max-width:1120px;margin:auto;padding:22px 20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
-.stub{display:flex;background:#fff;border-radius:10px;min-width:280px;flex:0 1 auto;box-shadow:0 1px 0 #E7C66F}
-.stub .l{padding:14px 18px;display:flex;flex-direction:column;justify-content:center;border-right:2px dashed #E7C66F;position:relative}
-.stub .l span{font-size:13.5px;color:var(--mut)}.stub .l b{font-size:16px}
-.stub .l::before,.stub .l::after{content:'';position:absolute;right:-9px;width:16px;height:16px;border-radius:50%;background:var(--gold2)}.stub .l::before{top:-8px}.stub .l::after{bottom:-8px}
-.stub .r{padding:10px 22px;font-family:var(--disp);font-weight:800;font-size:40px;color:var(--gold);display:flex;align-items:center}
-.pnote{margin:0;font-weight:600;color:#7a5200;flex:1;min-width:220px}
-/* ವಾಸ್ತವಾಂಶ */
-.facts{max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;padding:8px 20px}
-.facts>div{flex:1;min-width:140px;padding:14px 14px;border-left:1.5px solid var(--rule)}.facts>div:first-child{border-left:0;padding-left:0}
-.facts b{font-family:var(--disp);font-size:28px;color:var(--inkd);display:block;line-height:1.1}.facts span{font-size:14px;color:var(--mut)}
+.ld{display:flex;gap:8px}.ld i{width:16px;height:16px;border-radius:50%;background:var(--y);animation:lb 1s infinite alternate}.ld i:nth-child(2){animation-delay:.2s;background:var(--r)}.ld i:nth-child(3){animation-delay:.4s}
+@keyframes lb{to{transform:translateY(-10px)}}
+/* ---------- ಹೀರೋ ---------- */
+.hero{position:relative;overflow:hidden;background:
+ radial-gradient(circle at 18% 30%,rgba(255,194,26,.45),transparent 42%),
+ radial-gradient(circle at 85% 75%,rgba(212,24,43,.18),transparent 45%),
+ linear-gradient(180deg,#FFF6D2 0%,#FFEFC0 100%)}
+.hero::before{content:'';position:absolute;inset:0;opacity:.35;pointer-events:none;
+ background:repeating-radial-gradient(circle at 22% 48%,transparent 0 26px,rgba(158,15,31,.12) 26px 27px)}
+.hgrid{position:relative;max-width:1240px;margin:auto;display:grid;grid-template-columns:1fr 1.35fr 1fr;align-items:center;gap:10px;padding:30px 20px 56px;min-height:min(calc(100vh - 60px),820px)}
+.hmap{position:relative;display:flex;flex-direction:column;align-items:center}
+.ka3d{width:min(100%,330px);height:auto;filter:drop-shadow(0 26px 22px rgba(94,7,18,.28));animation:float 7s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px)}}
+.mapl{font-family:var(--disp);font-weight:800;font-size:26px;color:var(--rd);margin-top:4px;letter-spacing:.5px}
+.hmid{text-align:center;position:relative;z-index:2}
+.sch{display:inline-block;margin:0 0 14px;background:#fff;color:var(--rd);font-weight:700;font-size:15px;padding:6px 16px;border-radius:999px;box-shadow:var(--sh)}
+.hero h1 span{display:block;font-size:clamp(46px,6.4vw,92px);font-weight:800;line-height:1.08;color:var(--rd);
+ text-shadow:0 1px 0 #f7b500,0 2px 0 #e8a600,0 3px 0 #d39400,0 4px 0 #b97f00,0 10px 18px rgba(94,7,18,.28)}
+.yr{font-family:var(--disp);font-weight:600;font-size:clamp(18px,2vw,23px);color:var(--ink);margin:12px 0 18px}
+.when{display:inline-flex;align-items:stretch;gap:10px;background:linear-gradient(180deg,#E42330,var(--rd));color:#fff;border-radius:20px;padding:12px;box-shadow:0 20px 34px -18px rgba(94,7,18,.75);flex-wrap:wrap;justify-content:center}
+.wd{display:flex;flex-direction:column;justify-content:center;text-align:left;padding:2px 10px}.wd small{opacity:.85;font-size:13px}.wd b{font-family:var(--disp);font-size:22px;line-height:1.2}.wd span{font-size:14px;opacity:.9}
+.cd{display:flex;gap:6px}.cd .u{background:var(--y);color:var(--rx);border-radius:12px;min-width:66px;padding:6px 8px;text-align:center;display:flex;flex-direction:column;justify-content:center}
+.cd .u b{font-family:var(--disp);font-size:30px;line-height:1}.cd .u small{font-size:12.5px;font-weight:700}
+.today{font-weight:700;font-size:18px;margin:0;align-self:center;padding:0 10px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
+/* ತೂಗಾಡುವ ಸೂಚನಾ ಪತ್ರ */
+.hnote{display:flex;justify-content:center;align-self:start;padding-top:10px}
+.hang{position:relative;width:min(100%,300px);transform-origin:50% 0;animation:swing 4.2s ease-in-out infinite;padding-top:58px}
+@keyframes swing{0%,100%{transform:rotate(3deg)}50%{transform:rotate(-3deg)}}
+.hang .pin{position:absolute;top:0;left:50%;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff8a8a,var(--r) 45%,var(--rx));box-shadow:0 4px 6px rgba(0,0,0,.35);z-index:3}
+.hang .string{position:absolute;top:13px;left:50%;width:120px;height:52px;margin-left:-60px;z-index:1;
+ background:linear-gradient(to top right,transparent calc(50% - 1px),#7a5a3a calc(50% - 1px),#7a5a3a calc(50% + 1px),transparent calc(50% + 1px)) left/50% 100% no-repeat,
+ linear-gradient(to top left,transparent calc(50% - 1px),#7a5a3a calc(50% - 1px),#7a5a3a calc(50% + 1px),transparent calc(50% + 1px)) right/50% 100% no-repeat}
+.note{position:relative;background:linear-gradient(180deg,#FFFDF5,#FFF3D1);border-radius:6px;padding:22px 20px 18px;box-shadow:0 22px 30px -16px rgba(94,7,18,.5),0 2px 0 #F0D79A;border-top:8px solid var(--y)}
+.note::before,.note::after{content:'';position:absolute;top:-6px;width:12px;height:12px;border-radius:50%;background:#7a5a3a;box-shadow:inset 0 0 0 3px #c9a46d}
+.note::before{left:22px}.note::after{right:22px}
+.nh{font-family:var(--disp);font-weight:800;font-size:26px;color:var(--rd);text-align:center;margin-bottom:6px}
+.pz{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:2px dashed #EBD08A}
+.pz span{font-weight:700;font-size:16px;line-height:1.3}.pz small{display:block;font-weight:500;font-size:13px;color:var(--mut)}
+.pz b{font-family:var(--disp);font-weight:800;font-size:32px;color:var(--r);line-height:1}
+.pn{font-size:13.5px;color:var(--mut);margin:8px 0 0;text-align:center}.pn.soon{font-style:italic}
+.nh2{margin-top:14px;text-align:center;font-weight:800;font-size:14px;color:#fff;background:var(--rd);border-radius:8px;padding:4px 8px}
+.spl{list-style:none;margin:8px 0 0;padding:0;text-align:center}.spl li{padding:5px 0;border-bottom:1px dotted #E6C77A}.spl li:last-child{border:0}
+.spl b{font-family:var(--disp);font-size:19px;color:var(--ink);display:block;line-height:1.2}.spl small{font-size:13px;color:var(--mut)}
+.flagband{position:absolute;left:0;right:0;bottom:0;height:14px;display:flex;flex-direction:column}.flagband i{flex:1}.flagband i:first-child{background:var(--y)}.flagband i:last-child{background:var(--r)}
+/* ಮುಖ್ಯಾಂಶ ಫಲಕಗಳು */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:-6px;padding-top:30px}
+.tile{display:flex;align-items:center;gap:14px;background:var(--card);border-radius:20px;padding:16px;box-shadow:var(--sh)}
+.tile b{font-family:var(--disp);font-size:20px;display:block;line-height:1.2}.tile small{color:var(--mut);font-size:13.5px}
+.ic{width:52px;height:52px;flex:0 0 52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;font-family:var(--disp)}
+.ic.y{background:#FFF0B8;color:#9A6A00}.ic.r{background:#FFE0E2;color:var(--rd)}.ic.g{background:#DDF3E5;color:var(--g)}.ic.b{background:#E2E9FB;color:var(--b)}
 /* ವಿಭಾಗಗಳು */
-.sec{max-width:1120px;margin:0 auto;padding:46px 20px 10px}
-.sec h2{font-size:clamp(28px,4.5vw,38px);margin:0 0 6px;color:var(--text);display:flex;align-items:center;gap:12px}
-.sec h2::before{content:'';width:20px;height:20px;border-radius:50%;background:var(--ink);box-shadow:0 0 0 4px #fff,0 0 0 6px var(--drop);flex:0 0 20px}
-.lead{color:var(--mut);margin:0 0 18px;max-width:68ch}
-.empty{color:var(--mut)}
-.notice{background:var(--tint);border-left:4px solid var(--drop);padding:14px 16px;border-radius:0 10px 10px 0;max-width:720px}
-/* ಟೈಮ್‌ಲೈನ್ */
-.tl{list-style:none;margin:16px 0 0;padding:0;max-width:720px;position:relative}
-.tl::before{content:'';position:absolute;left:12px;top:12px;bottom:12px;width:2px;background:var(--rule)}
-.tl li{display:flex;gap:16px;padding:8px 0;position:relative}
-.tl .bb{width:26px;height:26px;border-radius:50%;border:2.5px solid var(--drop);background:#fff;flex:0 0 26px;margin-top:2px;position:relative;z-index:1}
-.tl li.done .bb{background:var(--ink);border-color:var(--ink)}
-.tl li.next .bb{box-shadow:0 0 0 5px var(--tint)}.tl li.next b{color:var(--drop)}
-.tl b{display:block;font-size:17px}.tl span{color:var(--mut);font-size:14.5px}
-/* ಅರ್ಜಿ ನಮೂನೆ – OMR ಅಭ್ಯರ್ಥಿ ವಿಭಾಗ */
-.omrform{border:2px solid var(--drop);border-radius:12px;max-width:820px;background:#fff;padding:0 0 18px;overflow:hidden}
-.ofh{display:flex;justify-content:space-between;align-items:center;background:var(--tint);border-bottom:2px solid var(--drop);padding:10px 16px;color:var(--drop);font-weight:700}
-.ofg{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;padding:10px 16px 0}
-.fl{display:flex;flex-direction:column;gap:5px;font-size:14px;font-weight:600;color:var(--drop);margin:8px 0;border:0;padding:0;min-width:0}
+.sec{padding-top:56px}
+.sec h2{font-size:clamp(28px,4vw,38px);color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:12px}
+.sec h2::before{content:'';width:10px;height:34px;border-radius:6px;background:linear-gradient(var(--y) 50%,var(--r) 50%);flex:0 0 10px}
+.lead{color:var(--mut);margin:0 0 18px;max-width:70ch}.empty{color:var(--mut)}
+.notice{background:#fff;border-left:6px solid var(--y);padding:16px 18px;border-radius:14px;max-width:760px;box-shadow:var(--sh)}
+/* ದಿನಾಂಕಗಳು */
+.tl{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;position:relative}
+.tl::before{content:'';position:absolute;left:0;right:0;top:15px;height:4px;border-radius:4px;background:#F2E2B9}
+.tl li{position:relative;padding:40px 10px 0 0}
+.tl .dot{position:absolute;top:3px;left:0;width:28px;height:28px;border-radius:50%;background:#fff;border:4px solid #F2E2B9}
+.tl li.done .dot{background:var(--y);border-color:var(--y)}.tl li.next .dot{background:var(--r);border-color:#FFD3D7;box-shadow:0 0 0 6px rgba(212,24,43,.12)}
+.tl b{display:block;font-size:16px;line-height:1.3}.tl span{color:var(--mut);font-size:14px}.tl li.next b{color:var(--r)}
+/* ಅರ್ಜಿ */
+.omrform{display:grid;grid-template-columns:270px 1fr;background:#fff;border-radius:24px;overflow:hidden;box-shadow:var(--sh);max-width:980px}
+.omrform .side{background:linear-gradient(160deg,#E42330,var(--rd));color:#fff;padding:26px 22px;display:flex;flex-direction:column;gap:10px}
+.omrform .side h3{font-size:24px}.omrform .side p{margin:0;opacity:.92;font-size:14.5px}.omrform .side svg{width:120px;margin-top:auto;align-self:center;opacity:.95}
+.omrform .main{padding:20px 22px}
+.ofh{display:none}
+.ofg{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px}
+.fl{display:flex;flex-direction:column;gap:5px;font-size:14px;font-weight:700;color:var(--ink);margin:8px 0;border:0;padding:0;min-width:0}
 .fl.wide{grid-column:1/-1}.fl legend{padding:0;margin-bottom:5px}
-.fl input,.fl select{font:16px var(--body);color:var(--text);padding:11px 12px;border:1.5px solid var(--rule);border-radius:8px;background:#fff;width:100%}
-.fl input:focus,.fl select:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px #2338A822}
+.fl input,.fl select{font:16px var(--body);color:var(--ink);padding:12px 14px;border:2px solid #F0E2C0;border-radius:12px;background:#FFFDF6;width:100%}
+.fl input:focus,.fl select:focus{outline:none;border-color:var(--y);box-shadow:0 0 0 4px rgba(255,194,26,.3)}
 .bubpick{display:flex;gap:12px}.bubpick label{cursor:pointer}.bubpick input{position:absolute;opacity:0;width:1px;height:1px}
-.bubpick i{width:48px;height:48px;border-radius:50%;border:2px solid var(--drop);display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--disp);font-size:20px;color:var(--drop);transition:.15s}
-.bubpick input:checked+i{background:var(--ink);border-color:var(--ink);color:#fff}.bubpick input:focus-visible+i{outline:3px solid var(--ink);outline-offset:2px}
-.agree{display:flex;gap:10px;align-items:flex-start;margin:14px 16px;font-size:14.5px}.agree input{width:20px;height:20px;margin-top:3px;flex:0 0 20px;accent-color:var(--ink)}
-.omrform .btn{margin-left:16px}
-#apMsg{padding:0 16px}.err{color:var(--bad);font-weight:600}
-.done{display:flex;gap:14px;align-items:flex-start;background:#EEF8F2;border:1.5px solid #A9DDBE;border-radius:10px;padding:14px;margin-top:14px}.done .dots i{width:26px;height:26px}
-.appno{font-family:var(--disp);font-size:34px;font-weight:800;color:var(--inkd);letter-spacing:2px;margin:2px 0}
+.bubpick i{min-width:86px;height:48px;padding:0 14px;border-radius:12px;border:2px solid #F0E2C0;display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--disp);font-size:20px;font-weight:700;color:var(--ink);background:#FFFDF6}
+.bubpick i::after{content:'ನೇ';font-size:14px;margin-left:2px}
+.bubpick input:checked+i{background:var(--y);border-color:var(--y);color:var(--rx)}.bubpick input:focus-visible+i{outline:3px solid var(--b);outline-offset:2px}
+.agree{display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:14.5px}.agree input{width:20px;height:20px;margin-top:3px;flex:0 0 20px;accent-color:var(--r)}
+#apMsg{margin-top:6px}.err{color:var(--r);font-weight:700}
+.done{display:flex;gap:14px;align-items:flex-start;background:#EEF8F2;border:2px solid #A9DDBE;border-radius:16px;padding:14px;margin-top:14px}.done .dots{display:none}
+.appno{font-family:var(--disp);font-size:34px;font-weight:800;color:var(--rd);letter-spacing:2px;margin:2px 0}
 .mine{color:var(--mut);font-size:14.5px}
 /* ಹಾಲ್ ಟಿಕೆಟ್ */
-.htf{display:flex;gap:8px;max-width:520px}.htf input{flex:1;font:600 18px var(--body);padding:11px 14px;border:2px solid var(--rule);border-radius:999px;text-transform:uppercase;letter-spacing:1px;min-width:0}
-.htf input:focus{outline:none;border-color:var(--ink)}
-#htRes{margin-top:14px}.htwrap{max-width:794px;overflow:hidden;border:1.5px solid var(--rule);border-radius:8px;background:#fff;margin-bottom:12px}
+.htf{display:flex;gap:8px;max-width:560px;background:#fff;padding:8px;border-radius:18px;box-shadow:var(--sh)}
+.htf input{flex:1;font:700 18px var(--body);padding:10px 14px;border:0;background:transparent;text-transform:uppercase;letter-spacing:1px;min-width:0}.htf input:focus{outline:none}
+#htRes{margin-top:16px}.htwrap{max-width:794px;overflow:hidden;border-radius:12px;background:#fff;margin-bottom:12px;box-shadow:var(--sh)}
 .htscale{width:794px;transform-origin:top left;background:#fff}
 /* ಪಠ್ಯಕ್ರಮ */
-.ctabs{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
-.ctabs button{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--rule);background:#fff;border-radius:999px;padding:8px 18px 8px 10px;font:600 16px var(--body);cursor:pointer;color:var(--text)}
-.ctabs i{width:20px;height:20px;border-radius:50%;border:2px solid var(--drop)}
-.ctabs [aria-selected=true]{border-color:var(--ink);color:var(--inkd)}.ctabs [aria-selected=true] i{background:var(--ink);border-color:var(--ink)}
-.syl{display:grid;grid-template-columns:300px 1fr;gap:28px;align-items:start}
-.pat{background:var(--tint);border-radius:12px;padding:16px}.pat h3{margin:0 0 10px;font-size:18px}
-.pr{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:6px 0;font-size:15px}.pr b{font-family:var(--disp);font-size:18px;color:var(--inkd)}
-.pr i{grid-column:1/-1;height:5px;border-radius:3px;background:var(--drop);opacity:.75}.pr.tot{border-top:1.5px solid var(--rule);margin-top:6px;padding-top:10px;font-weight:700}
-.subj details{border-bottom:1.5px solid #F2EDF3;padding:10px 0}.subj summary{cursor:pointer;font-family:var(--disp);font-size:20px;font-weight:600;list-style:none;display:flex;align-items:center;gap:10px}
-.subj summary::-webkit-details-marker{display:none}.subj summary::before{content:'';width:14px;height:14px;border-radius:50%;border:2px solid var(--drop)}.subj details[open] summary::before{background:var(--ink);border-color:var(--ink)}
-.subj summary small{font-family:var(--body);font-size:13px;color:var(--mut);font-weight:400}
-.subj ul{margin:8px 0 0;padding-left:26px;columns:2;column-gap:28px}.subj li{break-inside:avoid;margin:3px 0;font-size:15px}.subj p{margin:6px 0 0 24px;color:var(--mut)}
-/* ಮಾದರಿ */
-.mocks{display:flex;flex-wrap:wrap;gap:14px}.mk{display:flex;align-items:center;justify-content:space-between;gap:16px;flex:1;min-width:260px;max-width:440px;border:1.5px solid var(--rule);border-radius:12px;padding:14px 16px}
-.mk b{font-family:var(--disp);font-size:21px}.mk span{color:var(--mut);font-size:14.5px}
-.omrhow{display:flex;flex-wrap:wrap;gap:16px;margin:10px 0}
-.omrhow>div{border:1.5px solid var(--rule);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:250px}
-.omrhow .ok b{color:var(--ok)}.omrhow .no b{color:var(--bad)}.omrhow span{font-size:14px;color:var(--mut)}
-.br{display:flex;gap:10px}.br i{width:34px;height:34px;border-radius:50%;border:2px solid var(--drop);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:14px;color:var(--drop);font-weight:700}
-.br i.f{background:var(--ink);border-color:var(--ink)}.br i.h{background:linear-gradient(#fff 50%,var(--ink) 50%)}
-.plain{padding-left:20px;max-width:70ch}.plain li{margin:4px 0}
-.rules{padding-left:24px;max-width:72ch}.rules li{margin:6px 0;padding-left:4px}.rules li::marker{font-family:var(--disp);font-weight:700;color:var(--drop)}
-/* ಫಲಿತಾಂಶ */
+.ctabs{display:inline-flex;gap:6px;margin-bottom:18px;background:#fff;padding:6px;border-radius:16px;box-shadow:var(--sh)}
+.ctabs button{border:0;background:transparent;border-radius:12px;padding:10px 22px;font:700 16px var(--body);cursor:pointer;color:var(--mut)}
+.ctabs [aria-selected=true]{background:var(--y);color:var(--rx)}
+.sylg{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.sc{position:relative;background:#fff;border-radius:20px;padding:16px 18px 20px;box-shadow:var(--sh);overflow:hidden}
+.sch2{display:flex;align-items:center;gap:12px}.sch2 b{font-family:var(--disp);font-size:21px;flex:1;line-height:1.2}
+.sch2 em{font-style:normal;font-family:var(--disp);font-weight:800;font-size:28px;color:var(--r);text-align:center;line-height:1}.sch2 em small{display:block;font-size:12px;color:var(--mut);font-weight:600}
+.sc p{margin:10px 0 0;color:var(--mut);font-size:14.5px}
+.sc .bar{position:absolute;left:0;bottom:0;height:6px;background:linear-gradient(90deg,var(--y),var(--r))}
+.tot{font-weight:700;margin-top:14px}
+/* ಅಭ್ಯಾಸ */
+.prac{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pcard{border-radius:24px;padding:22px 22px 24px;box-shadow:var(--sh);display:flex;flex-direction:column;gap:12px}
+.pcard h3{font-size:26px}.pcard p{margin:0}
+.pcard.red{background:linear-gradient(150deg,#E42330,var(--rd));color:#fff}.pcard.red p{opacity:.92}
+.pcard.yel{background:linear-gradient(150deg,var(--y1),var(--y));color:var(--rx)}
+.mks{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
+.omrhow{display:flex;gap:18px;flex-wrap:wrap}.omrhow>div{display:flex;flex-direction:column;align-items:center;gap:4px;background:rgba(255,255,255,.6);padding:10px 12px;border-radius:14px}
+.omrhow small{font-weight:800}
+.bb{display:flex;gap:8px}.bb i{width:32px;height:32px;border-radius:50%;border:2px solid var(--rd);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;color:var(--rd);font-weight:800;background:#fff}
+.bb i.f{background:var(--rx);border-color:var(--rx)}.bb i.h{background:linear-gradient(#fff 50%,var(--rx) 50%)}
+.pcard.yel .btn{align-self:flex-start;margin-top:auto}
+/* ಫಲಿತಾಂಶ, ನಿಯಮ */
 .resg{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px}
-.rc h3{font-size:22px;margin:0 0 10px}
+.rc{background:#fff;border-radius:22px;padding:18px;box-shadow:var(--sh)}.rc h3{font-size:22px;margin-bottom:10px}
 .podium{display:grid;gap:8px}
-.pd{display:grid;grid-template-columns:48px 1fr auto;grid-template-rows:auto auto;column-gap:12px;align-items:center;border:1.5px solid var(--rule);border-radius:12px;padding:10px 14px}
-.pd .rk{grid-row:1/3;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:22px;font-weight:800}
-.pd.r1{background:var(--gold2);border-color:#EBCB79}.pd.r1 .rk{background:var(--gold)}
-.pd b{font-size:17px}.pd small{grid-column:2;color:var(--mut);font-size:13.5px}.pd em{grid-row:1/3;grid-column:3;font-style:normal;font-family:var(--disp);font-size:22px;font-weight:700;color:var(--inkd)}
-.rt{width:100%;border-collapse:collapse;margin-top:8px;font-size:15px}.rt td{padding:7px 6px;border-bottom:1px solid #F0EBF1;vertical-align:top}.rt td:first-child{width:36px;color:var(--mut);font-weight:700}.rt td:last-child{text-align:right;font-weight:700}
-/* ಪ್ರಾಯೋಜಕರು, ಅಡಿಪುಟ */
-.sp{display:flex;flex-wrap:wrap;gap:12px}.sp>div{border-left:4px solid var(--gold);background:var(--gold2);padding:10px 16px;border-radius:0 10px 10px 0;min-width:220px}.sp b{display:block;font-size:17px}.sp span{color:#7a5200;font-size:14px}
-footer{margin-top:56px;background:var(--inkd);color:#E8EAFB}
-.fin{max-width:1120px;margin:auto;padding:28px 20px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:15px}
-footer a{color:#fff}.adm{color:#9AA4D8!important;font-size:13px;text-decoration:none}
-/* ಮಾದರಿ ಪತ್ರಿಕೆ ವಿಂಡೋ */
-.mmodal{position:fixed;inset:0;z-index:70;background:#1f1d33a8;overflow:auto;padding:3vh 10px}
-.mwrap{background:#fff;max-width:860px;margin:auto;border-radius:14px;padding:0 18px 22px;border-top:6px solid var(--drop)}
-.mtop{position:sticky;top:0;background:#fff;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1.5px solid var(--rule);z-index:2}
-.mtop b{font-family:var(--disp);font-size:18px}
-.msec{color:var(--drop);font-size:21px;margin:22px 0 4px}
-.mq{border:0;border-bottom:1.5px dashed var(--rule);padding:12px 0;margin:0}
-.mq legend{font-weight:600;font-size:16.5px;padding:0;margin-bottom:8px;float:left;width:100%}.mq legend .en{display:block;font-weight:400;color:var(--mut);font-size:14.5px}
+.pd{display:grid;grid-template-columns:48px 1fr auto;grid-template-rows:auto auto;column-gap:12px;align-items:center;border-radius:14px;padding:10px 14px;background:#FFF8E1}
+.pd .rk{grid-row:1/3;width:44px;height:44px;border-radius:50%;background:var(--rd);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:22px;font-weight:800}
+.pd.r1{background:linear-gradient(90deg,#FFE78A,#FFF6CF)}.pd.r1 .rk{background:var(--y);color:var(--rx)}
+.pd b{font-size:17px}.pd small{grid-column:2;color:var(--mut);font-size:13.5px}.pd em{grid-row:1/3;grid-column:3;font-style:normal;font-family:var(--disp);font-size:22px;font-weight:800;color:var(--rd)}
+.rt{width:100%;border-collapse:collapse;margin-top:8px;font-size:15px}.rt td{padding:7px 6px;border-bottom:1px solid #F3E9D2;vertical-align:top}.rt td:first-child{width:36px;color:var(--mut);font-weight:700}.rt td:last-child{text-align:right;font-weight:700}
+.rules{background:#fff;border-radius:22px;padding:18px 22px 18px 48px;box-shadow:var(--sh);max-width:860px;margin:0}.rules li{margin:7px 0;padding-left:4px}.rules li::marker{font-family:var(--disp);font-weight:800;color:var(--r)}
+footer{position:relative;margin-top:70px;background:linear-gradient(160deg,var(--rd),var(--rx));color:#FFE9C2;padding-bottom:14px}
+.fin{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:30px;padding-bottom:30px;font-size:15px}
+.fl1{display:flex;gap:16px;align-items:center}.fmap{width:64px;height:auto}
+footer a{color:#fff}.adm{color:#F4B9B9!important;font-size:13px;text-decoration:none}
+/* ಮಾದರಿ ಪತ್ರಿಕೆ ಮತ್ತು ವೀಕ್ಷಕ ವಿಂಡೋ */
+.mmodal{position:fixed;inset:0;z-index:70;background:rgba(43,26,18,.66);overflow:auto;padding:3vh 10px}
+.mwrap{background:#fff;max-width:860px;margin:auto;border-radius:20px;padding:0 18px 22px;border-top:8px solid var(--y)}.mwrap.wide{max-width:860px}
+.mtop{position:sticky;top:0;background:#fff;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);z-index:2;flex-wrap:wrap}
+.mtop b{font-family:var(--disp);font-size:19px}
+.pvbody{overflow:hidden;margin-top:12px;border:1px solid var(--line);border-radius:8px}.pvscale{width:794px;transform-origin:top left;background:#fff}
+.msec{color:var(--r);font-size:21px;margin:22px 0 4px}
+.mq{border:0;border-bottom:1px dashed var(--line);padding:12px 0;margin:0}
+.mq legend{font-weight:700;font-size:16.5px;padding:0;margin-bottom:8px;float:left;width:100%}.mq legend .en{display:block;font-weight:400;color:var(--mut);font-size:14.5px}
 .mq img{max-width:100%;max-height:240px;display:block;margin:6px 0}
-.mq label{display:flex;align-items:center;gap:12px;padding:6px 8px;border-radius:10px;cursor:pointer;clear:both}
-.mq label:hover{background:#F7F8FE}.mq input{position:absolute;opacity:0;width:1px;height:1px}
-.mq label i{width:32px;height:32px;flex:0 0 32px;border-radius:50%;border:2px solid var(--drop);display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:700;font-size:14px;color:var(--drop)}
-.mq input:checked+i{background:var(--ink);border-color:var(--ink);color:#fff}.mq input:focus-visible+i{outline:3px solid var(--ink);outline-offset:2px}
+.mq label{display:flex;align-items:center;gap:12px;padding:6px 8px;border-radius:12px;cursor:pointer;clear:both}
+.mq label:hover{background:#FFF8E1}.mq input{position:absolute;opacity:0;width:1px;height:1px}
+.mq label i{width:34px;height:34px;flex:0 0 34px;border-radius:50%;border:2px solid var(--rd);display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;font-size:14px;color:var(--rd)}
+.mq input:checked+i{background:var(--rd);color:#fff}.mq input:focus-visible+i{outline:3px solid var(--b);outline-offset:2px}
 .mq label small{color:var(--mut)}
-.mq label.ok{background:#EAF7F0}.mq label.ok i{border-color:var(--ok);color:var(--ok)}.mq label.ok input:checked+i{background:var(--ok)}
-.mq label.no{background:#FDECEE}.mq label.no input:checked+i{background:var(--bad);border-color:var(--bad)}
-.mq .ex{display:none;margin:6px 8px 0;font-size:14.5px;color:var(--ok)}.mq.shown .ex{display:block}
+.mq label.ok{background:#EAF7F0}.mq label.ok i{border-color:var(--g);color:var(--g)}.mq label.ok input:checked+i{background:var(--g);color:#fff}
+.mq label.no{background:#FDECEE}
+.mq .ex{display:none;margin:6px 8px 0;font-size:14.5px;color:var(--g)}.mq.shown .ex{display:block}
 .mend{text-align:center;margin:18px 0 4px}
-.score{display:flex;align-items:center;gap:18px;background:var(--inkd);color:#fff;border-radius:14px;padding:16px 20px;margin-top:18px}
+.score{display:flex;align-items:center;gap:18px;background:linear-gradient(150deg,#E42330,var(--rd));color:#fff;border-radius:18px;padding:16px 20px;margin-top:18px}
 .score b{font-family:var(--disp);font-size:46px;line-height:1}.score small{font-size:20px;opacity:.8}
-@media(max-width:860px){
- .hero{grid-template-columns:1fr;padding:30px 16px 30px 38px;gap:18px}.tm{left:10px;top:30px;bottom:30px;width:12px}.hero::before{background:linear-gradient(90deg,#fff 0 32px,transparent 32px)}
- .exam{margin-top:0}.syl{grid-template-columns:1fr}.subj ul{columns:1}.ofg{grid-template-columns:1fr}
- .facts>div{min-width:45%;border-left:0;padding-left:0;border-top:1.5px solid var(--rule)}.facts>div:first-child{border-top:0}
- .stub{flex:1}.stub .r{font-size:32px}
- .nb b{font-size:17px}.sec{padding-top:36px}
+@media(max-width:1020px){
+ .hgrid{grid-template-columns:1fr;min-height:0;max-height:none;padding:22px 16px 46px;gap:16px}
+ .hmid{order:1}.hmap{order:2}.hnote{order:3;padding-top:0}
+ .ka3d{width:200px}.mapl{font-size:20px}
+ .tiles{grid-template-columns:1fr 1fr}.prac{grid-template-columns:1fr}
+ .omrform{grid-template-columns:1fr}.omrform .side svg{display:none}
 }
-@media(max-width:420px){.qo{gap:8px 12px}.qo .o{font-size:14px}.dg span{width:28px;height:38px;font-size:22px}.htf{flex-direction:column}.btn{width:auto}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.qo .pick i::after{transform:scale(1)}html{scroll-behavior:auto}}
+@media(max-width:560px){
+ .tiles{grid-template-columns:1fr}.ofg{grid-template-columns:1fr}.sylg{grid-template-columns:1fr}
+ .when{border-radius:16px}.cd .u{min-width:58px}.cd .u b{font-size:26px}
+ .tl{grid-template-columns:1fr}.tl::before{left:13px;right:auto;top:0;bottom:0;width:4px;height:auto}.tl li{padding:4px 0 14px 44px}
+ .nb b{font-size:17px}.htf{flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){.ka3d,.hang{animation:none}.btn{transition:none}html{scroll-behavior:auto}}
+[hidden]{display:none!important}
+@media(max-width:560px){.tiles{grid-template-columns:1fr 1fr;gap:10px}.tile{flex-direction:column;align-items:flex-start;gap:8px;padding:12px;border-radius:16px}.ic{width:40px;height:40px;flex-basis:40px;font-size:18px;border-radius:12px}.tile b{font-size:17px}}
 
 </style>
 <style id="cssAdm" media="not all">
@@ -561,12 +583,20 @@ document.write('<style>'+PRINT_CSS+'</style>');
 <body>
 <div id="pub" style="display:none">
 <div id="ann" class="ann" hidden></div>
-<nav class="nav" aria-label="ಪುಟದ ವಿಭಾಗಗಳು"><div class="in"><a class="nb" href="#top"><span class="dots" aria-hidden="true"><i></i><i class="f"></i></span><b id="navT">ಪ್ರತಿಭಾನ್ವೇಷಣೆ</b></a>
+<nav class="nav" aria-label="ಪುಟದ ವಿಭಾಗಗಳು"><div class="in"><a class="nb" href="#top"><svg class="nbmap" viewBox="0 0 300 460" aria-hidden="true"><path d="M17.5,240.2C18.2,236.1 26.4,232.2 27.9,227.5C29.4,222.7 27.1,217.6 26.1,212.9C25.0,208.1 22.0,204.9 21.8,200.2C21.6,195.4 23.2,190.3 24.8,185.6C26.5,180.8 30.4,177.5 31.0,172.8C31.5,168.2 27.9,164.1 27.9,158.9C27.9,153.7 27.8,147.4 31.0,143.0C34.2,138.6 40.4,136.5 46.3,133.5C52.2,130.5 58.8,129.7 64.7,125.8C70.6,122.0 74.2,116.0 80.1,111.2C86.0,106.5 91.5,102.4 98.5,98.5C105.4,94.6 113.0,92.3 119.9,89.0C126.9,85.7 131.9,83.0 138.3,79.5C144.8,75.9 151.1,72.4 156.7,68.7C162.4,65.0 166.6,62.5 170.9,58.5C175.2,54.5 177.0,50.5 181.3,45.8C185.6,41.2 190.8,36.7 195.4,31.8C200.0,27.0 203.4,21.0 207.7,17.9C212.0,14.8 215.6,13.3 219.9,14.1C224.2,14.8 229.6,18.3 232.2,22.3C234.8,26.3 233.8,31.9 234.7,36.9C235.5,41.9 237.3,45.7 237.1,50.9C236.9,56.1 234.6,61.2 233.4,66.8C232.3,72.3 230.9,77.1 230.4,82.7C229.8,88.2 231.1,93.0 230.4,98.5C229.6,104.1 226.9,109.4 226.1,114.4C225.2,119.4 224.7,122.7 225.5,127.1C226.2,131.6 228.8,135.4 230.4,139.8C232.0,144.3 235.2,148.1 234.7,152.5C234.1,157.0 230.7,161.0 227.3,165.2C223.9,169.5 219.1,172.4 215.0,176.7C211.0,180.9 206.3,184.7 204.0,189.4C201.6,194.0 201.5,198.1 201.5,203.3C201.5,208.6 204.8,213.7 204.0,219.2C203.1,224.8 199.5,230.1 196.6,235.1C193.7,240.1 188.7,242.8 187.4,247.8C186.1,252.8 187.9,258.7 189.3,263.7C190.7,268.7 191.4,273.6 195.4,276.4C199.4,279.2 207.2,277.3 212.0,279.6C216.7,281.8 221.9,285.2 222.4,289.1C222.9,293.0 213.6,298.1 215.0,301.8C216.4,305.4 224.5,310.0 230.4,310.0C236.3,310.0 242.9,301.0 248.8,301.8C254.7,302.6 258.7,310.0 264.1,314.5C269.5,318.9 275.2,322.2 279.4,327.2C283.7,332.2 286.2,337.5 288.6,343.1C291.1,348.6 294.6,353.9 293.6,358.9C292.5,363.9 288.2,368.6 282.5,371.6C276.8,374.6 267.7,374.4 261.0,376.1C254.4,377.8 248.5,378.1 244.5,381.2C240.5,384.3 239.0,388.9 238.3,393.9C237.7,398.9 239.7,405.1 240.8,409.8C241.9,414.4 245.8,416.9 244.5,420.6C243.2,424.2 238.1,427.0 233.4,430.7C228.8,434.4 223.3,438.0 218.1,441.5C212.9,445.1 209.4,449.4 204.0,451.0C198.6,452.7 193.5,451.9 187.4,451.0C181.3,450.1 174.9,448.0 169.0,446.0C163.1,444.0 158.7,442.3 153.7,439.6C148.6,436.9 145.0,433.2 140.2,430.7C135.4,428.3 129.9,428.5 126.1,425.6C122.2,422.7 121.9,418.1 118.1,414.2C114.3,410.3 108.9,407.0 104.6,403.4C100.3,399.8 97.6,396.7 93.6,393.9C89.5,391.1 86.0,390.3 81.3,387.5C76.6,384.7 69.8,381.6 66.6,378.0C63.3,374.4 64.2,372.2 62.9,367.2C61.6,362.2 60.5,355.3 59.2,349.4C57.9,343.5 56.9,339.7 55.5,333.5C54.1,327.4 52.9,320.6 51.2,314.5C49.5,308.4 47.7,304.7 45.7,298.6C43.7,292.5 41.8,285.7 39.6,279.6C37.3,273.4 35.6,268.7 32.8,263.7C30.0,258.7 26.3,255.1 23.6,251.0C20.9,246.9 16.7,244.3 17.5,240.2Z"/></svg><b id="navT">ಪ್ರತಿಭಾನ್ವೇಷಣೆ</b></a>
  <div class="links" id="navLinks"></div></div></nav>
-<div id="root"><div class="loadbox"><span class="ld" aria-hidden="true"><i></i><i></i><i></i><i></i></span>ಲೋಡ್ ಆಗುತ್ತಿದೆ…</div></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="kaPath" d="M17.5,240.2C18.2,236.1 26.4,232.2 27.9,227.5C29.4,222.7 27.1,217.6 26.1,212.9C25.0,208.1 22.0,204.9 21.8,200.2C21.6,195.4 23.2,190.3 24.8,185.6C26.5,180.8 30.4,177.5 31.0,172.8C31.5,168.2 27.9,164.1 27.9,158.9C27.9,153.7 27.8,147.4 31.0,143.0C34.2,138.6 40.4,136.5 46.3,133.5C52.2,130.5 58.8,129.7 64.7,125.8C70.6,122.0 74.2,116.0 80.1,111.2C86.0,106.5 91.5,102.4 98.5,98.5C105.4,94.6 113.0,92.3 119.9,89.0C126.9,85.7 131.9,83.0 138.3,79.5C144.8,75.9 151.1,72.4 156.7,68.7C162.4,65.0 166.6,62.5 170.9,58.5C175.2,54.5 177.0,50.5 181.3,45.8C185.6,41.2 190.8,36.7 195.4,31.8C200.0,27.0 203.4,21.0 207.7,17.9C212.0,14.8 215.6,13.3 219.9,14.1C224.2,14.8 229.6,18.3 232.2,22.3C234.8,26.3 233.8,31.9 234.7,36.9C235.5,41.9 237.3,45.7 237.1,50.9C236.9,56.1 234.6,61.2 233.4,66.8C232.3,72.3 230.9,77.1 230.4,82.7C229.8,88.2 231.1,93.0 230.4,98.5C229.6,104.1 226.9,109.4 226.1,114.4C225.2,119.4 224.7,122.7 225.5,127.1C226.2,131.6 228.8,135.4 230.4,139.8C232.0,144.3 235.2,148.1 234.7,152.5C234.1,157.0 230.7,161.0 227.3,165.2C223.9,169.5 219.1,172.4 215.0,176.7C211.0,180.9 206.3,184.7 204.0,189.4C201.6,194.0 201.5,198.1 201.5,203.3C201.5,208.6 204.8,213.7 204.0,219.2C203.1,224.8 199.5,230.1 196.6,235.1C193.7,240.1 188.7,242.8 187.4,247.8C186.1,252.8 187.9,258.7 189.3,263.7C190.7,268.7 191.4,273.6 195.4,276.4C199.4,279.2 207.2,277.3 212.0,279.6C216.7,281.8 221.9,285.2 222.4,289.1C222.9,293.0 213.6,298.1 215.0,301.8C216.4,305.4 224.5,310.0 230.4,310.0C236.3,310.0 242.9,301.0 248.8,301.8C254.7,302.6 258.7,310.0 264.1,314.5C269.5,318.9 275.2,322.2 279.4,327.2C283.7,332.2 286.2,337.5 288.6,343.1C291.1,348.6 294.6,353.9 293.6,358.9C292.5,363.9 288.2,368.6 282.5,371.6C276.8,374.6 267.7,374.4 261.0,376.1C254.4,377.8 248.5,378.1 244.5,381.2C240.5,384.3 239.0,388.9 238.3,393.9C237.7,398.9 239.7,405.1 240.8,409.8C241.9,414.4 245.8,416.9 244.5,420.6C243.2,424.2 238.1,427.0 233.4,430.7C228.8,434.4 223.3,438.0 218.1,441.5C212.9,445.1 209.4,449.4 204.0,451.0C198.6,452.7 193.5,451.9 187.4,451.0C181.3,450.1 174.9,448.0 169.0,446.0C163.1,444.0 158.7,442.3 153.7,439.6C148.6,436.9 145.0,433.2 140.2,430.7C135.4,428.3 129.9,428.5 126.1,425.6C122.2,422.7 121.9,418.1 118.1,414.2C114.3,410.3 108.9,407.0 104.6,403.4C100.3,399.8 97.6,396.7 93.6,393.9C89.5,391.1 86.0,390.3 81.3,387.5C76.6,384.7 69.8,381.6 66.6,378.0C63.3,374.4 64.2,372.2 62.9,367.2C61.6,362.2 60.5,355.3 59.2,349.4C57.9,343.5 56.9,339.7 55.5,333.5C54.1,327.4 52.9,320.6 51.2,314.5C49.5,308.4 47.7,304.7 45.7,298.6C43.7,292.5 41.8,285.7 39.6,279.6C37.3,273.4 35.6,268.7 32.8,263.7C30.0,258.7 26.3,255.1 23.6,251.0C20.9,246.9 16.7,244.3 17.5,240.2Z"/>
+ <linearGradient id="kaTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE15A"/><stop offset=".49" stop-color="#FFC21A"/><stop offset=".51" stop-color="#E42330"/><stop offset="1" stop-color="#B10F22"/></linearGradient>
+ <linearGradient id="kaSide" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E5B00"/><stop offset="1" stop-color="#5E0712"/></linearGradient>
+ <linearGradient id="kaShine" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".35" stop-color="#fff" stop-opacity="0"/></linearGradient>
+</defs></svg>
+<div id="root"><div class="loadbox"><span class="ld" aria-hidden="true"><i></i><i></i><i></i></span>ಲೋಡ್ ಆಗುತ್ತಿದೆ…</div></div>
 <div id="mockModal" class="mmodal" hidden><div class="mwrap" role="dialog" aria-modal="true" aria-labelledby="mkTitle">
  <div class="mtop"><b id="mkTitle">ಮಾದರಿ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ</b><div><button class="btn s" id="mkPrint">ಮುದ್ರಿಸಿ</button> <button class="btn s" id="mkClose" aria-label="ಮುಚ್ಚಿ">✕</button></div></div>
  <div id="mkBody"></div></div></div>
+<div id="pv" class="mmodal" hidden><div class="mwrap wide" role="dialog" aria-modal="true" aria-labelledby="pvTitle">
+ <div class="mtop"><b id="pvTitle"></b><div><button class="btn s" id="pvPng">ಚಿತ್ರವಾಗಿ ಉಳಿಸಿ</button> <button class="btn s" id="pvPrint">ಮುದ್ರಿಸಿ / PDF</button> <button class="btn s" id="pvClose" aria-label="ಮುಚ್ಚಿ">✕</button></div></div>
+ <div class="pvbody"><div class="pvscale" id="pvBody"></div></div></div></div>
 
 </div>
 <div id="adm" style="display:none">
@@ -702,8 +732,8 @@ document.write('<style>'+PRINT_CSS+'</style>');
     <label class="f">ಬಳಸಿದ ಪ್ರಶ್ನೆ ಮತ್ತೆ ಬರಲು<select data-c="reuseGap"><option value="1">1 ವರ್ಷ ಬಿಟ್ಟು</option><option value="2">2 ವರ್ಷ ಬಿಟ್ಟು</option><option value="3">3 ವರ್ಷ ಬಿಟ್ಟು</option><option value="99">ಎಂದಿಗೂ ಬೇಡ</option></select></label>
     <label class="f">ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ತೋರಿಸುವ ವಿಜೇತರು (ಪ್ರತಿ ತರಗತಿ)<input data-c="resultsTopN" type="number"></label></div>
    <h3>ವೆಬ್‌ಸೈಟ್ ಪಠ್ಯಕ್ರಮದಲ್ಲಿ ಕಾಣುವ ವಿವರ</h3>
-   <p class="note">ವಿಜ್ಞಾನ, ಗಣಿತ, ಸಮಾಜ ವಿಜ್ಞಾನದ ಅಧ್ಯಾಯಗಳ ಪಟ್ಟಿ ಪ್ರಶ್ನೆ ಫೈಲ್‌ಗಳಿಂದ ತಾನಾಗಿಯೇ ಬರುತ್ತದೆ.</p>
-   <label class="f">ಸಾಮಾನ್ಯ ಜ್ಞಾನ<input data-note="gk"></label><label class="f">ಮಾನಸಿಕ ಸಾಮರ್ಥ್ಯ<input data-note="mat"></label><label class="f">ಪ್ರಚಲಿತ ವಿದ್ಯಮಾನ<input data-note="ca"></label>
+   <p class="note">ವಿಜ್ಞಾನ, ಗಣಿತ, ಸಮಾಜ ವಿಜ್ಞಾನಕ್ಕೆ "ಭಾಗ-1 ಮತ್ತು ಭಾಗ-2 ಸಂಪೂರ್ಣ" ಎಂದು ತಾನಾಗಿಯೇ ತೋರಿಸಲಾಗುತ್ತದೆ.</p>
+   <label class="f">ಸಾಮಾನ್ಯ ಜ್ಞಾನ<input data-note="gk"></label><label class="f">ಮಾನಸಿಕ ಸಾಮರ್ಥ್ಯ<input data-note="mat"></label><label class="f">ಪ್ರಚಲಿತ ವಿದ್ಯಮಾನ (ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ "ನವೆಂಬರ್ 1 ರಿಂದ ಜನವರಿ 10 ರವರೆಗಿನ" ಎಂದು ತಾನಾಗಿಯೇ ಸೇರುತ್ತದೆ)<input data-note="ca"></label>
   </section>
   <section class="sheet wide"><h2>ಬಹುಮಾನಗಳು</h2><div class="tw" id="prizeEd"></div><button class="b ghost sm" id="prizeAdd">+ ಬಹುಮಾನ</button>
    <label class="f">ಬಹುಮಾನದ ಟಿಪ್ಪಣಿ<input data-c="prizeNote"></label></section>
@@ -757,68 +787,97 @@ async function boot(){
  render()}
 function appsState(){if(!C.appsOpen)return 'off';const t=T0(),s=D(C.appsStart),e=D(C.appsLastDate);if(s&&t<s)return 'soon';if(e&&t>e)return 'over';return 'on'}
 function htState(){if(!C.htOpen)return 'off';const s=D(C.htFrom);if(s&&T0()<s)return 'soon';return 'on'}
+function caRange(){const y=parseInt(C.activeYear,10)||new Date().getFullYear();return `ನವೆಂಬರ್ 1, ${y} ರಿಂದ ಜನವರಿ 10, ${y+1} ರವರೆಗಿನ`}
+function map3d(cls){let s='';for(let i=14;i>0;i--)s+=`<use href="#kaPath" transform="translate(0 ${i})" fill="url(#kaSide)"/>`;
+ return `<svg class="${cls}" viewBox="-10 -10 320 490" role="img" aria-label="ಕರ್ನಾಟಕ ನಕ್ಷೆ"><ellipse cx="150" cy="468" rx="140" ry="14" fill="#5E0712" opacity=".18"/>${s}<use href="#kaPath" fill="url(#kaTop)"/><use href="#kaPath" fill="url(#kaShine)"/><use href="#kaPath" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="2"/></svg>`}
 function render(){const cls=(C.classes||[]).map(Number);document.title=`${C.examName} ${C.activeYear}`;$('#navT').textContent=C.examName;
  if(C.announcement){$('#ann').hidden=false;$('#ann').textContent=C.announcement}
  const sv=C.syllabusView||{};const res=C.results||{};const today=T0();const as=appsState(),hs=htState();
  const tl=(C.timeline||[]).filter(t=>t.date);const nextI=tl.findIndex(t=>D(t.date)>=today);
  const nq=cls.map(c=>(sv[c]||{}).total).filter(Boolean)[0]||100;
- const links=[['dates','ದಿನಾಂಕಗಳು'],as!=='off'?['apply','ಅರ್ಜಿ']:null,hs!=='off'?['hallticket','ಹಾಲ್ ಟಿಕೆಟ್']:null,['syllabus','ಪಠ್ಯಕ್ರಮ'],['mock','ಮಾದರಿ ಪತ್ರಿಕೆ'],res.published?['results','ಫಲಿತಾಂಶ']:null,['rules','ನಿಯಮಗಳು'],['contact','ಸಂಪರ್ಕ']].filter(Boolean);
+ const links=[['dates','ದಿನಾಂಕಗಳು'],as!=='off'?['apply','ಅರ್ಜಿ']:null,hs!=='off'?['hallticket','ಹಾಲ್ ಟಿಕೆಟ್']:null,['syllabus','ಪಠ್ಯಕ್ರಮ'],['practice','ಅಭ್ಯಾಸ'],res.published?['results','ಫಲಿತಾಂಶ']:null,['rules','ನಿಯಮಗಳು'],['contact','ಸಂಪರ್ಕ']].filter(Boolean);
  $('#navLinks').innerHTML=links.map(([h,t])=>`<a href="#${h}">${t}</a>`).join('');
- const opts=['ನಾಳೆ ನೋಡೋಣ','ಮುಂದಿನ ವರ್ಷ','ಈಗಲೇ!','ಗೊತ್ತಿಲ್ಲ'];
- let h=`<header class="hero" id="top"><div class="tm" aria-hidden="true"></div><div class="hin">
-  ${C.school?`<p class="sch">${esc(C.school)}</p>`:''}
-  <h1><span class="t1">${esc(C.examName)}</span><span class="yr">${esc(C.activeYear)}</span></h1>
-  <p class="tag">${esc(C.tagline||'')}</p>
-  <div class="hq" aria-label="ನಿಮ್ಮ ಪ್ರತಿಭೆ ತೋರಿಸಲು ಸಿದ್ಧರಿದ್ದೀರಾ? ಉತ್ತರ: ಈಗಲೇ">
-   <div class="qq"><b>ಪ್ರ.</b> ನಿಮ್ಮ ಪ್ರತಿಭೆ ತೋರಿಸಲು ಸಿದ್ಧರಿದ್ದೀರಾ?</div>
-   <div class="qo">${opts.map((o,i)=>`<span class="o${i===2?' pick':''}"><i>${LET[i]}</i>${o}</span>`).join('')}</div></div>
-  <div class="cta">${as==='on'?'<a class="btn p" href="#apply">ಅರ್ಜಿ ಸಲ್ಲಿಸಿ</a>':''}${hs==='on'?'<a class="btn p" href="#hallticket">ಹಾಲ್ ಟಿಕೆಟ್ ಪಡೆಯಿರಿ</a>':''}<a class="btn o" href="#syllabus">ಪಠ್ಯಕ್ರಮ ನೋಡಿ</a><a class="btn o" href="#mock">ಮಾದರಿ ಪತ್ರಿಕೆ</a>${res.published?'<a class="btn p" href="#results">ಫಲಿತಾಂಶ</a>':''}</div>
- </div>
- <aside class="exam"><div class="lbl">ಪರೀಕ್ಷೆ</div><div class="dt">${esc(fmtDate(C.examDate))}</div><div class="tm2">${esc(C.examTime||'')}</div><div class="cd" id="cd"></div></aside></header>
- <section class="prizes" aria-label="ಬಹುಮಾನಗಳು"><div class="pin">${(C.prizes||[]).map(p=>`<div class="stub"><div class="l"><span>${esc(p.cls)}ನೇ ತರಗತಿ</span><b>${esc(p.title)}</b></div><div class="r">${inr(p.amount)}</div></div>`).join('')}
-  <p class="pnote">${esc(C.prizeNote||'')}</p></div></section>
- <section class="facts"><div><b>${nq}</b><span>ಬಹು ಆಯ್ಕೆ ಪ್ರಶ್ನೆಗಳು</span></div><div><b>${esc(C.durationMin||120)}</b><span>ನಿಮಿಷ</span></div><div><b>0</b><span>ಋಣಾತ್ಮಕ ಅಂಕ</span></div><div><b>ಕ + En</b><span>ಎರಡೂ ಭಾಷೆಯಲ್ಲಿ ಪ್ರಶ್ನೆ</span></div><div><b>OMR</b><span>ಉತ್ತರ ಹಾಳೆ</span></div></section>
- <section class="sec" id="dates"><h2>ಪ್ರಮುಖ ದಿನಾಂಕಗಳು</h2>
-  <ol class="tl">${tl.length?tl.map((t,i)=>`<li class="${D(t.date)<today?'done':''}${i===nextI?' next':''}"><span class="bb" aria-hidden="true"></span><div><b>${esc(t.label)}</b><span>${esc(fmtDate(t.date))}${i===nextI?' • ಮುಂದಿನದು':''}</span></div></li>`).join(''):'<li><div>ಶೀಘ್ರದಲ್ಲೇ</div></li>'}</ol></section>
+ const sp=(C.sponsors||[]).filter(s=>s.name);
+ const notice=`<div class="hang" aria-label="ಬಹುಮಾನಗಳು ಮತ್ತು ಪ್ರಾಯೋಜಕರು"><span class="string" aria-hidden="true"></span><span class="pin" aria-hidden="true"></span>
+  <div class="note"><div class="nh">ಬಹುಮಾನಗಳು</div>
+   ${(C.prizes||[]).map(p=>`<div class="pz"><span>${esc(p.cls)}ನೇ ತರಗತಿ<small>${esc(p.title)}</small></span><b>${inr(p.amount)}</b></div>`).join('')}
+   ${C.prizeNote?`<p class="pn">${esc(C.prizeNote)}</p>`:''}
+   <div class="nh2">ಬಹುಮಾನದ ಪ್ರಾಯೋಜಕರು</div>
+   ${sp.length?`<ul class="spl">${sp.map(s=>`<li><b>${esc(s.name)}</b>${s.note?`<small>${esc(s.note)}</small>`:''}</li>`).join('')}</ul>`:'<p class="pn soon">ಶೀಘ್ರದಲ್ಲೇ ಪ್ರಕಟಿಸಲಾಗುವುದು</p>'}
+  </div></div>`;
+ let h=`<header class="hero" id="top">
+  <div class="hgrid">
+   <div class="hmap">${map3d('ka3d')}<span class="mapl">ಕರ್ನಾಟಕ</span></div>
+   <div class="hmid">${C.school?`<p class="sch">${esc(C.school)}</p>`:''}
+    <h1><span>${esc(C.examName)}</span></h1>
+    <p class="yr">${esc(C.activeYear)} • ${esc(C.tagline||'')}</p>
+    <div class="when"><div class="wd"><small>ಪರೀಕ್ಷಾ ದಿನಾಂಕ</small><b>${esc(fmtDate(C.examDate))}</b><span>${esc(C.examTime||'')}</span></div><div class="cd" id="cd"></div></div>
+    <div class="cta">${as==='on'?'<a class="btn p" href="#apply">ಅರ್ಜಿ ಸಲ್ಲಿಸಿ</a>':''}${hs==='on'?'<a class="btn p" href="#hallticket">ಹಾಲ್ ಟಿಕೆಟ್ ಪಡೆಯಿರಿ</a>':''}${res.published?'<a class="btn p" href="#results">ಫಲಿತಾಂಶ ನೋಡಿ</a>':''}<a class="btn o" href="#syllabus">ಪಠ್ಯಕ್ರಮ</a><a class="btn o" href="#practice">ಮಾದರಿ ಪತ್ರಿಕೆ</a></div>
+   </div>
+   <div class="hnote">${notice}</div>
+  </div>
+  <div class="flagband" aria-hidden="true"><i></i><i></i></div>
+ </header>
+ <section class="tiles wrap" aria-label="ಪರೀಕ್ಷೆಯ ಮುಖ್ಯಾಂಶಗಳು">
+  <div class="tile"><span class="ic y">✎</span><div><b>${nq}</b><small>ಬಹು ಆಯ್ಕೆ ಪ್ರಶ್ನೆಗಳು</small></div></div>
+  <div class="tile"><span class="ic r">⏱</span><div><b>${esc(C.durationMin||120)} ನಿಮಿಷ</b><small>ಪರೀಕ್ಷೆಯ ಅವಧಿ</small></div></div>
+  <div class="tile"><span class="ic g">✓</span><div><b>ಋಣಾತ್ಮಕ ಅಂಕ ಇಲ್ಲ</b><small>ಪ್ರತಿ ಸರಿ ಉತ್ತರಕ್ಕೆ 1 ಅಂಕ</small></div></div>
+  <div class="tile"><span class="ic b">ಅ</span><div><b>ಕನ್ನಡ + English</b><small>ಎರಡೂ ಭಾಷೆಯಲ್ಲಿ ಪ್ರಶ್ನೆ</small></div></div>
+ </section>
+ <section class="sec wrap" id="dates"><h2>ಪ್ರಮುಖ ದಿನಾಂಕಗಳು</h2>
+  <ol class="tl">${tl.length?tl.map((t,i)=>`<li class="${D(t.date)<today?'done':''}${i===nextI?' next':''}"><span class="dot" aria-hidden="true"></span><b>${esc(t.label)}</b><span>${esc(fmtDate(t.date))}</span></li>`).join(''):'<li><b>ಶೀಘ್ರದಲ್ಲೇ</b></li>'}</ol></section>
  ${applySection(as)}${htSection(hs)}
- <section class="sec" id="syllabus"><h2>ಪಠ್ಯಕ್ರಮ ಮತ್ತು ಪ್ರಶ್ನೆಗಳ ಹಂಚಿಕೆ</h2><p class="lead">ಪ್ರತಿ ತರಗತಿಗೆ ಪ್ರತ್ಯೇಕ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ. ಪಠ್ಯಪುಸ್ತಕದ ಪ್ರಶ್ನೆಗಳು ಆಯಾ ತರಗತಿಯ ಭಾಗ-1 ಮತ್ತು ಭಾಗ-2 ರಿಂದ.</p>
-  <div class="ctabs" role="tablist">${cls.map((c,i)=>`<button role="tab" data-c="${c}" aria-selected="${i?'false':'true'}"><i></i>${c}ನೇ ತರಗತಿ</button>`).join('')}</div><div id="sylBox"></div></section>
- <section class="sec" id="mock"><h2>ಮಾದರಿ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ</h2><p class="lead">ಆನ್‌ಲೈನ್‌ನಲ್ಲೇ ಉತ್ತರ ಗುರುತಿಸಿ, ಕೊನೆಯಲ್ಲಿ ನಿಮ್ಮ ಅಂಕ ಮತ್ತು ಸರಿಯುತ್ತರ ನೋಡಿ.</p>
-  <div class="mocks">${cls.map(c=>`<div class="mk"><b>${c}ನೇ ತರಗತಿ</b>${(C.mockPublished||{})[c]?`<button class="btn p" data-mock="${c}">ಅಭ್ಯಾಸ ಆರಂಭಿಸಿ</button>`:'<span>ಶೀಘ್ರದಲ್ಲೇ ಪ್ರಕಟವಾಗಲಿದೆ</span>'}</div>`).join('')}</div></section>
- <section class="sec" id="omr"><h2>OMR ಹಾಳೆಯಲ್ಲಿ ಉತ್ತರ ಗುರುತಿಸುವುದು ಹೇಗೆ?</h2>
-  <div class="omrhow"><div class="ok"><b>ಹೀಗೆ ಮಾಡಿ</b><div class="br"><i>A</i><i>B</i><i class="f"></i><i>D</i></div><span>ವೃತ್ತ ಪೂರ್ತಿ ತುಂಬಿ</span></div>
-   <div class="no"><b>ಹೀಗೆ ಮಾಡಬೇಡಿ</b><div class="br"><i>✓</i><i>✗</i><i>•</i><i class="h"></i></div><span>ಟಿಕ್, ಗುರುತು, ಅರ್ಧ ತುಂಬುವುದು</span></div></div>
-  <ul class="plain"><li>ನೀಲಿ ಅಥವಾ ಕಪ್ಪು ಬಾಲ್‌ಪೆನ್ ಬಳಸಿ. ಒಂದು ಪ್ರಶ್ನೆಗೆ ಒಂದೇ ವೃತ್ತ.</li><li>ನೋಂದಣಿ ಸಂಖ್ಯೆ ಮತ್ತು ಪ್ರಶ್ನೆಪತ್ರಿಕೆಯ ಸೆಟ್ (A/B/C/D) ವೃತ್ತಗಳನ್ನು ತಪ್ಪದೆ ತುಂಬಿ.</li><li>ಹಾಳೆಯನ್ನು ಮಡಚಬೇಡಿ. ಮೂಲೆಯ ಕಪ್ಪು ಚೌಕಗಳ ಮೇಲೆ ಬರೆಯಬೇಡಿ.</li></ul>
-  <button class="btn o" id="omrDl">ಅಭ್ಯಾಸಕ್ಕೆ ಖಾಲಿ OMR ಮುದ್ರಿಸಿ</button></section>`;
- if(res.published){h+=`<section class="sec" id="results"><h2>ಫಲಿತಾಂಶ</h2><p class="lead">ಎಲ್ಲಾ ವಿಜೇತರಿಗೆ ಅಭಿನಂದನೆಗಳು!</p><div class="resg">`+
+ <section class="sec wrap" id="syllabus"><h2>ಪಠ್ಯಕ್ರಮ ಮತ್ತು ಪ್ರಶ್ನೆಗಳ ಹಂಚಿಕೆ</h2><p class="lead">ಪ್ರತಿ ತರಗತಿಗೆ ಪ್ರತ್ಯೇಕ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ. ಪಠ್ಯಪುಸ್ತಕದ ಪ್ರಶ್ನೆಗಳು ಆಯಾ ತರಗತಿಯ ಭಾಗ-1 ಮತ್ತು ಭಾಗ-2 ರ ಸಂಪೂರ್ಣ ಪಠ್ಯದಿಂದ.</p>
+  <div class="ctabs" role="tablist">${cls.map((c,i)=>`<button role="tab" data-c="${c}" aria-selected="${i?'false':'true'}">${c}ನೇ ತರಗತಿ</button>`).join('')}</div><div id="sylBox"></div></section>
+ <section class="sec wrap" id="practice"><h2>ಅಭ್ಯಾಸ</h2>
+  <div class="prac">
+   <div class="pcard red"><h3>ಮಾದರಿ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ</h3><p>ಆನ್‌ಲೈನ್‌ನಲ್ಲೇ ಉತ್ತರ ಗುರುತಿಸಿ, ಕೊನೆಯಲ್ಲಿ ನಿಮ್ಮ ಅಂಕ ಮತ್ತು ಸರಿಯುತ್ತರ ನೋಡಿ.</p>
+    <div class="mks">${cls.map(c=>(C.mockPublished||{})[c]?`<button class="btn w" data-mock="${c}">${c}ನೇ ತರಗತಿ</button>`:`<span class="btn ghostw">${c}ನೇ ತರಗತಿ – ಶೀಘ್ರದಲ್ಲೇ</span>`).join('')}</div></div>
+   <div class="pcard yel"><h3>OMR ಉತ್ತರ ಹಾಳೆ</h3><p>ವೃತ್ತವನ್ನು ಪೂರ್ತಿ ತುಂಬಿ – ಟಿಕ್ ಅಥವಾ ಅರ್ಧ ತುಂಬುವುದು ಬೇಡ. ನೀಲಿ/ಕಪ್ಪು ಬಾಲ್‌ಪೆನ್ ಬಳಸಿ.</p>
+    <div class="omrhow"><div><span class="bb"><i>A</i><i>B</i><i class="f"></i><i>D</i></span><small>ಸರಿ</small></div><div><span class="bb"><i>✓</i><i>✗</i><i class="h"></i><i>•</i></span><small>ತಪ್ಪು</small></div></div>
+    <button class="btn p" id="omrDl">ಖಾಲಿ OMR ನೋಡಿ / ಮುದ್ರಿಸಿ</button></div>
+  </div></section>`;
+ if(res.published){h+=`<section class="sec wrap" id="results"><h2>ಫಲಿತಾಂಶ</h2><p class="lead">ಎಲ್ಲಾ ವಿಜೇತರಿಗೆ ಅಭಿನಂದನೆಗಳು!</p><div class="resg">`+
   cls.map(c=>{const l=(res.lists||{})[c]||[];const top=l.filter(x=>x.rank<=3);return `<div class="rc"><h3>${c}ನೇ ತರಗತಿ</h3>${l.length?`<div class="podium">${top.map(x=>`<div class="pd r${x.rank}"><span class="rk">${x.rank}</span><b>${esc(x.name)}</b><small>${esc(x.school||'')}</small><em>${x.score}/${x.of}</em></div>`).join('')}</div>
    ${l.length>top.length?`<table class="rt">${l.filter(x=>x.rank>3).map(x=>`<tr><td>${x.rank}</td><td><b>${esc(x.name)}</b><br><small>${esc(x.school||'')}</small></td><td>${x.score}/${x.of}</td></tr>`).join('')}</table>`:''}`:'<p class="empty">—</p>'}</div>`}).join('')+'</div></section>'}
- h+=`<section class="sec" id="rules"><h2>ನಿಯಮಗಳು</h2><ol class="rules">${(C.rules||[]).map(r=>`<li>${esc(r)}</li>`).join('')}</ol></section>`;
- if((C.sponsors||[]).length)h+=`<section class="sec" id="sponsors"><h2>ಪ್ರಾಯೋಜಕರು</h2><p class="lead">ಮಕ್ಕಳ ಪ್ರತಿಭೆಗೆ ಪ್ರೋತ್ಸಾಹ ನೀಡುತ್ತಿರುವವರಿಗೆ ಧನ್ಯವಾದಗಳು.</p><div class="sp">${C.sponsors.map(s=>`<div><b>${esc(s.name)}</b><span>${esc(s.note||'')}</span></div>`).join('')}</div></section>`;
- h+=`<footer id="contact"><div class="fin"><div><b>${esc(C.examName)} ${esc(C.activeYear)}</b><br>${esc(C.school||'')}${C.address?'<br>'+esc(C.address):''}${C.hm?'<br>ಮುಖ್ಯ ಶಿಕ್ಷಕರು: '+esc(C.hm):''}</div>
-  <div>${C.contact?`ಸಂಪರ್ಕ: <a href="tel:${esc(C.contact)}">${esc(C.contact)}</a>`:''}<br><a class="adm" href="#admin">ಅಡ್ಮಿನ್</a></div></div></footer>`;
+ h+=`<section class="sec wrap" id="rules"><h2>ನಿಯಮಗಳು</h2><ol class="rules">${(C.rules||[]).map(r=>`<li>${esc(r)}</li>`).join('')}</ol></section>`;
+ h+=`<footer id="contact"><div class="fin wrap"><div class="fl1">${map3d('fmap')}<div><b>${esc(C.examName)} ${esc(C.activeYear)}</b><br>${esc(C.school||'')}${C.address?'<br>'+esc(C.address):''}${C.hm?'<br>ಮುಖ್ಯ ಶಿಕ್ಷಕರು: '+esc(C.hm):''}</div></div>
+  <div>${C.contact?`ಸಂಪರ್ಕ: <a href="tel:${esc(C.contact)}">${esc(C.contact)}</a><br>`:''}<a class="adm" href="#admin">ಅಡ್ಮಿನ್</a></div></div><div class="flagband" aria-hidden="true"><i></i><i></i></div></footer>`;
  root.innerHTML=h;
  document.querySelectorAll('.ctabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.ctabs button').forEach(x=>x.setAttribute('aria-selected',x===b?'true':'false'));showSyl(+b.dataset.c)});if(cls.length)showSyl(cls[0]);
  document.querySelectorAll('[data-mock]').forEach(b=>b.onclick=()=>openMock(+b.dataset.mock));
- $('#omrDl').onclick=()=>doPrint(`<div class="page">${omrSVG(C,null,nq)}</div>`);
+ $('#omrDl').onclick=()=>viewDoc('ಖಾಲಿ OMR ಉತ್ತರ ಹಾಳೆ',`<div class="page">${omrSVG(C,null,nq)}</div>`,'OMR');
  bindApply();bindHt();tick();setInterval(tick,30000);
  if(location.hash&&location.hash.length>1&&!location.hash.startsWith('#ht=')){const el=document.getElementById(location.hash.slice(1));if(el)setTimeout(()=>el.scrollIntoView(),50)}}
-function tick(){const el=$('#cd');if(!el)return;const d=D(C.examDate);if(!d){el.innerHTML='';return}const m=(C.examTime||'').match(/(\d{1,2})[:.](\d{2})/);d.setHours(m?+m[1]:10,m?+m[2]:0);
+function tick(){const el=$('#cd');if(!el)return;const d=D(C.examDate);if(!d){el.innerHTML='';return}const m=(C.examTime||'').match(/(\d{1,2})[:.](\d{2})/);let hr=m?+m[1]:10;if(m&&/ಮಧ್ಯಾಹ್ನ|ಸಂಜೆ|pm/i.test(C.examTime)&&hr<12)hr+=12;d.setHours(hr,m?+m[2]:0);
  const ms=d-new Date();if(ms<=0){el.innerHTML=ms>-86400000?'<p class="today">ಇಂದು ಪರೀಕ್ಷೆ – ಶುಭವಾಗಲಿ!</p>':'';return}
- const box=(n,l)=>`<div class="u"><div class="dg">${String(n).padStart(2,'0').split('').map(x=>`<span>${x}</span>`).join('')}</div><small>${l}</small></div>`;
+ const box=(n,l)=>`<div class="u"><b>${String(n).padStart(2,'0')}</b><small>${l}</small></div>`;
  el.innerHTML=box(Math.floor(ms/864e5),'ದಿನ')+box(Math.floor(ms%864e5/36e5),'ಗಂಟೆ')+box(Math.floor(ms%36e5/6e4),'ನಿಮಿಷ')}
 function showSyl(c){const v=(C.syllabusView||{})[c];const box=$('#sylBox');if(!v){box.innerHTML='<p class="empty">ಪಠ್ಯಕ್ರಮ ಶೀಘ್ರದಲ್ಲೇ ಪ್ರಕಟವಾಗಲಿದೆ</p>';return}
- const notes=v.notes||{};
- box.innerHTML=`<div class="syl"><div class="pat"><h3>ಪ್ರಶ್ನೆಗಳ ಹಂಚಿಕೆ</h3>${v.pattern.map(p=>`<div class="pr"><span>${esc(p.name)}</span><b>${p.n}</b><i style="width:${Math.round(p.n/v.total*100)}%"></i></div>`).join('')}<div class="pr tot"><span>ಒಟ್ಟು</span><b>${v.total}</b></div></div>
- <div class="subj">${v.subjects.map(s=>`<details open><summary>${esc(s.name)} <small>${s.items.length} ಅಧ್ಯಾಯ</small></summary><ul>${s.items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></details>`).join('')}
- ${['gk','mat','ca'].filter(k=>v.pattern.some(p=>p.sec===k)&&notes[k]).map(k=>`<details open><summary>${esc(SECS[k].kn)}</summary><p>${esc(notes[k])}</p></details>`).join('')}
- ${!v.subjects.length?'<p class="empty">ವಿಷಯವಾರು ಅಧ್ಯಾಯಗಳ ಪಟ್ಟಿ ಶೀಘ್ರದಲ್ಲೇ</p>':''}</div></div>`}
+ const notes=v.notes||{};const caOld=/^ಈ ವರ್ಷದ ರಾಷ್ಟ್ರೀಯ/.test(notes.ca||'');
+ const desc={sci:`${c}ನೇ ತರಗತಿ ವಿಜ್ಞಾನ ಪಠ್ಯಪುಸ್ತಕ – ಭಾಗ-1 ಮತ್ತು ಭಾಗ-2 ಸಂಪೂರ್ಣ`,math:`${c}ನೇ ತರಗತಿ ಗಣಿತ ಪಠ್ಯಪುಸ್ತಕ – ಭಾಗ-1 ಮತ್ತು ಭಾಗ-2 ಸಂಪೂರ್ಣ`,ss:`${c}ನೇ ತರಗತಿ ಸಮಾಜ ವಿಜ್ಞಾನ ಪಠ್ಯಪುಸ್ತಕ – ಭಾಗ-1 ಮತ್ತು ಭಾಗ-2 ಸಂಪೂರ್ಣ`,
+  gk:notes.gk||'',mat:notes.mat||'',ca:`${caRange()} ಪ್ರಚಲಿತ ಘಟನೆಗಳು – ${caOld?'ರಾಷ್ಟ್ರೀಯ, ರಾಜ್ಯ, ಅಂತರರಾಷ್ಟ್ರೀಯ ಘಟನೆಗಳು, ಪ್ರಶಸ್ತಿಗಳು, ಕ್ರೀಡೆ, ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು':esc(notes.ca||'')}`};
+ const ic={gk:['y','ಜ್ಞಾ'],mat:['b','∞'],ca:['r','✦'],ss:['g','ಸ'],sci:['r','ವಿ'],math:['y','ಗ']};
+ box.innerHTML=`<div class="sylg">${v.pattern.map(p=>{const k=ic[p.sec]||['y','•'];return `<div class="sc"><div class="sch2"><span class="ic ${k[0]}">${k[1]}</span><b>${esc(p.name)}</b><em>${p.n}<small>ಪ್ರಶ್ನೆ</small></em></div><p>${p.sec==='ca'?desc.ca:esc(desc[p.sec]||'')}</p><i class="bar" style="width:${Math.round(p.n/v.total*100)}%"></i></div>`}).join('')}</div>
+  <p class="tot">ಒಟ್ಟು <b>${v.total}</b> ಪ್ರಶ್ನೆಗಳು • ${v.total} ಅಂಕಗಳು</p>`}
+/* ---------- ಮುದ್ರಣ ವೀಕ್ಷಕ (ಟಿವಿ/ಮೊಬೈಲ್‌ಗೂ) ---------- */
+let PV=null;
+function viewDoc(title,html,fname){PV={html,fname};$('#pvTitle').textContent=title;$('#pvBody').innerHTML=html;$('#pv').hidden=false;document.body.style.overflow='hidden';fitPv();
+ const svg=$('#pvBody svg');$('#pvPng').hidden=!svg}
+function fitPv(){const b=$('#pvBody');if(!b||$('#pv').hidden)return;const w=b.parentElement.clientWidth;const s=Math.min(1,(w-4)/794);b.style.transform=`scale(${s})`;b.parentElement.style.height=(b.scrollHeight*s+4)+'px'}
+window.addEventListener('resize',fitPv);
+$('#pvClose').onclick=()=>{$('#pv').hidden=true;document.body.style.overflow=''};
+$('#pvPrint').onclick=()=>{if(PV)doPrint(PV.html)};
+$('#pvPng').onclick=()=>{const svg=$('#pvBody svg');if(!svg)return;const xml=new XMLSerializer().serializeToString(svg);const img=new Image();
+ img.onload=()=>{const c=document.createElement('canvas');c.width=1654;c.height=2339;const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);g.drawImage(img,0,0,c.width,c.height);
+  c.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(PV.fname||'page')+'.png';document.body.appendChild(a);a.click();a.remove()},'image/png')};
+ img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(xml)};
 /* ---------- ಅರ್ಜಿ ---------- */
 function applySection(as){if(as==='off')return '';const cls=(C.classes||[]).map(Number);
- if(as==='soon')return `<section class="sec" id="apply"><h2>ಅರ್ಜಿ ಸಲ್ಲಿಕೆ</h2><div class="notice">ಆನ್‌ಲೈನ್ ಅರ್ಜಿ <b>${esc(fmtDate(C.appsStart))}</b> ರಿಂದ ಆರಂಭವಾಗುತ್ತದೆ.</div></section>`;
- if(as==='over')return `<section class="sec" id="apply"><h2>ಅರ್ಜಿ ಸಲ್ಲಿಕೆ</h2><div class="notice">ಅರ್ಜಿ ಸಲ್ಲಿಸುವ ಅವಧಿ ಮುಗಿದಿದೆ (ಕೊನೆಯ ದಿನ ${esc(fmtDate(C.appsLastDate))}).</div>${myApps()}</section>`;
- return `<section class="sec" id="apply"><h2>ಅರ್ಜಿ ಸಲ್ಲಿಸಿ</h2><p class="lead">ಕೊನೆಯ ದಿನಾಂಕ: <b>${esc(fmtDate(C.appsLastDate))}</b> • ಅರ್ಜಿ ಶುಲ್ಕ ಇಲ್ಲ</p>
- <form id="apForm" class="omrform" autocomplete="off" novalidate><div class="ofh"><span>ಅಭ್ಯರ್ಥಿಯ ವಿವರ</span><span class="dots" aria-hidden="true"><i></i><i></i><i class="f"></i><i></i></span></div>
+ if(as==='soon')return `<section class="sec wrap" id="apply"><h2>ಅರ್ಜಿ ಸಲ್ಲಿಕೆ</h2><div class="notice">ಆನ್‌ಲೈನ್ ಅರ್ಜಿ <b>${esc(fmtDate(C.appsStart))}</b> ರಿಂದ ಆರಂಭವಾಗುತ್ತದೆ.</div></section>`;
+ if(as==='over')return `<section class="sec wrap" id="apply"><h2>ಅರ್ಜಿ ಸಲ್ಲಿಕೆ</h2><div class="notice">ಅರ್ಜಿ ಸಲ್ಲಿಸುವ ಅವಧಿ ಮುಗಿದಿದೆ (ಕೊನೆಯ ದಿನ ${esc(fmtDate(C.appsLastDate))}).</div>${myApps()}</section>`;
+ return `<section class="sec wrap" id="apply"><h2>ಅರ್ಜಿ ಸಲ್ಲಿಸಿ</h2><p class="lead">ಕೊನೆಯ ದಿನಾಂಕ: <b>${esc(fmtDate(C.appsLastDate))}</b> • ಅರ್ಜಿ ಶುಲ್ಕ ಇಲ್ಲ</p>
+ <div class="omrform"><div class="side"><h3>ಅರ್ಜಿ ನಮೂನೆ</h3><p>ಅರ್ಜಿ ಉಚಿತ. ಸಲ್ಲಿಸಿದ ತಕ್ಷಣ ಅರ್ಜಿ ಸಂಖ್ಯೆ ಸಿಗುತ್ತದೆ – ಅದನ್ನು ಬರೆದಿಟ್ಟುಕೊಳ್ಳಿ.</p><p>ಹಾಲ್ ಟಿಕೆಟ್ ಇದೇ ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಸಿಗುತ್ತದೆ.</p>${map3d('amap')}</div><form id="apForm" class="main" autocomplete="off" novalidate>
   <div class="ofg">
   <label class="fl wide">ವಿದ್ಯಾರ್ಥಿಯ ಪೂರ್ಣ ಹೆಸರು<input name="name" required maxlength="60"></label>
   <label class="fl wide">ತಂದೆ / ಪೋಷಕರ ಹೆಸರು<input name="father" required maxlength="60"></label>
@@ -830,7 +889,7 @@ function applySection(as){if(as==='off')return '';const cls=(C.classes||[]).map(
   <label class="fl">SATS ಸಂಖ್ಯೆ (ಇದ್ದರೆ)<input name="sats" inputmode="numeric" maxlength="12"></label>
   </div>
   <label class="agree"><input type="checkbox" name="ok"> ಮೇಲಿನ ಮಾಹಿತಿ ಸರಿಯಾಗಿದೆ. ಮುಖ್ಯ ಶಿಕ್ಷಕರ ಅನುಮತಿಯೊಂದಿಗೆ ಅರ್ಜಿ ಸಲ್ಲಿಸುತ್ತಿದ್ದೇನೆ.</label>
-  <button class="btn p big" type="submit" id="apBtn">ಅರ್ಜಿ ಸಲ್ಲಿಸಿ</button><div id="apMsg" aria-live="polite"></div></form>${myApps()}</section>`}
+  <button class="btn p big" type="submit" id="apBtn">ಅರ್ಜಿ ಸಲ್ಲಿಸಿ</button><div id="apMsg" aria-live="polite"></div></form></div>${myApps()}</section>`}
 function myApps(){let l=[];try{l=JSON.parse(localStorage.getItem('pratibha_myapps')||'[]')}catch(e){}if(!l.length)return '';
  return `<p class="mine">ಈ ಮೊಬೈಲ್‌ನಿಂದ ಸಲ್ಲಿಸಿದ ಅರ್ಜಿಗಳು: ${l.map(a=>`<b>${esc(a.id)}</b> (${esc(a.name)})`).join(', ')}</p>`}
 function genId(){const ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';const r=new Uint32Array(6);crypto.getRandomValues(r);for(const x of r)s+=ch[x%ch.length];return 'P'+String(C.examDate||'2027').slice(2,4)+'-'+s}
@@ -847,15 +906,15 @@ function bindApply(){const f=$('#apForm');if(!f)return;const ss=$('#apSch');ss.o
   catch(x){err('ಸಲ್ಲಿಸಲಾಗಲಿಲ್ಲ – ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ')}$('#apBtn').disabled=false}}
 /* ---------- ಹಾಲ್ ಟಿಕೆಟ್ ---------- */
 function htSection(hs){if(hs==='off')return '';
- if(hs==='soon')return `<section class="sec" id="hallticket"><h2>ಹಾಲ್ ಟಿಕೆಟ್</h2><div class="notice">ಹಾಲ್ ಟಿಕೆಟ್ <b>${esc(fmtDate(C.htFrom))}</b> ರಿಂದ ಇಲ್ಲಿ ಸಿಗುತ್ತದೆ.</div></section>`;
- return `<section class="sec" id="hallticket"><h2>ಹಾಲ್ ಟಿಕೆಟ್ ಪಡೆಯಿರಿ</h2><p class="lead">ಅರ್ಜಿ ಸಲ್ಲಿಸಿದಾಗ ಸಿಕ್ಕ ಅರ್ಜಿ ಸಂಖ್ಯೆ ಬರೆಯಿರಿ. ಶಾಲೆಯಿಂದಲೇ ನೋಂದಾಯಿತರಾದವರು ಹಾಲ್ ಟಿಕೆಟ್ ಅನ್ನು ಶಾಲೆಯಲ್ಲಿ ಪಡೆಯಿರಿ.</p>
+ if(hs==='soon')return `<section class="sec wrap" id="hallticket"><h2>ಹಾಲ್ ಟಿಕೆಟ್</h2><div class="notice">ಹಾಲ್ ಟಿಕೆಟ್ <b>${esc(fmtDate(C.htFrom))}</b> ರಿಂದ ಇಲ್ಲಿ ಸಿಗುತ್ತದೆ.</div></section>`;
+ return `<section class="sec wrap" id="hallticket"><h2>ಹಾಲ್ ಟಿಕೆಟ್ ಪಡೆಯಿರಿ</h2><p class="lead">ಅರ್ಜಿ ಸಲ್ಲಿಸಿದಾಗ ಸಿಕ್ಕ ಅರ್ಜಿ ಸಂಖ್ಯೆ ಬರೆಯಿರಿ. ಶಾಲೆಯಿಂದಲೇ ನೋಂದಾಯಿತರಾದವರು ಹಾಲ್ ಟಿಕೆಟ್ ಅನ್ನು ಶಾಲೆಯಲ್ಲಿ ಪಡೆಯಿರಿ.</p>
  <form class="htf" id="htForm" onsubmit="return false"><label class="sr" for="htId">ಅರ್ಜಿ ಸಂಖ್ಯೆ</label><input id="htId" placeholder="P27-AB12CD" autocomplete="off"><button class="btn p" id="htGo">ಹುಡುಕಿ</button></form><div id="htRes" aria-live="polite"></div></section>`}
 function bindHt(){const b=$('#htGo');if(!b)return;b.onclick=async()=>{const id=$('#htId').value.trim().toUpperCase().replace(/\s/g,'');const r=$('#htRes');if(!id)return;r.innerHTML='<p>ಹುಡುಕಲಾಗುತ್ತಿದೆ…</p>';
  let st=null;try{st=await PUB.get('pratibha_public/ht_'+id)}catch(e){}
  if(!st){r.innerHTML='<p class="err">ಈ ಸಂಖ್ಯೆಗೆ ಹಾಲ್ ಟಿಕೆಟ್ ಸಿಗಲಿಲ್ಲ. ಸಂಖ್ಯೆ ಸರಿಯಾಗಿದೆಯೇ ನೋಡಿ. ಅರ್ಜಿ ಸಲ್ಲಿಸಿ ಒಂದು ದಿನವೂ ಆಗಿಲ್ಲದಿದ್ದರೆ ನಾಳೆ ಮತ್ತೆ ನೋಡಿ.</p>';return}
  r.innerHTML=`<div class="htwrap"><div class="htscale">${hallTicketHTML(C,st)}</div></div><button class="btn p" id="htPrint">ಹಾಲ್ ಟಿಕೆಟ್ ಮುದ್ರಿಸಿ / PDF ಉಳಿಸಿ</button>`;
  const fit=()=>{const w=$('.htwrap');if(!w)return;const s=Math.min(1,w.clientWidth/794);$('.htscale').style.transform=`scale(${s})`;w.style.height=($('.htscale').scrollHeight*s)+'px'};fit();window.addEventListener('resize',fit);
- $('#htPrint').onclick=()=>doPrint(`<div class="page">${hallTicketHTML(C,st)}</div>`)};
+ $('#htPrint').onclick=()=>viewDoc('ಹಾಲ್ ಟಿಕೆಟ್',`<div class="page">${hallTicketHTML(C,st)}</div>`,'hall_ticket')};
  if(location.hash.startsWith('#ht=')){$('#htId').value=decodeURIComponent(location.hash.slice(4));b.click();$('#hallticket').scrollIntoView()}}
 /* ---------- ಮಾದರಿ ಪತ್ರಿಕೆ ---------- */
 let MK=null;
@@ -894,7 +953,7 @@ const P={site:'pratibha_public/site',used:'pratibha_meta/used',exam:()=>'pratibh
 const DEF_BP=[{sec:'gk',n:20},{sec:'mat',n:20},{sec:'ca',n:15},{sec:'ss',n:15},{sec:'sci',n:15},{sec:'math',n:15}];
 const DEF_NOTES={gk:'ಭಾರತ, ಕರ್ನಾಟಕ ಮತ್ತು ಬೆಳಗಾವಿ ಜಿಲ್ಲೆಯ ಇತಿಹಾಸ, ಭೂಗೋಳ, ಸಂವಿಧಾನ, ವಿಜ್ಞಾನ, ಸಾಹಿತ್ಯ, ಕ್ರೀಡೆ ಮತ್ತು ಪ್ರಮುಖ ವ್ಯಕ್ತಿಗಳು',
  mat:'ಸಂಖ್ಯಾ ಸರಣಿ, ಅಕ್ಷರ ಸರಣಿ, ಸಂಕೇತ ಭಾಷೆ, ದಿಕ್ಕು ಮತ್ತು ದೂರ, ಸಂಬಂಧಗಳು, ಶ್ರೇಣೀಕರಣ, ಗಡಿಯಾರ, ಕ್ಯಾಲೆಂಡರ್, ಚಿತ್ರ ಆಧಾರಿತ ತಾರ್ಕಿಕತೆ',
- ca:'ಈ ವರ್ಷದ ರಾಷ್ಟ್ರೀಯ, ರಾಜ್ಯ ಮತ್ತು ಅಂತರರಾಷ್ಟ್ರೀಯ ಪ್ರಮುಖ ಘಟನೆಗಳು, ಪ್ರಶಸ್ತಿಗಳು, ಕ್ರೀಡೆ, ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು'};
+ ca:'ರಾಷ್ಟ್ರೀಯ, ರಾಜ್ಯ ಮತ್ತು ಅಂತರರಾಷ್ಟ್ರೀಯ ಪ್ರಮುಖ ಘಟನೆಗಳು, ಪ್ರಶಸ್ತಿಗಳು, ಕ್ರೀಡೆ, ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು'};
 function defCfg(){return {activeYear:'2026-27',examName:'ಪ್ರತಿಭಾನ್ವೇಷಣೆ ಪರೀಕ್ಷೆ',tagline:'7 ಮತ್ತು 8ನೇ ತರಗತಿ ವಿದ್ಯಾರ್ಥಿಗಳಿಗಾಗಿ',
  school:'',address:'',contact:'',schoolCode:'001',center:'',examDate:'2027-01-09',examTime:'ಬೆಳಿಗ್ಗೆ 10:00 ರಿಂದ 12:00',durationMin:120,hm:'',
  classes:[7,8],sets:4,resultsTopN:10,announcement:'',prizeNote:'ಗಣರಾಜ್ಯೋತ್ಸವದಂದು (ಜನವರಿ 26) ಬಹುಮಾನ ವಿತರಣೆ',
@@ -941,7 +1000,7 @@ $('#logoutBtn').onclick=()=>{if(confirm('ಲಾಗ್ ಔಟ್ ಆಗಬೇಕ�
 async function loadAll(){busy(true,'ಮಾಹಿತಿ ಲೋಡ್ ಆಗುತ್ತಿದೆ…');
  try{
   const saved=await STORE.get(P.site);const d=defCfg();CFG=Object.assign(d,saved||{});
-  CFG.blueprint=Object.assign(d.blueprint,CFG.blueprint||{});CFG.sylNotes=Object.assign({...DEF_NOTES},CFG.sylNotes||{});
+  CFG.blueprint=Object.assign(d.blueprint,CFG.blueprint||{});CFG.sylNotes=Object.assign({...DEF_NOTES},CFG.sylNotes||{});if(/^ಈ ವರ್ಷದ ರಾಷ್ಟ್ರೀಯ/.test(CFG.sylNotes.ca||''))CFG.sylNotes.ca=DEF_NOTES.ca;
   classes().forEach(c=>{if(!CFG.blueprint[c])CFG.blueprint[c]=DEF_BP.map(x=>({...x}));CFG.blueprint[c]=CFG.blueprint[c].filter(b=>SECS[b.sec]&&b.sec!=='lang')});
   USED=await STORE.get(P.used)||{};
   $('#loadTxt').textContent='ಪ್ರಶ್ನೆ ಬ್ಯಾಂಕ್ ಓದಲಾಗುತ್ತಿದೆ…';await loadBank();
