@@ -219,6 +219,7 @@ footer a{color:#fff}.adm{color:#F4B9B9!important;font-size:13px;text-decoration:
 .nopz{margin:10px 0 0;font-size:14px;color:var(--mut);background:var(--paper2,#fff7df);border-left:4px solid var(--rd);padding:8px 10px;border-radius:6px}
 .lead small{font-size:.8em;color:var(--mut)}
 .mkpair{display:flex;gap:8px;flex-wrap:wrap}
+.feebig{font:800 44px/1.1 var(--disp,inherit);margin:6px 0 10px}.upiqr{width:180px;max-width:100%;background:#fff;border-radius:12px;padding:6px;display:block;margin:8px 0}.upiid{word-break:break-all}
 
 </style>
 <style id="cssAdm" media="not all">
@@ -396,10 +397,10 @@ details.sheet>summary{cursor:pointer}
  .rail button{min-width:0;font-size:9.5px;padding:5px 1px}.rail button span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}}
 
 body.in-school .main-only{display:none!important}body:not(.in-school) .ins-only{display:none!important}
-.rgcta{margin-top:18px;padding-top:14px;border-top:1px dashed #e3c9c9;display:grid;gap:8px}.rgcta span{font-size:14px;color:#5a3b3b}.rgcta .b{margin-top:0}
-#rgBox .f{margin-top:10px}.rqg{display:grid;gap:12px}.rq{border:1.5px solid #f0c44c;background:#fffbea;border-radius:14px;padding:12px 14px}.rq.rej{border-color:#ddd;background:#f7f7f7;opacity:.8}
 .rq .acts{align-items:center}.rq input{max-width:130px}
 .rail [data-v=sch]{position:relative}.rqn{position:absolute;top:4px;right:10px;background:#e53935;color:#fff;font:700 11px/18px var(--body);min-width:18px;height:18px;border-radius:9px;text-align:center;font-style:normal;padding:0 4px}
+.rqg{display:grid;gap:12px}.rq{border:1.5px solid #f0c44c;background:#fffbea;border-radius:14px;padding:12px 14px}.rq.rej{border-color:#ddd;background:#f7f7f7;opacity:.8}.rq .acts{align-items:center}.rq input{max-width:130px}.rq .utr{font-family:monospace;font-size:15px;letter-spacing:.5px}
+.qrrow{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-top:10px}.qrprev img{max-width:160px;border:1px solid #ddd;border-radius:10px;display:block;margin-bottom:6px}
 
 </style>
 <style>
@@ -549,17 +550,6 @@ const STORE={ready:false,user:null,
  async createUser(email,pw){email=email.toLowerCase();if(MOCK){const k='mockauth:'+email;if(localStorage.getItem(k))throw new Error('auth/email-already-in-use');const uid='U'+Math.random().toString(36).slice(2,12);localStorage.setItem(k,JSON.stringify({uid,pw}));return uid}
   if(!this.auth2){this.app2=this.AP.initializeApp(FB_CONFIG,'second');this.auth2=this.A.getAuth(this.app2)}
   const c=await this.A.createUserWithEmailAndPassword(this.auth2,email,pw);const uid=c.user.uid;try{await this.A.signOut(this.auth2)}catch(e){}return uid},
- /* ಶಾಲೆಯೇ ತನ್ನ ಖಾತೆ ತೆರೆಯುವುದು (ನೋಂದಣಿ ಅರ್ಜಿಗಾಗಿ) – ಮುಖ್ಯ app ನಲ್ಲೇ ಲಾಗಿನ್ ಆಗುತ್ತದೆ */
- async signup(email,pw){email=email.toLowerCase();if(MOCK){const k='mockauth:'+email;if(localStorage.getItem(k))throw new Error('auth/email-already-in-use');const uid='U'+Math.random().toString(36).slice(2,12);localStorage.setItem(k,JSON.stringify({uid,pw}));sessionStorage.setItem('mockuser',email);this.user={uid,email};return this.user}
-  const cr=await this.A.createUserWithEmailAndPassword(this.auth,email,pw);return cr.user},
- /* ನೋಂದಣಿ ಅರ್ಜಿಗಳು: pratibha_req/{uid} = {json, uid, status, updated} */
- async setReq(uid,info,status){const json=JSON.stringify(info);if(MOCK){localStorage.setItem('mockfs:pratibha_req/'+uid,JSON.stringify(Object.assign({},info,{uid,status})));return}
-  await this.F.setDoc(this.F.doc(this.db,'pratibha_req/'+uid),{json,uid,status,updated:Date.now()})},
- async getReq(uid){if(MOCK){const v=localStorage.getItem('mockfs:pratibha_req/'+uid);return v?JSON.parse(v):null}
-  const s=await this.F.getDoc(this.F.doc(this.db,'pratibha_req/'+uid));if(!s.exists())return null;const d=s.data();return Object.assign(JSON.parse(d.json||'{}'),{uid:d.uid,status:d.status})},
- async listReq(){if(MOCK)return (await this.list('pratibha_req')).map(d=>d.data);
-  const snap=await this.F.getDocs(this.F.collection(this.db,'pratibha_req'));return snap.docs.map(x=>{const d=x.data();return Object.assign(JSON.parse(d.json||'{}'),{uid:d.uid,status:d.status})})},
- async delReq(uid){if(MOCK){localStorage.removeItem('mockfs:pratibha_req/'+uid);return}await this.F.deleteDoc(this.F.doc(this.db,'pratibha_req/'+uid))},
  async resetPw(email){if(MOCK)return;await this.A.sendPasswordResetEmail(this.auth,email)},
  /* ಶಾಲೆಗಳ ನೋಂದಣಿ: uid ಮತ್ತು active ನಿಜವಾದ ಫೀಲ್ಡ್‌ಗಳು (Firestore Rules ಇವನ್ನು ಓದುತ್ತವೆ) */
  async setReg(code,info,uid,active){const json=JSON.stringify(info);if(MOCK){localStorage.setItem('mockfs:pratibha_reg/'+code,JSON.stringify(Object.assign({},info,{uid,active})));return}
@@ -800,22 +790,7 @@ document.write('<style>'+PRINT_CSS+'</style>');
    <button class="b big" id="lgBtn" type="button">ಪ್ರವೇಶಿಸಿ</button>
    <button class="lnk" id="lgForgot" type="button">ಪಾಸ್‌ವರ್ಡ್ ಮರೆತಿರಾ?</button>
    <div id="lgMsg" class="note" aria-live="polite"></div>
-   <div class="rgcta" id="rgCta"><span>ಹೊಸ ಶಾಲೆಯೇ? ನಿಮ್ಮ ಶಾಲೆಗೂ ಈ ಪರೀಕ್ಷಾ ವೆಬ್‌ಸೈಟ್ ಬೇಕೇ?</span><button class="b ghost" id="rgOpen" type="button">ಶಾಲೆಯ ನೋಂದಣಿ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ</button></div>
    <a class="back" href="./">← ವೆಬ್‌ಸೈಟ್‌ಗೆ ಹಿಂತಿರುಗಿ</a>
-  </div>
-  <div class="lgin" id="rgBox" hidden>
-   <h1>ಶಾಲೆಯ ನೋಂದಣಿ</h1>
-   <p class="note">ವಿವರ ತುಂಬಿ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ. ಅನುಮೋದನೆಯಾದ ನಂತರ ಇದೇ ಇಮೇಲ್ ಮತ್ತು ಪಾಸ್‌ವರ್ಡ್‌ನಿಂದ ನಿಮ್ಮ ಶಾಲೆಯ ಅಡ್ಮಿನ್ ಪ್ರವೇಶಿಸಬಹುದು.</p>
-   <label class="f">ಶಾಲೆಯ ಹೆಸರು<input id="rgName" autocomplete="organization"></label>
-   <label class="f">ಊರು / ತಾಲೂಕು / ಜಿಲ್ಲೆ<input id="rgPlace"></label>
-   <label class="f">ಶಿಕ್ಷಕರ ಹೆಸರು<input id="rgTeacher" autocomplete="name"></label>
-   <label class="f">ಶಿಕ್ಷಕರ ಮೊಬೈಲ್ (WhatsApp)<input id="rgMobile" inputmode="numeric" maxlength="10" autocomplete="tel"></label>
-   <label class="f">ಲಾಗಿನ್ ಇಮೇಲ್ (ನಿಮ್ಮ Gmail)<input id="rgEmail" type="email" autocomplete="username"></label>
-   <label class="f">ಪಾಸ್‌ವರ್ಡ್ (ಕನಿಷ್ಠ 6 ಅಕ್ಷರ)<input id="rgPw" type="password" autocomplete="new-password"></label>
-   <label class="f">ಪಾಸ್‌ವರ್ಡ್ ಮತ್ತೊಮ್ಮೆ<input id="rgPw2" type="password" autocomplete="new-password"></label>
-   <button class="b big" id="rgBtn" type="button">ಅರ್ಜಿ ಸಲ್ಲಿಸಿ</button>
-   <div id="rgMsg" class="note" aria-live="polite"></div>
-   <button class="lnk" id="rgBack" type="button">← ಈಗಾಗಲೇ ಖಾತೆ ಇದೆ – ಪ್ರವೇಶಿಸಿ</button>
   </div>
  </form>
 </div>
@@ -919,7 +894,7 @@ document.write('<style>'+PRINT_CSS+'</style>');
  <section class="view" id="v-sch">
   <div class="vh"><h1>ಶಾಲೆಗಳು <span class="pill b" id="schCount">0</span></h1><p>ಬೇರೆ ಶಾಲೆಗಳಿಗೆ ಈ ಪರೀಕ್ಷಾ ವ್ಯವಸ್ಥೆ ನೀಡಿ. ಪ್ರತಿ ಶಾಲೆಗೆ ತನ್ನದೇ ವೆಬ್‌ಸೈಟ್ ಲಿಂಕ್, ಅಡ್ಮಿನ್ ಲಾಗಿನ್, ಪರೀಕ್ಷಾ ಕೇಂದ್ರ, ವಿದ್ಯಾರ್ಥಿಗಳು ಮತ್ತು ಫಲಿತಾಂಶ. ಪ್ರಶ್ನೆ ಕೋಶ ನಿಮ್ಮದೇ – ಅವರು ಅದನ್ನು ಬಳಸಬಹುದು, ಬದಲಿಸಲು ಅಥವಾ ಅಳಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</p></div>
   <section class="sheet wide" id="reqSheet"><h2>ನೋಂದಣಿ ಅರ್ಜಿಗಳು <span class="pill y" id="reqCount">0</span></h2>
-   <p class="note">ಶಾಲೆಯವರು ಅಡ್ಮಿನ್ ಪುಟದ "ಶಾಲೆಯ ನೋಂದಣಿ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ" ಮೂಲಕ ತಾವೇ ಹೆಸರು, ಮೊಬೈಲ್, ಇಮೇಲ್, ಪಾಸ್‌ವರ್ಡ್ ತುಂಬಿ ಕಳುಹಿಸುತ್ತಾರೆ. ನೀವು ಇಲ್ಲಿ "ಅನುಮೋದಿಸಿ" ಒತ್ತಿದರೆ ಸಾಕು. ಅರ್ಜಿ ಲಿಂಕ್: <a id="rgLink" target="_blank" rel="noopener"></a> <button class="b ghost sm" id="rgLinkCopy" type="button">ಲಿಂಕ್ ನಕಲಿಸಿ</button></p>
+   <p class="note"><span id="reqState"></span> ಶಾಲೆಯವರು ನಿಮ್ಮ ವೆಬ್‌ಸೈಟ್‌ನ "ಶಾಲೆಗಳಿಗೆ" ವಿಭಾಗದಲ್ಲಿ ತಾವೇ ಶಾಲೆ, ಶಿಕ್ಷಕರ ಹೆಸರು, ಮೊಬೈಲ್, Gmail ತುಂಬಿ, ಶುಲ್ಕ ಪಾವತಿಸಿ UTR ಸಂಖ್ಯೆಯೊಂದಿಗೆ ಅರ್ಜಿ ಕಳುಹಿಸುತ್ತಾರೆ. ಹಣ ಬಂದಿದೆಯೇ ನೋಡಿ "ಅನುಮೋದಿಸಿ" ಒತ್ತಿ – ಲಾಗಿನ್ ತಾನಾಗಿ ತಯಾರಾಗಿ, ಲಿಂಕ್–ಇಮೇಲ್–ಪಾಸ್‌ವರ್ಡ್ ಇರುವ WhatsApp ಸಂದೇಶ ಸಿದ್ಧವಾಗುತ್ತದೆ.<br>ಅರ್ಜಿ ಲಿಂಕ್ (WhatsApp ಗುಂಪುಗಳಿಗೆ ಹಂಚಿ): <a id="rgLink" target="_blank" rel="noopener"></a> <button class="b ghost sm" id="rgLinkCopy" type="button">ಲಿಂಕ್ ನಕಲಿಸಿ</button></p>
    <div id="reqList"></div></section>
   <section class="sheet wide"><h2>ಹೊಸ ಶಾಲೆ ಸೇರಿಸಿ (ನೀವೇ ತುಂಬಿ)</h2>
    <div class="grid"><label class="f">ಶಾಲೆಯ ಹೆಸರು<input id="nsName"></label><label class="f">ಊರು / ತಾಲೂಕು / ಜಿಲ್ಲೆ<input id="nsPlace"></label>
@@ -968,6 +943,15 @@ document.write('<style>'+PRINT_CSS+'</style>');
    <p class="note">ಸ್ಥಾನ ಪಡೆದರೂ ಕನಿಷ್ಠ ಅಂಕ ತಲುಪದಿದ್ದರೆ ಬಹುಮಾನ ಮತ್ತು ಪ್ರಶಂಸಾ ಪತ್ರ ಇಲ್ಲ. ಈ ಮಿತಿ ವೆಬ್‌ಸೈಟ್, ನಿಯಮಗಳು ಮತ್ತು ಪ್ರಶ್ನೆಪತ್ರಿಕೆಯ ಮುಖಪುಟದಲ್ಲಿ ತಾನಾಗಿ ಕಾಣುತ್ತದೆ.</p></section>
   <section class="sheet wide"><h2>ಪ್ರಮುಖ ದಿನಾಂಕಗಳು (ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ)</h2><div class="tw" id="tlEd"></div><button class="b ghost sm" id="tlAdd">+ ದಿನಾಂಕ</button></section>
   <section class="sheet wide"><h2>ಪ್ರಾಯೋಜಕರು</h2><div class="tw" id="spEd"></div><button class="b ghost sm" id="spAdd">+ ಪ್ರಾಯೋಜಕರು</button></section>
+  <section class="sheet wide own main-only"><h2>ಶಾಲೆಗಳ ನೋಂದಣಿ (ನಿಮ್ಮ ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ)</h2>
+   <p class="note">ತೆರೆದರೆ ನಿಮ್ಮ ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ "ಶಾಲೆಗಳಿಗೆ" ವಿಭಾಗ ಕಾಣುತ್ತದೆ. ಬೇರೆ ಶಾಲೆಯವರು ಅಲ್ಲಿಂದ ಶುಲ್ಕ ಪಾವತಿಸಿ ಅರ್ಜಿ ಸಲ್ಲಿಸುತ್ತಾರೆ; ಅರ್ಜಿಗಳು "ಶಾಲೆಗಳು" ವಿಭಾಗದಲ್ಲಿ ಬರುತ್ತವೆ.</p>
+   <div class="grid"><label class="f">ಅರ್ಜಿ ಸ್ವೀಕಾರ<select data-c="schRegOpen"><option value="">ಮುಚ್ಚಿದೆ</option><option value="1">ತೆರೆದಿದೆ</option></select></label>
+    <label class="f">ನೋಂದಣಿ ಶುಲ್ಕ ₹ (0 = ಉಚಿತ)<input data-c="schRegFee" type="number" min="0"></label>
+    <label class="f">ನಿಮ್ಮ UPI ID (ಉದಾ: 98xxxxxxxx@ybl)<input data-c="schRegUpi" autocomplete="off"></label>
+    <label class="f">UPI ನಲ್ಲಿ ಕಾಣುವ ಹೆಸರು<input data-c="schRegPayee"></label></div>
+   <label class="f">ಶಾಲೆಗಳಿಗೆ ಸೂಚನೆ (ಬೇಕಿದ್ದರೆ)<input data-c="schRegNote" placeholder="ಉದಾ: ಒಂದು ವರ್ಷದ ಬಳಕೆಗೆ ಶುಲ್ಕ. ಸಂದೇಹಕ್ಕೆ ಕರೆ ಮಾಡಿ."></label>
+   <div class="qrrow"><div><b>UPI QR ಚಿತ್ರ</b><p class="note">PhonePe / Google Pay ನಲ್ಲಿರುವ ನಿಮ್ಮ QR ನ ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಹಾಕಿ (ಬೇಕಿದ್ದರೆ ಮಾತ್ರ).</p><label class="b ghost sm">QR ಆರಿಸಿ<input type="file" id="qrFile" accept="image/*" hidden></label></div><div id="qrPrev" class="qrprev"></div></div>
+  </section>
   <section class="sheet wide"><h2>ನಿಯಮಗಳು</h2><label class="f">ಪ್ರತಿ ಸಾಲಿಗೆ ಒಂದು ನಿಯಮ<textarea data-c="rulesTxt" rows="6"></textarea></label></section>
   <section class="sheet wide own"><h2>ಪ್ರಶ್ನೆ ಬ್ಯಾಂಕ್ ಸ್ಥಳ (GitHub)</h2>
    <div class="grid"><label class="f">GitHub ಖಾತೆ<input id="qbOwner"></label><label class="f">ರೆಪೊ<input id="qbRepo"></label><label class="f">ಫೋಲ್ಡರ್<input id="qbDir"></label>
@@ -1026,7 +1010,8 @@ function render(){const cls=(C.classes||[]).map(Number);document.title=`${C.exam
  const sv=C.syllabusView||{};const res=C.results||{};const ak=C.answerKey||{};const today=T0();const as=appsState(),hs=htState();
  const tl=(C.timeline||[]).filter(t=>t.date);const nextI=tl.findIndex(t=>D(t.date)>=today);
  const nq=cls.map(c=>(sv[c]||{}).total).filter(Boolean)[0]||100;
- const links=[['dates','ದಿನಾಂಕಗಳು'],as!=='off'?['apply','ಅರ್ಜಿ']:null,hs!=='off'?['hallticket','ಹಾಲ್ ಟಿಕೆಟ್']:null,['syllabus','ಪಠ್ಯಕ್ರಮ'],['practice','ಅಭ್ಯಾಸ'],ak.published?['keys','ಕೀ ಉತ್ತರ']:null,res.published?['results','ಫಲಿತಾಂಶ']:null,['rules','ನಿಯಮಗಳು'],['contact','ಸಂಪರ್ಕ']].filter(Boolean);
+ const sreg=!SCH&&!!C.schRegOpen;
+ const links=[['dates','ದಿನಾಂಕಗಳು'],as!=='off'?['apply','ಅರ್ಜಿ']:null,hs!=='off'?['hallticket','ಹಾಲ್ ಟಿಕೆಟ್']:null,['syllabus','ಪಠ್ಯಕ್ರಮ'],['practice','ಅಭ್ಯಾಸ'],ak.published?['keys','ಕೀ ಉತ್ತರ']:null,res.published?['results','ಫಲಿತಾಂಶ']:null,['rules','ನಿಯಮಗಳು'],sreg?['schreg','ಶಾಲೆಗಳಿಗೆ']:null,['contact','ಸಂಪರ್ಕ']].filter(Boolean);
  $('#navLinks').innerHTML=links.map(([h,t])=>`<a href="#${h}">${t}</a>`).join('');
  const sp=(C.sponsors||[]).filter(s=>s.name);
  const notice=`<div class="hang" aria-label="ಬಹುಮಾನಗಳು ಮತ್ತು ಪ್ರಾಯೋಜಕರು"><span class="string" aria-hidden="true"></span><span class="pin" aria-hidden="true"></span>
@@ -1072,6 +1057,7 @@ function render(){const cls=(C.classes||[]).map(Number);document.title=`${C.exam
   cls.map(c=>{const l=(res.lists||{})[c]||[];const top=l.filter(x=>x.rank<=3);return `<div class="rc"><h3>${c}ನೇ ತರಗತಿ</h3>${l.length?`<div class="podium">${top.map(x=>`<div class="pd r${x.rank}"><span class="rk">${x.rank}</span><b>${esc(x.name)}</b><small>${esc(x.school||'')}</small><em>${x.score}/${x.of}</em>${x.prize?`<i class="pzt">🏆 ${esc(x.prize)}</i>`:''}</div>`).join('')}</div>${prizeMinOf(C)&&!l.some(x=>x.prize)?`<p class="nopz">ಈ ತರಗತಿಯಲ್ಲಿ ಯಾರೂ ಕನಿಷ್ಠ ${prizeMinOf(C)} ಅಂಕ ತಲುಪದ ಕಾರಣ ಈ ವರ್ಷ ಬಹುಮಾನ ನೀಡಲಾಗುವುದಿಲ್ಲ.</p>`:''}
    ${l.length>top.length?`<table class="rt">${l.filter(x=>x.rank>3).map(x=>`<tr><td>${x.rank}</td><td><b>${esc(x.name)}</b><br><small>${esc(x.school||'')}</small></td><td>${x.score}/${x.of}</td></tr>`).join('')}</table>`:''}`:'<p class="empty">—</p>'}</div>`}).join('')+'</div></section>'}
  h+=`<section class="sec wrap" id="rules"><h2>ನಿಯಮಗಳು</h2><ol class="rules">${(C.rules||[]).concat(prizeRule(C)?[prizeRule(C)]:[]).map(r=>`<li>${esc(r)}</li>`).join('')}</ol></section>`;
+ if(sreg)h+=schRegSection();
  h+=`<footer id="contact"><div class="fin wrap"><div class="fl1">${map3d('fmap')}<div><b>${esc(C.examName)} ${esc(C.activeYear)}</b><br>${esc(C.school||'')}${C.address?'<br>'+esc(C.address):''}${C.hm?'<br>ಮುಖ್ಯ ಶಿಕ್ಷಕರು: '+esc(C.hm):''}</div></div>
   <div>${C.contact?`ಸಂಪರ್ಕ: <a href="tel:${esc(C.contact)}">${esc(C.contact)}</a><br>`:''}<a class="adm" href="#admin">ಅಡ್ಮಿನ್</a></div></div><div class="flagband" aria-hidden="true"><i></i><i></i></div></footer>`;
  root.innerHTML=h;
@@ -1079,7 +1065,7 @@ function render(){const cls=(C.classes||[]).map(Number);document.title=`${C.exam
  document.querySelectorAll('[data-mock]').forEach(b=>b.onclick=()=>openMock(+b.dataset.mock));
  document.querySelectorAll('[data-mockdl]').forEach(b=>b.onclick=()=>downloadMock(+b.dataset.mockdl,b));
  $('#omrDl').onclick=()=>viewDoc('ಖಾಲಿ OMR ಉತ್ತರ ಹಾಳೆ',`<div class="page">${omrSVG(C,null,nq)}</div>`,'OMR');
- bindApply();bindHt();bindKeys();tick();clearInterval(CDT);CDT=setInterval(tick,1000);
+ bindApply();bindHt();bindKeys();bindSchReg();if(location.hash==='#schreg'){const el=$('#schreg');if(el)setTimeout(()=>el.scrollIntoView(),200)}tick();clearInterval(CDT);CDT=setInterval(tick,1000);
  if(location.hash&&location.hash.length>1&&!location.hash.startsWith('#ht=')){const el=document.getElementById(location.hash.slice(1));if(el)setTimeout(()=>el.scrollIntoView(),50)}}
 function examAt(){const d=D(C.examDate);if(!d)return null;const m=(C.examTime||'').match(/(\d{1,2})[:.](\d{2})/);let hr=m?+m[1]:10;if(m&&/ಮಧ್ಯಾಹ್ನ|ಸಂಜೆ|pm/i.test(C.examTime)&&hr<12)hr+=12;d.setHours(hr,m?+m[2]:0,0,0);return d}
 let CDT=null;
@@ -1159,6 +1145,42 @@ function bindApply(){const f=$('#apForm');if(!f)return;
   try{await PUB.create(PP('apps'),id,obj);let l=[];try{l=JSON.parse(localStorage.getItem(MYAPPS)||'[]')}catch(x){}l.push({id,name:obj.name});localStorage.setItem(MYAPPS,JSON.stringify(l));
    f.reset();m.innerHTML=`<div class="done"><span class="dots" aria-hidden="true"><i class="f"></i></span><div>ಅರ್ಜಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ. ನಿಮ್ಮ ಅರ್ಜಿ ಸಂಖ್ಯೆ<div class="appno">${id}</div>ಈ ಸಂಖ್ಯೆಯನ್ನು ಬರೆದಿಟ್ಟುಕೊಳ್ಳಿ ಅಥವಾ ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ತೆಗೆಯಿರಿ – ಹಾಲ್ ಟಿಕೆಟ್ ಪಡೆಯಲು ಇದೇ ಸಂಖ್ಯೆ ಬೇಕು.${C.htFrom?` ಹಾಲ್ ಟಿಕೆಟ್ ${esc(fmtShort(C.htFrom))} ರಿಂದ ಈ ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ.`:''}</div></div>`}
   catch(x){err('ಸಲ್ಲಿಸಲಾಗಲಿಲ್ಲ – ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ')}$('#apBtn').disabled=false}}
+/* ---------- ಬೇರೆ ಶಾಲೆಗಳ ನೋಂದಣಿ ಅರ್ಜಿ (ಮುಖ್ಯ ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಮಾತ್ರ) ---------- */
+const MYSREQ='pratibha_myschreq';
+function schRegSection(){const fee=+C.schRegFee||0;const upi=(C.schRegUpi||'').trim();const pn=C.schRegPayee||C.school||'';
+ const upiLink=upi&&fee?`upi://pay?pa=${encodeURIComponent(upi)}&pn=${encodeURIComponent(pn)}&am=${fee}&cu=INR&tn=${encodeURIComponent('Pratibha school registration')}`:'';
+ let mine=null;try{mine=JSON.parse(localStorage.getItem(MYSREQ)||'null')}catch(e){}
+ return `<section class="sec wrap" id="schreg"><h2>ಶಾಲೆಗಳಿಗೆ – ನಿಮ್ಮ ಶಾಲೆಯಲ್ಲೂ ಈ ಪರೀಕ್ಷೆ ನಡೆಸಿ</h2>
+ <p class="lead">ನಿಮ್ಮ ಶಾಲೆಗೆ ತನ್ನದೇ ವೆಬ್‌ಸೈಟ್ (ಆನ್‌ಲೈನ್ ಅರ್ಜಿ, ಹಾಲ್ ಟಿಕೆಟ್, ಮಾದರಿ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ, ಕೀ ಉತ್ತರ, ಫಲಿತಾಂಶ), ಸಿದ್ಧ ಪ್ರಶ್ನೆಪತ್ರಿಕೆಗಳು (A–D ಸೆಟ್), OMR ಹಾಳೆ, ಮೊಬೈಲ್‌ನಿಂದ OMR ಸ್ಕ್ಯಾನ್ ಮತ್ತು ಪ್ರಶಂಸಾ ಪತ್ರಗಳು.</p>
+ <div class="omrform"><div class="side"><h3>ನೋಂದಣಿ ಶುಲ್ಕ</h3><div class="feebig">${fee?'₹'+fee:'ಉಚಿತ'}</div>
+  ${fee?`<p>1) ಕೆಳಗಿನ UPI ಗೆ ₹${fee} ಪಾವತಿಸಿ.<br>2) ಪಾವತಿಯ <b>UTR / ವಹಿವಾಟು ಸಂಖ್ಯೆ</b> (12 ಅಂಕಿ) ಅರ್ಜಿಯಲ್ಲಿ ಬರೆಯಿರಿ.</p>
+  ${C.schRegQr?`<img class="upiqr" src="${C.schRegQr}" alt="UPI QR">`:''}${upi?`<p class="upiid">UPI: <b>${esc(upi)}</b>${pn?`<br><small>${esc(pn)}</small>`:''}</p>`:''}
+  ${upiLink?`<a class="btn w" href="${esc(upiLink)}">UPI ಆಪ್‌ನಲ್ಲಿ ₹${fee} ಪಾವತಿಸಿ</a><p><small>(ಮೊಬೈಲ್‌ನಲ್ಲಿ ಮಾತ್ರ ತೆರೆಯುತ್ತದೆ)</small></p>`:''}`:'<p>ಅರ್ಜಿ ಸಲ್ಲಿಸಿ – ಅನುಮೋದನೆಯಾದ ನಂತರ ಲಾಗಿನ್ ವಿವರ ಬರುತ್ತದೆ.</p>'}
+  ${C.schRegNote?`<p>${esc(C.schRegNote)}</p>`:''}</div>
+ <form id="srForm" class="main" autocomplete="off" novalidate><div class="ofg">
+  <label class="fl wide">ಶಾಲೆಯ ಹೆಸರು<input name="name" required maxlength="100" placeholder="ಉದಾ: ಸರ್ಕಾರಿ ಹಿರಿಯ ಪ್ರಾಥಮಿಕ ಶಾಲೆ, ಊರು"></label>
+  <label class="fl wide">ಊರು / ತಾಲೂಕು / ಜಿಲ್ಲೆ<input name="place" required maxlength="80"></label>
+  <label class="fl">ಜವಾಬ್ದಾರಿ ಶಿಕ್ಷಕರ ಹೆಸರು<input name="teacher" required maxlength="60"></label>
+  <label class="fl">ಶಿಕ್ಷಕರ ಮೊಬೈಲ್ (WhatsApp)<input name="mobile" required inputmode="numeric" maxlength="10"></label>
+  <label class="fl wide">ಲಾಗಿನ್‌ಗೆ ಬಳಸುವ Gmail<input name="email" type="email" required maxlength="80" placeholder="ಉದಾ: schoolname@gmail.com"></label>
+  ${fee?`<label class="fl wide">UPI ಪಾವತಿಯ UTR / ವಹಿವಾಟು ಸಂಖ್ಯೆ<input name="utr" required inputmode="numeric" maxlength="22" placeholder="12 ಅಂಕಿಯ ಸಂಖ್ಯೆ"></label>`:''}
+ </div>
+ <label class="agree"><input type="checkbox" name="ok"> ಮೇಲಿನ ಮಾಹಿತಿ ಸರಿಯಾಗಿದೆ. ಮುಖ್ಯ ಶಿಕ್ಷಕರ ಅನುಮತಿಯೊಂದಿಗೆ ಅರ್ಜಿ ಸಲ್ಲಿಸುತ್ತಿದ್ದೇನೆ.</label>
+ <button class="btn p big" type="submit" id="srBtn">ಶಾಲೆಯ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ</button><div id="srMsg" aria-live="polite"></div>
+ ${mine?`<p class="mine">ಈ ಮೊಬೈಲ್‌ನಿಂದ ಸಲ್ಲಿಸಿದ ಶಾಲಾ ಅರ್ಜಿ: <b>${esc(mine.id)}</b> (${esc(mine.name)}) – ಅನುಮೋದನೆಯಾದಾಗ WhatsApp ಸಂದೇಶ ಬರುತ್ತದೆ.</p>`:''}</form></div></section>`}
+function bindSchReg(){const f=$('#srForm');if(!f)return;
+ f.onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(f).entries());const m=$('#srMsg');const err=t=>{m.innerHTML=`<p class="err">${t}</p>`};const fee=+C.schRegFee||0;
+  const v=k=>String(d[k]||'').trim();
+  if(!v('name'))return err('ಶಾಲೆಯ ಹೆಸರು ಬರೆಯಿರಿ');if(!v('place'))return err('ಊರು / ತಾಲೂಕು ಬರೆಯಿರಿ');if(!v('teacher'))return err('ಶಿಕ್ಷಕರ ಹೆಸರು ಬರೆಯಿರಿ');
+  if(!/^[6-9]\d{9}$/.test(v('mobile')))return err('10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಬರೆಯಿರಿ');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('email')))return err('ಸರಿಯಾದ Gmail ವಿಳಾಸ ಬರೆಯಿರಿ');
+  const utr=v('utr').replace(/\s/g,'');if(fee&&!/^[A-Za-z0-9]{10,22}$/.test(utr))return err('ಪಾವತಿಯ UTR / ವಹಿವಾಟು ಸಂಖ್ಯೆ ಬರೆಯಿರಿ (ಪಾವತಿ ಆಪ್‌ನ ವಿವರದಲ್ಲಿ ಸಿಗುತ್ತದೆ)');
+  if(!d.ok)return err('ಮಾಹಿತಿ ಸರಿಯಾಗಿದೆ ಎಂದು ಗುರುತಿಸಿ');
+  const ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';const r=new Uint32Array(6);crypto.getRandomValues(r);const id='S-'+[...r].map(x=>ch[x%ch.length]).join('');
+  const obj={reqId:id,name:v('name'),place:v('place'),teacher:v('teacher'),mobile:v('mobile'),email:v('email').toLowerCase(),fee,utr,at:Date.now(),status:'pending'};
+  $('#srBtn').disabled=true;m.innerHTML='<p>ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ…</p>';
+  try{await PUB.create('pratibha_req',id,obj);localStorage.setItem(MYSREQ,JSON.stringify({id,name:obj.name}));f.reset();
+   m.innerHTML=`<div class="done"><span class="dots" aria-hidden="true"><i class="f"></i></span><div>ಅರ್ಜಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ. ಅರ್ಜಿ ಸಂಖ್ಯೆ<div class="appno">${id}</div>${fee?'ಪಾವತಿ ಪರಿಶೀಲಿಸಿದ ನಂತರ':'ಪರಿಶೀಲಿಸಿದ ನಂತರ'} ನಿಮ್ಮ ಶಾಲೆಯ ವೆಬ್‌ಸೈಟ್ ಲಿಂಕ್, ಅಡ್ಮಿನ್ ಲಾಗಿನ್ ಲಿಂಕ್, ಇಮೇಲ್ ಮತ್ತು ಪಾಸ್‌ವರ್ಡ್ ${esc(obj.mobile)} ಗೆ WhatsApp ಮೂಲಕ ಬರುತ್ತದೆ.</div></div>`}
+  catch(x){err('ಸಲ್ಲಿಸಲಾಗಲಿಲ್ಲ – ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ')}$('#srBtn').disabled=false}}
 /* ---------- ಹಾಲ್ ಟಿಕೆಟ್ ---------- */
 function htSection(hs){if(hs==='off')return '';
  if(hs==='soon')return `<section class="sec wrap" id="hallticket"><h2>ಹಾಲ್ ಟಿಕೆಟ್</h2><div class="notice">ಹಾಲ್ ಟಿಕೆಟ್ <b>${esc(fmtDate(C.htFrom))}</b> ರಿಂದ ಇಲ್ಲಿ ಸಿಗುತ್ತದೆ.</div></section>`;
@@ -1257,10 +1279,7 @@ function startAdmin(){$('#lgMap').innerHTML=kaMap('lgm');$('#bMap').innerHTML=ka
  const deny=t=>{$('#login').style.display='flex';$('#shell').style.display='none';$('#lgMsg').innerHTML=`<span class="bad">${t}</span>`};
  if(u.uid===ADMIN_UID){ROLE='owner';SCH=URL_SCH;SCHINFO=null;if(SCH){try{SCHINFO=await STORE.getReg(SCH)}catch(e){}if(!SCHINFO)SCHINFO={name:SCH}}}
  else{let m=null;try{m=await STORE.get('pratibha_users/'+u.uid)}catch(e){}
-  if(!m||!m.code){if(SIGNING)return;let rq=null;try{rq=await STORE.getReq(u.uid)}catch(e){}
-   if(rq&&rq.status!=='rejected')return reqPending(rq);
-   if(rq)return deny('ನಿಮ್ಮ ನೋಂದಣಿ ಅರ್ಜಿ ಅನುಮೋದನೆಯಾಗಿಲ್ಲ. ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗೆ ವೆಬ್‌ಸೈಟ್ ನೀಡಿದ ಶಿಕ್ಷಕರನ್ನು ಸಂಪರ್ಕಿಸಿ.');
-   deny('ಈ ಖಾತೆಗೆ ಇನ್ನೂ ಶಾಲೆ ಜೋಡಣೆಯಾಗಿಲ್ಲ. ಕೆಳಗಿನ "ಶಾಲೆಯ ನೋಂದಣಿ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ" ಒತ್ತಿ ವಿವರ ಕಳುಹಿಸಿ.');$('#rgEmail').value=u.email||'';return}
+  if(!m||!m.code)return deny('ಈ ಖಾತೆಗೆ ಅಡ್ಮಿನ್ ಅನುಮತಿ ಇಲ್ಲ. ವೆಬ್‌ಸೈಟ್ ನೀಡಿದ ಶಿಕ್ಷಕರನ್ನು ಸಂಪರ್ಕಿಸಿ.');
   let r=null;try{r=await STORE.getReg(m.code)}catch(e){}
   if(!r||r.active===false)return deny('ನಿಮ್ಮ ಶಾಲೆಯ ಖಾತೆ ಸದ್ಯಕ್ಕೆ ನಿಲ್ಲಿಸಲಾಗಿದೆ. ವೆಬ್‌ಸೈಟ್ ನೀಡಿದ ಶಿಕ್ಷಕರನ್ನು ಸಂಪರ್ಕಿಸಿ.');
   ROLE='school';SCH=m.code;SCHINFO=r}
@@ -1276,48 +1295,37 @@ $('#lgForgot').onclick=async()=>{const e=$('#lgEmail').value.trim();if(!e){$('#l
  try{await STORE.resetPw(e);$('#lgMsg').innerHTML='ಪಾಸ್‌ವರ್ಡ್ ಬದಲಿಸುವ ಲಿಂಕ್ ನಿಮ್ಮ ಇಮೇಲ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ (Spam ಫೋಲ್ಡರ್ ನೋಡಿ).'}catch(x){$('#lgMsg').innerHTML='<span class="bad">ಕಳುಹಿಸಲಾಗಲಿಲ್ಲ – ಇಮೇಲ್ ಸರಿಯಾಗಿದೆಯೇ ನೋಡಿ</span>'}};
 $('#lgBtn').onclick=async()=>{$('#lgMsg').textContent='…';try{await STORE.login($('#lgEmail').value.trim(),$('#lgPw').value)}catch(e){$('#lgMsg').innerHTML='<span class="bad">ಇಮೇಲ್ ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್ ತಪ್ಪು</span>'}};
 $('#lgPw').onkeydown=e=>{if(e.key==='Enter')$('#lgBtn').click()};
-/* ---------- ಶಾಲೆಯೇ ಸಲ್ಲಿಸುವ ನೋಂದಣಿ ಅರ್ಜಿ ---------- */
-let SIGNING=false,REQS=[];
-const showReg=on=>{$('#rgBox').hidden=!on;document.querySelector('#login .lgin:not(#rgBox)').hidden=on;if(on)$('#rgName').focus()};
-$('#rgOpen').onclick=()=>showReg(true);$('#rgBack').onclick=()=>showReg(false);
-if(/[?&]reg=1/.test(location.search))setTimeout(()=>showReg(true),0);
-function reqPending(rq){$('#login').style.display='flex';$('#shell').style.display='none';showReg(false);
- $('#lgMsg').innerHTML=`<div class="okbox">✓ <b>${esc(rq.name||'')}</b> ಶಾಲೆಯ ನೋಂದಣಿ ಅರ್ಜಿ ತಲುಪಿದೆ.<br>ಅನುಮೋದನೆಯಾದ ನಂತರ ನಿಮಗೆ WhatsApp ಸಂದೇಶ ಬರುತ್ತದೆ. ಆಗ ಇದೇ ಇಮೇಲ್ (${esc(rq.email||'')}) ಮತ್ತು ಪಾಸ್‌ವರ್ಡ್‌ನಿಂದ ಇಲ್ಲಿ ಪ್ರವೇಶಿಸಿ.</div>`;$('#rgCta').hidden=true}
-$('#rgBtn').onclick=async()=>{const v=id=>$(id).value.trim();const x={name:v('#rgName'),place:v('#rgPlace'),teacher:v('#rgTeacher'),mobile:v('#rgMobile'),email:v('#rgEmail').toLowerCase(),created:isoToday()};const pw=$('#rgPw').value;
- const bad=t=>{$('#rgMsg').innerHTML=`<span class="bad">${t}</span>`};
- if(!x.name)return bad('ಶಾಲೆಯ ಹೆಸರು ಬರೆಯಿರಿ');if(!x.place)return bad('ಊರು / ತಾಲೂಕು ಬರೆಯಿರಿ');if(!x.teacher)return bad('ಶಿಕ್ಷಕರ ಹೆಸರು ಬರೆಯಿರಿ');
- if(!/^[6-9]\d{9}$/.test(x.mobile))return bad('10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಬರೆಯಿರಿ');if(!/^\S+@\S+\.\S+$/.test(x.email))return bad('ಸರಿಯಾದ ಇಮೇಲ್ ಬರೆಯಿರಿ');
- const already=STORE.user&&String(STORE.user.email||'').toLowerCase()===x.email;
- if(!already){if(pw.length<6)return bad('ಪಾಸ್‌ವರ್ಡ್ ಕನಿಷ್ಠ 6 ಅಕ್ಷರ');if(pw!==$('#rgPw2').value)return bad('ಎರಡೂ ಪಾಸ್‌ವರ್ಡ್ ಒಂದೇ ಇರಬೇಕು')}
- $('#rgBtn').disabled=true;$('#rgMsg').textContent='ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ…';
- try{let u=STORE.user;
-  if(!already){SIGNING=true;try{u=await STORE.signup(x.email,pw)}catch(e){SIGNING=false;const m=String(e.code||e.message||e);
-   if(/already-in-use/.test(m))return bad('ಈ ಇಮೇಲ್‌ಗೆ ಈಗಾಗಲೇ ಖಾತೆ ಇದೆ. "ಈಗಾಗಲೇ ಖಾತೆ ಇದೆ – ಪ್ರವೇಶಿಸಿ" ಒತ್ತಿ ಲಾಗಿನ್ ಆಗಿ; ಅರ್ಜಿ ಸಲ್ಲಿಸದಿದ್ದರೆ ಅಲ್ಲಿಂದಲೇ ಸಲ್ಲಿಸಬಹುದು.');
-   if(/weak-password/.test(m))return bad('ಪಾಸ್‌ವರ್ಡ್ ದುರ್ಬಲವಾಗಿದೆ – ಬೇರೆ ಪಾಸ್‌ವರ್ಡ್ ಬಳಸಿ');if(/invalid-email/.test(m))return bad('ಇಮೇಲ್ ಸರಿಯಿಲ್ಲ');throw e}}
-  await STORE.setReq(u.uid,x,'pending');SIGNING=false;reqPending(x)}
- catch(e){SIGNING=false;bad('ಸಲ್ಲಿಸಲಾಗಲಿಲ್ಲ: '+esc(errMsg(e))+'. ಸ್ವಲ್ಪ ಹೊತ್ತಿನ ನಂತರ ಮತ್ತೆ "ಅರ್ಜಿ ಸಲ್ಲಿಸಿ" ಒತ್ತಿ.')}
- finally{$('#rgBtn').disabled=false}};
-async function renderReqs(){const box=$('#reqList');const L=siteURL('')+(siteURL('').includes('?')?'&':'?')+'reg=1#admin';
+/* ---------- ವೆಬ್‌ಸೈಟ್‌ನಿಂದ ಬರುವ ಶಾಲಾ ನೋಂದಣಿ ಅರ್ಜಿಗಳು (pratibha_req) ---------- */
+let REQS=[];
+function qrPrev(){const b=$('#qrPrev');if(!b)return;b.innerHTML=CFG.schRegQr?`<img src="${CFG.schRegQr}" alt="UPI QR"><button class="b ghost sm" id="qrDel" type="button">QR ತೆಗೆ</button>`:'<span class="note">QR ಇನ್ನೂ ಹಾಕಿಲ್ಲ</span>';const d=$('#qrDel');if(d)d.onclick=()=>{CFG.schRegQr='';qrPrev()}}
+$('#qrFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const im=new Image();im.onload=()=>{const s=Math.min(1,420/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
+ const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);g.drawImage(im,0,0,c.width,c.height);CFG.schRegQr=c.toDataURL('image/jpeg',.85);qrPrev();toast('QR ಸೇರಿಸಲಾಗಿದೆ – "ಉಳಿಸಿ" ಒತ್ತಿ');URL.revokeObjectURL(im.src)};im.src=URL.createObjectURL(f);e.target.value=''};
+async function listReqs(){return (await STORE.list('pratibha_req')).map(d=>Object.assign({},d.data,{rid:d.id})).sort((a,b)=>(a.at||0)-(b.at||0))}
+async function renderReqs(){const box=$('#reqList');const L=siteURL('')+'#schreg';
  $('#rgLink').href=L;$('#rgLink').textContent=L;$('#rgLinkCopy').onclick=()=>copyTxt(L,'ಅರ್ಜಿ ಲಿಂಕ್ ನಕಲಿಸಲಾಗಿದೆ');
- try{REQS=(await STORE.listReq()).sort((a,b)=>String(a.created||'').localeCompare(String(b.created||'')))}catch(e){box.innerHTML=`<div class="alert bad">ಅರ್ಜಿಗಳನ್ನು ಓದಲಾಗಲಿಲ್ಲ: ${esc(errMsg(e))}. ಹೊಸ Firestore Rules (ಕೆಳಗೆ) ಹಾಕಿದ್ದೀರಾ?</div>`;return}
+ $('#reqState').innerHTML=CFG.schRegOpen?'<span class="pill g">ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಅರ್ಜಿ ತೆರೆದಿದೆ</span>':'<span class="pill r">ಅರ್ಜಿ ಮುಚ್ಚಿದೆ – ಸೆಟ್ಟಿಂಗ್ಸ್ → "ಶಾಲೆಗಳ ನೋಂದಣಿ" ಯಲ್ಲಿ ತೆರೆಯಿರಿ</span>';
+ try{REQS=await listReqs()}catch(e){box.innerHTML=`<div class="alert bad">ಅರ್ಜಿಗಳನ್ನು ಓದಲಾಗಲಿಲ್ಲ: ${esc(errMsg(e))}. ಹೊಸ Firestore Rules (ಕೆಳಗೆ) ಹಾಕಿದ್ದೀರಾ?</div>`;return}
  const pend=REQS.filter(r=>r.status!=='rejected');$('#reqCount').textContent=pend.length;
  const used=new Set(SCHOOLS.map(x=>x.code));let n=101;const nextCode=()=>{while(used.has('sch'+n))n++;used.add('sch'+n);return 'sch'+n};
+ const dt=ms=>{if(!ms)return '';const d=new Date(ms);return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${d.getFullYear()}`};
  box.innerHTML=REQS.length?`<div class="rqg">${REQS.map(r=>`<div class="rq ${r.status==='rejected'?'rej':''}"><b>${esc(r.name)}</b> ${r.status==='rejected'?'<span class="pill r">ತಿರಸ್ಕರಿಸಲಾಗಿದೆ</span>':'<span class="pill y">ಹೊಸ ಅರ್ಜಿ</span>'}
-  <p class="note">${esc(r.place||'')} • ${esc(r.teacher||'')} • ${esc(r.mobile||'')}<br>${esc(r.email||'')} • ${esc(fmtShort(r.created||''))}</p>
-  <div class="acts">${r.status==='rejected'?`<button class="b ghost sm" data-rqdel="${esc(r.uid)}">ಪಟ್ಟಿಯಿಂದ ಅಳಿಸಿ</button>`:`<label class="note">ಲಿಂಕ್ ಕೋಡ್ <input data-rqcode="${esc(r.uid)}" value="${nextCode()}" maxlength="16"></label>
-   <button class="b green sm" data-rqok="${esc(r.uid)}">✓ ಅನುಮೋದಿಸಿ</button><button class="b ghost sm danger" data-rqno="${esc(r.uid)}">ತಿರಸ್ಕರಿಸಿ</button>`}</div></div>`).join('')}</div>`
+  <p class="note">${esc(r.place||'')} • ${esc(r.teacher||'')} • <a href="tel:${esc(r.mobile||'')}">${esc(r.mobile||'')}</a> • ${esc(r.email||'')} • ${dt(r.at)}<br>
+  ${r.fee?`ಶುಲ್ಕ <b>₹${esc(r.fee)}</b> • UPI ವಹಿವಾಟು ಸಂಖ್ಯೆ (UTR): <b class="utr">${esc(r.utr||'—')}</b> – ನಿಮ್ಮ ಬ್ಯಾಂಕ್/UPI ಆಪ್‌ನಲ್ಲಿ ಹಣ ಬಂದಿದೆಯೇ ನೋಡಿ ನಂತರ ಅನುಮೋದಿಸಿ`:'ಶುಲ್ಕ ಇಲ್ಲ'}</p>
+  <div class="acts">${r.status==='rejected'?`<button class="b ghost sm" data-rqdel="${esc(r.rid)}">ಪಟ್ಟಿಯಿಂದ ಅಳಿಸಿ</button>`:`<label class="note">ಲಿಂಕ್ ಕೋಡ್ <input data-rqcode="${esc(r.rid)}" value="${nextCode()}" maxlength="16"></label>
+   <button class="b green sm" data-rqok="${esc(r.rid)}">✓ ಅನುಮೋದಿಸಿ</button><button class="b ghost sm danger" data-rqno="${esc(r.rid)}">ತಿರಸ್ಕರಿಸಿ</button>`}</div></div>`).join('')}</div>`
   :'<p class="empty">ಹೊಸ ಅರ್ಜಿಗಳಿಲ್ಲ.</p>';
- const by=u=>REQS.find(r=>r.uid===u);
- box.querySelectorAll('[data-rqok]').forEach(b=>b.onclick=()=>{const r=by(b.dataset.rqok);const code=box.querySelector(`[data-rqcode="${r.uid}"]`).value.trim().toLowerCase();
+ const by=u=>REQS.find(r=>r.rid===u);
+ box.querySelectorAll('[data-rqok]').forEach(b=>b.onclick=()=>{const r=by(b.dataset.rqok);const code=box.querySelector(`[data-rqcode="${r.rid}"]`).value.trim().toLowerCase();
   if(!SCH_RE.test(code))return alert('ಲಿಂಕ್ ಕೋಡ್: ಇಂಗ್ಲಿಷ್ ಸಣ್ಣ ಅಕ್ಷರ/ಅಂಕೆ ಮಾತ್ರ, 2–16 ಅಕ್ಷರ');if(SCHOOLS.some(s=>s.code===code))return alert('ಈ ಕೋಡ್ ಈಗಾಗಲೇ ಇದೆ');
-  if(!confirm(`${r.name} ಶಾಲೆಯನ್ನು ಅನುಮೋದಿಸಬೇಕೇ?`))return;
-  guard(async()=>{const x={name:r.name,place:r.place,teacher:r.teacher,mobile:r.mobile,email:r.email,created:isoToday()};
-   await STORE.setReg(code,x,r.uid,true);await STORE.set('pratibha_users/'+r.uid,{code});await newSchoolSite(code,x);await STORE.delReq(r.uid);
-   await renderSchools();schForm();shareSchool(Object.assign({code},x),'',true)},'ಅನುಮೋದಿಸಲಾಗುತ್ತಿದೆ…')});
+  if(!confirm(`${r.name} ಶಾಲೆಯನ್ನು ಅನುಮೋದಿಸಿ ಲಾಗಿನ್ ತಯಾರಿಸಬೇಕೇ?`))return;
+  guard(async()=>{const x={name:r.name,place:r.place,teacher:r.teacher,mobile:r.mobile,email:String(r.email||'').toLowerCase(),created:isoToday(),fee:r.fee||0,utr:r.utr||''};const pw=genPw();
+   let uid;try{uid=await STORE.createUser(x.email,pw)}catch(e){if(/already-in-use/.test(e.message||e.code))throw new Error('ಈ ಇಮೇಲ್‌ಗೆ ಈಗಾಗಲೇ ಖಾತೆ ಇದೆ – ಶಾಲೆಯವರಿಂದ ಬೇರೆ Gmail ಪಡೆದು "ಹೊಸ ಶಾಲೆ ಸೇರಿಸಿ" ಯಲ್ಲಿ ತುಂಬಿ');if(/invalid-email/.test(e.message||e.code))throw new Error('ಅರ್ಜಿಯಲ್ಲಿರುವ ಇಮೇಲ್ ಸರಿಯಿಲ್ಲ');throw e}
+   await STORE.setReg(code,x,uid,true);await STORE.set('pratibha_users/'+uid,{code});await newSchoolSite(code,x);await STORE.del('pratibha_req/'+r.rid);
+   await renderSchools();schForm();shareSchool(Object.assign({code},x),pw,true)},'ಅನುಮೋದಿಸಲಾಗುತ್ತಿದೆ…')});
  box.querySelectorAll('[data-rqno]').forEach(b=>b.onclick=()=>{const r=by(b.dataset.rqno);if(!confirm(`${r.name} ಅರ್ಜಿಯನ್ನು ತಿರಸ್ಕರಿಸಬೇಕೇ?`))return;
-  guard(async()=>{const x={...r};delete x.uid;delete x.status;await STORE.setReq(r.uid,x,'rejected');renderReqs()})});
- box.querySelectorAll('[data-rqdel]').forEach(b=>b.onclick=()=>guard(async()=>{await STORE.delReq(b.dataset.rqdel);renderReqs()}))}
-async function reqBadge(){if(ROLE!=='owner'||SCH)return;try{const n=(await STORE.listReq()).filter(r=>r.status!=='rejected').length;const b=document.querySelector('.rail [data-v=sch]');let p=b.querySelector('.rqn');
+  guard(async()=>{const x={...r};delete x.rid;x.status='rejected';await STORE.set('pratibha_req/'+r.rid,x);renderReqs();reqBadge()})});
+ box.querySelectorAll('[data-rqdel]').forEach(b=>b.onclick=()=>guard(async()=>{await STORE.del('pratibha_req/'+b.dataset.rqdel);renderReqs()}))}
+async function reqBadge(){if(ROLE!=='owner'||SCH)return;try{const n=(await listReqs()).filter(r=>r.status!=='rejected').length;const b=document.querySelector('.rail [data-v=sch]');let p=b.querySelector('.rqn');
  if(!n){if(p)p.remove();REQN=0;rqAlert();return}if(!p){p=document.createElement('i');p.className='rqn';b.appendChild(p)}p.textContent=n;REQN=n;rqAlert()}catch(e){}}
 function rqAlert(){const hb=$('#homeBody');if(!hb||ROLE!=='owner'||SCH)return;const a=hb.querySelector('.rqalert');if(a)a.remove();if(!REQN)return;
  hb.insertAdjacentHTML('afterbegin',`<div class="alert rqalert" style="margin-bottom:14px">🏫 <b>${REQN}</b> ಹೊಸ ಶಾಲಾ ನೋಂದಣಿ ಅರ್ಜಿ ಬಂದಿದೆ – <button class="lnk" onclick="go('sch')">ನೋಡಿ ಮತ್ತು ಅನುಮೋದಿಸಿ</button></div>`)}
@@ -1551,9 +1559,7 @@ service cloud.firestore {
     // ಶಾಲೆಗಳ ನೋಂದಣಿ
     match /pratibha_reg/{code} { allow read: if owner() || (request.auth != null && resource.data.uid == request.auth.uid); allow write: if owner(); }
     match /pratibha_users/{uid} { allow read: if owner() || (request.auth != null && request.auth.uid == uid); allow write: if owner(); }
-    match /pratibha_req/{uid} { allow read: if owner() || (request.auth != null && request.auth.uid == uid);
-      allow create: if request.auth != null && request.auth.uid == uid && request.resource.data.keys().hasOnly(['json','uid','status','updated']) && request.resource.data.uid == uid && request.resource.data.status == 'pending' && request.resource.data.json is string && request.resource.data.json.size() < 3000;
-      allow update, delete: if owner(); }
+    match /pratibha_req/{d} { allow create: if okApp(); allow read, update, delete: if owner(); }
 
     // ಇತರ ಶಾಲೆಗಳು
     match /pratibha_s/{code}/public/{d} { allow read: if true; }
@@ -1576,7 +1582,7 @@ async function renderSchools(){const box=$('#schList');box.innerHTML='<p class="
   guard(async()=>{const info={...x};delete info.uid;delete info.active;delete info.code;await STORE.setReg(x.code,info,x.uid,on);renderSchools()})});renderReqs();reqBadge()}
 function shareMsg(x,pw,appr){return `ನಮಸ್ಕಾರ ${x.teacher||''},\n${appr?'ನಿಮ್ಮ ನೋಂದಣಿ ಅರ್ಜಿ ಅನುಮೋದನೆಯಾಗಿದೆ. ':''}ನಿಮ್ಮ ಶಾಲೆಯ "ಪ್ರತಿಭಾನ್ವೇಷಣೆ ಪರೀಕ್ಷೆ" ವೆಬ್‌ಸೈಟ್ ಸಿದ್ಧವಾಗಿದೆ.\n\nವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ ವೆಬ್‌ಸೈಟ್:\n${siteURL(x.code)}\n\nನಿಮ್ಮ ಅಡ್ಮಿನ್ (ನಿಮಗೆ ಮಾತ್ರ):\n${siteURL(x.code)}#admin\nಇಮೇಲ್: ${x.email}\nಪಾಸ್‌ವರ್ಡ್: ${pw||(appr?'(ಅರ್ಜಿ ಸಲ್ಲಿಸುವಾಗ ನೀವು ಹಾಕಿದ್ದು)':'(ಮೊದಲು ಕೊಟ್ಟದ್ದು / "ಪಾಸ್‌ವರ್ಡ್ ಮರೆತಿರಾ?" ಒತ್ತಿ ಹೊಸದು ಪಡೆಯಿರಿ)')}\n\nಮೊದಲು ಲಾಗಿನ್ ಆಗಿ ⚙ ಸೆಟ್ಟಿಂಗ್ಸ್‌ನಲ್ಲಿ ಶಾಲೆಯ ವಿವರ, ಪರೀಕ್ಷಾ ದಿನಾಂಕ, ಪರೀಕ್ಷಾ ಕೇಂದ್ರ, ಬಹುಮಾನ ತುಂಬಿ "ಉಳಿಸಿ" ಒತ್ತಿ. ಪ್ರಶ್ನೆಪತ್ರಿಕೆ ಪ್ರಶ್ನೆ ಕೋಶದಿಂದ ತಾನಾಗಿಯೇ ತಯಾರಾಗುತ್ತದೆ.`}
 function shareSchool(x,pw,appr){const m=shareMsg(x,pw,appr);const wa=`https://wa.me/${x.mobile&&/^\d{10}$/.test(x.mobile)?'91'+x.mobile:''}?text=${encodeURIComponent(m)}`;
- dialog(pw?'ಶಾಲೆ ಸೇರಿಸಲಾಗಿದೆ ✓':appr?'ಅನುಮೋದಿಸಲಾಗಿದೆ ✓ – ಶಾಲೆಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ':'ಶಾಲೆಗೆ ಕಳುಹಿಸುವ ಸಂದೇಶ',`${pw?'<div class="okbox">ಈ ಸಂದೇಶವನ್ನು ಶಿಕ್ಷಕರಿಗೆ ಕಳುಹಿಸಿ. <b>ಪಾಸ್‌ವರ್ಡ್ ಮತ್ತೆ ಕಾಣುವುದಿಲ್ಲ</b> – ಈಗಲೇ ಕಳುಹಿಸಿ.</div>':''}<textarea id="shMsg" rows="12" readonly>${esc(m)}</textarea>
+ dialog(appr?'ಅನುಮೋದಿಸಲಾಗಿದೆ ✓ – ಶಾಲೆಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ':pw?'ಶಾಲೆ ಸೇರಿಸಲಾಗಿದೆ ✓':'ಶಾಲೆಗೆ ಕಳುಹಿಸುವ ಸಂದೇಶ',`${pw?'<div class="okbox">ಈ ಸಂದೇಶವನ್ನು ಶಿಕ್ಷಕರಿಗೆ ಕಳುಹಿಸಿ. <b>ಪಾಸ್‌ವರ್ಡ್ ಮತ್ತೆ ಕಾಣುವುದಿಲ್ಲ</b> – ಈಗಲೇ ಕಳುಹಿಸಿ.</div>':''}<textarea id="shMsg" rows="12" readonly>${esc(m)}</textarea>
   <div class="acts"><a class="b green" href="${esc(wa)}" target="_blank" rel="noopener">WhatsApp ನಲ್ಲಿ ಕಳುಹಿಸಿ</a><button class="b ghost" id="shCopy">ನಕಲಿಸಿ</button></div>`,'ಮುಚ್ಚಿ',()=>true);
  $('#shCopy').onclick=()=>copyTxt(m,'ಸಂದೇಶ ನಕಲಿಸಲಾಗಿದೆ')}
 async function newSchoolSite(code,x){const c=defCfg();Object.assign(c,{school:x.name,contact:x.mobile,address:x.place});c.sylNotes.gk=c.sylNotes.gk.replace(' ಮತ್ತು ಬೆಳಗಾವಿ ಜಿಲ್ಲೆಯ',' ಹಾಗೂ ನಮ್ಮ ಜಿಲ್ಲೆಯ');
@@ -1593,7 +1599,7 @@ $('#nsAdd').onclick=()=>{const v=id=>$(id).value.trim();const x={name:v('#nsName
 $('#rulesTxt').textContent=RULES;$('#rulesCopy').onclick=()=>copyTxt(RULES,'Rules ನಕಲಿಸಲಾಗಿದೆ');
 
 /* ---------- ಸೆಟ್ಟಿಂಗ್ಸ್ ---------- */
-function renderSite(){document.querySelectorAll('[data-c]').forEach(el=>{const k=el.dataset.c;let v=CFG[k];if(k==='classes')v=classes().join(',');if(k==='rulesTxt')v=(CFG.rules||[]).join('\n');el.value=v??''});
+function renderSite(){qrPrev();document.querySelectorAll('[data-c]').forEach(el=>{const k=el.dataset.c;let v=CFG[k];if(k==='classes')v=classes().join(',');if(k==='rulesTxt')v=(CFG.rules||[]).join('\n');el.value=v??''});
  document.querySelectorAll('[data-note]').forEach(el=>el.value=CFG.sylNotes[el.dataset.note]||'');
  rowsEd('#prizeEd',CFG.prizes,[['cls','ತರಗತಿ','number'],['title','ಬಹುಮಾನ'],['amount','ಮೊತ್ತ (₹)','number']]);
  rowsEd('#tlEd',CFG.timeline,[['date','ದಿನಾಂಕ','date'],['label','ವಿವರ']]);
@@ -1610,7 +1616,7 @@ $('#spAdd').onclick=()=>{readSite(true);CFG.sponsors.push({name:'',note:''});ren
 function readSite(soft){document.querySelectorAll('[data-c]').forEach(el=>{const k=el.dataset.c;let v=el.value.trim();
   if(k==='classes'){const cs=[...new Set(v.split(/[,\s]+/).map(Number).filter(x=>x>0&&x<=12))];if(!cs.length){if(soft)return;throw new Error('ಕನಿಷ್ಠ ಒಂದು ತರಗತಿ ಬೇಕು')}CFG.classes=cs;return}
   if(k==='rulesTxt'){CFG.rules=v.split('\n').map(x=>x.trim()).filter(Boolean);return}
-  if(['durationMin','sets','resultsTopN','reuseGap','prizeMin'].includes(k))v=Math.max(0,+v||0);if(k==='schoolCode')v=(v.replace(/\D/g,'')||'1').padStart(3,'0').slice(-3);CFG[k]=v});
+  if(['durationMin','sets','resultsTopN','reuseGap','prizeMin','schRegFee'].includes(k))v=Math.max(0,+v||0);if(k==='schoolCode')v=(v.replace(/\D/g,'')||'1').padStart(3,'0').slice(-3);CFG[k]=v});
  document.querySelectorAll('[data-note]').forEach(el=>CFG.sylNotes[el.dataset.note]=el.value.trim())}
 $('#siteSave').onclick=()=>guard(async()=>{readSite();for(const c of classes()){if(nqOf(c)>100)throw new Error(`${c}ನೇ ತರಗತಿಯ ಒಟ್ಟು ಪ್ರಶ್ನೆ 100 ಮೀರಬಾರದು`)}
  CFG.timeline.sort((a,b)=>String(a.date).localeCompare(String(b.date)));CFG.sponsors=CFG.sponsors.filter(s=>s.name);
