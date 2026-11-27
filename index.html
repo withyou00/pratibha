@@ -218,6 +218,7 @@ footer a{color:#fff}.adm{color:#F4B9B9!important;font-size:13px;text-decoration:
 .pd .pzt{grid-column:2;font-style:normal;font-size:13px;font-weight:700;color:var(--rd)}
 .nopz{margin:10px 0 0;font-size:14px;color:var(--mut);background:var(--paper2,#fff7df);border-left:4px solid var(--rd);padding:8px 10px;border-radius:6px}
 .lead small{font-size:.8em;color:var(--mut)}
+.mkpair{display:flex;gap:8px;flex-wrap:wrap}
 
 </style>
 <style id="cssAdm" media="not all">
@@ -712,6 +713,42 @@ table.pgw{width:100%;border-collapse:collapse}table.pgw>thead>tr>td,table.pgw>tf
 const prizeMinOf=C=>Math.max(0,+((C||{}).prizeMin)||0);
 const prizeRule=C=>{const m=prizeMinOf(C);return m?`ಬಹುಮಾನಕ್ಕೆ ಅರ್ಹರಾಗಲು ಕನಿಷ್ಠ ${m} ಅಂಕ ಪಡೆದಿರಬೇಕು. ಸ್ಥಾನ ಪಡೆದರೂ ${m} ಅಂಕಕ್ಕಿಂತ ಕಡಿಮೆ ಇದ್ದರೆ ಬಹುಮಾನ ನೀಡಲಾಗುವುದಿಲ್ಲ.`:''};
 
+/* ---------- ಪ್ರಶ್ನೆಪತ್ರಿಕೆ (ಮುಖ್ಯ ಮತ್ತು ಮಾದರಿ ಎರಡಕ್ಕೂ ಒಂದೇ ವಿನ್ಯಾಸ; ವೆಬ್‌ಸೈಟ್ ಮತ್ತು ಅಡ್ಮಿನ್ ಎರಡೂ ಬಳಸುತ್ತವೆ) ---------- */
+function paperHTML(p,L,imgs,G){G=G||CFG;const n=p.qs.length;
+ const kn=['ಈ ಪ್ರಶ್ನೆಪತ್ರಿಕೆಯಲ್ಲಿ '+n+' ಬಹು ಆಯ್ಕೆ ಪ್ರಶ್ನೆಗಳಿವೆ. ಪ್ರತಿ ಪ್ರಶ್ನೆಗೆ 1 ಅಂಕ. ತಪ್ಪು ಉತ್ತರಕ್ಕೆ ಅಂಕ ಕಳೆಯುವುದಿಲ್ಲ.','ಸರಿಯಾದ ಉತ್ತರದ ವೃತ್ತವನ್ನು OMR ಹಾಳೆಯಲ್ಲಿ ನೀಲಿ ಅಥವಾ ಕಪ್ಪು ಬಾಲ್‌ಪೆನ್‌ನಿಂದ ಪೂರ್ತಿಯಾಗಿ ತುಂಬಿ.',
+  'ಒಂದು ಪ್ರಶ್ನೆಗೆ ಒಂದೇ ವೃತ್ತ ತುಂಬಬೇಕು. ಉತ್ತರ ಬದಲಿಸುವಂತಿಲ್ಲ. ವೈಟ್ನರ್/ರಬ್ಬರ್ ಬಳಸಬೇಡಿ.',`OMR ಹಾಳೆಯಲ್ಲಿ ನೋಂದಣಿ ಸಂಖ್ಯೆ ಮತ್ತು ಪ್ರಶ್ನೆಪತ್ರಿಕೆಯ ಸೆಟ್ (${L}) ವೃತ್ತ ತುಂಬಲು ಮರೆಯಬೇಡಿ.`,
+  'ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್ ಪ್ರಶ್ನೆಗಳಲ್ಲಿ ಸಂದೇಹವಿದ್ದರೆ ಇಂಗ್ಲಿಷ್ ಪ್ರಶ್ನೆಯನ್ನು ಅಂತಿಮವೆಂದು ಪರಿಗಣಿಸಿ.','ಲೆಕ್ಕಾಚಾರಕ್ಕಾಗಿ ಪತ್ರಿಕೆಯ ಕೊನೆಯ "ರಫ್ ಕೆಲಸ" ಪುಟ ಬಳಸಿ. ಮೊಬೈಲ್, ಕ್ಯಾಲ್ಕುಲೇಟರ್ ನಿಷೇಧ.','ಪರೀಕ್ಷೆ ಮುಗಿದ ನಂತರ OMR ಹಾಳೆಯನ್ನು ಕೊಠಡಿ ಮೇಲ್ವಿಚಾರಕರಿಗೆ ಒಪ್ಪಿಸಿ.'];
+ const en=[`This booklet contains ${n} multiple-choice questions. Each question carries 1 mark. There is no negative marking.`,'Darken the circle of the correct answer completely on the OMR sheet with a blue or black ballpoint pen.',
+  'Darken only one circle for each question. Answers cannot be changed. Do not use whitener or eraser.',`Fill in your Registration Number and the Question Booklet Set (${L}) on the OMR sheet.`,
+  'If there is any doubt between the Kannada and English versions, the English version is final.','Use the last page of this booklet for rough work. Mobile phones and calculators are not allowed.','Hand over the OMR sheet to the invigilator at the end of the examination.'];
+ const bub=(l,k)=>`<span class="bb${k?' '+k:''}">${k==='f'?'':l}</span>`;
+ let h=`<div class="page ppr"><div class="cv"><div class="cover">
+ <div class="chead"><div class="ct"><h1>${esc(G.examName)} ${esc(G.activeYear)}</h1><h2>${esc(G.school)}</h2><h2 class="cls">${p.cls}ನೇ ತರಗತಿ / Class ${p.cls} ${p.type==='mock'?'(ಮಾದರಿ ಪತ್ರಿಕೆ / Model Paper)':''}</h2></div>
+  <div class="setw"><small>ಸೆಟ್ / SET</small><div class="set">${L}</div></div></div>
+ <div class="dno">ಮೇಲ್ವಿಚಾರಕರು ಸೂಚಿಸುವವರೆಗೆ ಈ ಪ್ರಶ್ನೆಪತ್ರಿಕೆಯನ್ನು ತೆರೆಯಬೇಡಿ<br><small>Do not open this booklet until the invigilator asks you to do so</small></div>
+ <table class="info"><tr><td>ದಿನಾಂಕ / Date<br><b>${esc(fmtShort(G.examDate))}</b></td><td>ಸಮಯ / Time<br><b>${esc(G.examTime)}</b></td><td>ಪ್ರಶ್ನೆಗಳು / Questions<br><b>${n}</b></td><td>ಒಟ್ಟು ಅಂಕ / Marks<br><b>${n}</b></td><td>ಅವಧಿ / Duration<br><b>${G.durationMin} ನಿಮಿಷ</b></td></tr></table>
+ <table class="cand"><tr><td class="lb">ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು<small>Candidate's name</small></td><td colspan="3"></td></tr>
+  <tr><td class="lb">ನೋಂದಣಿ ಸಂಖ್ಯೆ<small>Registration No.</small></td><td><div class="regbox">${'<span></span>'.repeat(9)}</div></td><td class="lb">ಕೊಠಡಿ<small>Room No.</small></td><td style="width:22mm"></td></tr>
+  <tr><td class="lb">ಶಾಲೆ<small>School</small></td><td colspan="3"></td></tr></table>
+ <table class="secs"><tr><th>ವಿಭಾಗ / Section</th><th>ಪ್ರಶ್ನೆ ಸಂಖ್ಯೆ / Q. No.</th><th>ಪ್ರಶ್ನೆಗಳು</th><th>ಅಂಕ</th></tr>
+  ${p.sections.map(s=>`<tr><td>${esc(s.name)} / ${esc(SECS[s.sec].en)}</td><td>${s.from+1} – ${s.to+1}</td><td>${s.to-s.from+1}</td><td>${s.to-s.from+1}</td></tr>`).join('')}
+  <tr class="tot"><td>ಒಟ್ಟು / Total</td><td>1 – ${n}</td><td>${n}</td><td>${n}</td></tr></table>
+ <table class="ins2"><tr><th>Instructions to candidates</th><th>ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ ಸೂಚನೆಗಳು</th></tr><tr><td><ol>${en.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></td><td><ol>${kn.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></td></tr></table>
+ ${coverPrize(G)}
+ <div class="howto2"><div><b>ಸರಿಯಾದ ವಿಧಾನ / Correct</b><span class="bbs">${bub('A')}${bub('B')}${bub('C','f')}${bub('D')}</span></div>
+  <div><b>ತಪ್ಪು ವಿಧಾನಗಳು / Wrong</b><span class="bbs">${bub('✓')}${bub('✗')}<span class="bb h"></span>${bub('•')}<span class="bb f"></span><span class="bb f"></span></span></div></div>
+ <div class="sig"><span>ವಿದ್ಯಾರ್ಥಿಯ ಸಹಿ / Candidate's signature</span><span>ಕೊಠಡಿ ಮೇಲ್ವಿಚಾರಕರ ಸಹಿ / Invigilator's signature</span></div></div></div></div>`;
+ let t=`<table class="q">`;
+ p.sets[L].forEach((qi,pos)=>{const q=p.qs[qi];const s=p.sections.find(s=>s.from===pos);if(s)t+=`<tr><td class="sec" colspan="2">${esc(SECS[s.sec].en)} / ${esc(s.name)} (${s.from+1}–${s.to+1})</td></tr>`;
+  const op=(arr)=>`<div class="op">${arr.map((o,k)=>`<div>${LET[k]}) ${esc(o)}</div>`).join('')}</div>`;
+  t+=`<tr><td>${q.q_en?`<b>${pos+1}.</b> ${qtx(q.q_en)}${op(q.opt_en)}`:''}</td><td><b>${pos+1}.</b> ${qtx(q.q_kn)}${op(q.opt_kn)}</td></tr>`;
+  if(imgs[q.id])t+=`<tr><td colspan="2" class="qi"><img src="${imgs[q.id]}"></td></tr>`});
+ t+=`</table><p style="text-align:center;margin-top:4mm">*****</p>`;
+ return h+flowWrap(t,'ppr')+`<div class="page ppr"><div style="padding:12mm"><h2>ರಫ್ ಕೆಲಸಕ್ಕಾಗಿ / For Rough Work</h2></div></div>`}
+function coverPrize(G){const pz=(G.prizes||[]);const sp=(G.sponsors||[]).filter(s=>s.name);if(!pz.length&&!sp.length)return '';
+ return `<div class="cprz"><div class="pzl"><div class="ttl">ಬಹುಮಾನಗಳು / Prizes</div>${prizeMinOf(G)?`<div><b>ಕನಿಷ್ಠ ${prizeMinOf(G)} ಅಂಕ ಪಡೆದವರಿಗೆ ಮಾತ್ರ / Minimum ${prizeMinOf(G)} marks</b></div>`:''}${pz.map(p=>`<div>${esc(p.cls)}ನೇ ತರಗತಿ ${esc(p.title)}: <b>₹${Number(p.amount||0).toLocaleString('en-IN')}</b></div>`).join('')}${G.prizeNote?`<small>${esc(G.prizeNote)}</small>`:''}</div>
+  <div class="spl"><div class="ttl">ಬಹುಮಾನದ ಪ್ರಾಯೋಜಕರು / Prize Sponsors</div><div class="spg">${sp.length?sp.slice(0,6).map(s=>`<div><b>${esc(s.name)}</b>${s.note?`<small>${esc(s.note)}</small>`:''}</div>`).join(''):'<div>—</div>'}</div></div></div>`}
+
 document.write('<style>'+PRINT_CSS+'</style>');
 </script>
 </head>
@@ -727,7 +764,7 @@ document.write('<style>'+PRINT_CSS+'</style>');
  <div class="links" id="navLinks"></div></div></nav>
 <div id="root"><div class="loadbox"><span class="ld" aria-hidden="true"><i></i><i></i><i></i></span>ಲೋಡ್ ಆಗುತ್ತಿದೆ…</div></div>
 <div id="mockModal" class="mmodal" hidden><div class="mwrap" role="dialog" aria-modal="true" aria-labelledby="mkTitle">
- <div class="mtop"><b id="mkTitle">ಮಾದರಿ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ</b><div><button class="btn s" id="mkPrint">ಮುದ್ರಿಸಿ</button> <button class="btn s" id="mkClose" aria-label="ಮುಚ್ಚಿ">✕</button></div></div>
+ <div class="mtop"><b id="mkTitle">ಮಾದರಿ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ</b><div><button class="btn s" id="mkPrint">⬇ ಡೌನ್‌ಲೋಡ್ / ಮುದ್ರಿಸಿ (PDF)</button> <button class="btn s" id="mkClose" aria-label="ಮುಚ್ಚಿ">✕</button></div></div>
  <div id="mkBody"></div></div></div>
 <div id="pv" class="mmodal" hidden><div class="mwrap wide" role="dialog" aria-modal="true" aria-labelledby="pvTitle">
  <div class="mtop"><b id="pvTitle"></b><div><button class="btn s" id="pvPng">ಚಿತ್ರವಾಗಿ ಉಳಿಸಿ</button> <button class="btn s" id="pvPrint">ಮುದ್ರಿಸಿ / PDF</button> <button class="btn s" id="pvClose" aria-label="ಮುಚ್ಚಿ">✕</button></div></div>
@@ -988,8 +1025,8 @@ function render(){const cls=(C.classes||[]).map(Number);document.title=`${C.exam
   <div class="ctabs" role="tablist">${cls.map((c,i)=>`<button role="tab" data-c="${c}" aria-selected="${i?'false':'true'}">${c}ನೇ ತರಗತಿ</button>`).join('')}</div><div id="sylBox"></div></section>
  <section class="sec wrap" id="practice"><h2>ಅಭ್ಯಾಸ</h2>
   <div class="prac">
-   <div class="pcard red"><h3>ಮಾದರಿ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ</h3><p>ಆನ್‌ಲೈನ್‌ನಲ್ಲೇ ಉತ್ತರ ಗುರುತಿಸಿ, ಕೊನೆಯಲ್ಲಿ ನಿಮ್ಮ ಅಂಕ ಮತ್ತು ಸರಿಯುತ್ತರ ನೋಡಿ.</p>
-    <div class="mks">${cls.map(c=>(C.mockPublished||{})[c]?`<button class="btn w" data-mock="${c}">${c}ನೇ ತರಗತಿ</button>`:`<span class="btn ghostw">${c}ನೇ ತರಗತಿ – ಶೀಘ್ರದಲ್ಲೇ</span>`).join('')}</div></div>
+   <div class="pcard red"><h3>ಮಾದರಿ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ</h3><p>ಆನ್‌ಲೈನ್‌ನಲ್ಲೇ ಉತ್ತರ ಗುರುತಿಸಿ ಅಂಕ ನೋಡಿ, ಅಥವಾ ಮುಖ್ಯ ಪರೀಕ್ಷೆಯ ಪತ್ರಿಕೆಯಂತೆಯೇ ಇರುವ PDF ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ ಮುದ್ರಿಸಿ. <small>(PDF ಒತ್ತಿದಾಗ ತೆರೆಯುವ ಪರದೆಯಲ್ಲಿ "Save as PDF / PDF ಆಗಿ ಉಳಿಸಿ" ಆರಿಸಿ)</small></p>
+    <div class="mks">${cls.map(c=>(C.mockPublished||{})[c]?`<span class="mkpair"><button class="btn w" data-mock="${c}">${c}ನೇ ತರಗತಿ – ಆನ್‌ಲೈನ್</button><button class="btn ghostw" data-mockdl="${c}">⬇ ${c}ನೇ ತರಗತಿ PDF</button></span>`:`<span class="btn ghostw">${c}ನೇ ತರಗತಿ – ಶೀಘ್ರದಲ್ಲೇ</span>`).join('')}</div></div>
    <div class="pcard yel"><h3>OMR ಉತ್ತರ ಹಾಳೆ</h3><p>ವೃತ್ತವನ್ನು ಪೂರ್ತಿ ತುಂಬಿ – ಟಿಕ್ ಅಥವಾ ಅರ್ಧ ತುಂಬುವುದು ಬೇಡ. ನೀಲಿ/ಕಪ್ಪು ಬಾಲ್‌ಪೆನ್ ಬಳಸಿ.</p>
     <div class="omrhow"><div><span class="bb"><i>A</i><i>B</i><i class="f"></i><i>D</i></span><small>ಸರಿ</small></div><div><span class="bb"><i>✓</i><i>✗</i><i class="h"></i><i>•</i></span><small>ತಪ್ಪು</small></div></div>
     <button class="btn p" id="omrDl">ಖಾಲಿ OMR ನೋಡಿ / ಮುದ್ರಿಸಿ</button></div>
@@ -1003,6 +1040,7 @@ function render(){const cls=(C.classes||[]).map(Number);document.title=`${C.exam
  root.innerHTML=h;
  document.querySelectorAll('.ctabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.ctabs button').forEach(x=>x.setAttribute('aria-selected',x===b?'true':'false'));showSyl(+b.dataset.c)});if(cls.length)showSyl(cls[0]);
  document.querySelectorAll('[data-mock]').forEach(b=>b.onclick=()=>openMock(+b.dataset.mock));
+ document.querySelectorAll('[data-mockdl]').forEach(b=>b.onclick=()=>downloadMock(+b.dataset.mockdl,b));
  $('#omrDl').onclick=()=>viewDoc('ಖಾಲಿ OMR ಉತ್ತರ ಹಾಳೆ',`<div class="page">${omrSVG(C,null,nq)}</div>`,'OMR');
  bindApply();bindHt();bindKeys();tick();clearInterval(CDT);CDT=setInterval(tick,1000);
  if(location.hash&&location.hash.length>1&&!location.hash.startsWith('#ht=')){const el=document.getElementById(location.hash.slice(1));if(el)setTimeout(()=>el.scrollIntoView(),50)}}
@@ -1099,10 +1137,13 @@ function bindHt(){const b=$('#htGo');if(!b)return;b.onclick=async()=>{const id=$
 /* ---------- ಮಾದರಿ ಪತ್ರಿಕೆ ---------- */
 let MK=null;
 const closeMock=()=>{$('#mockModal').hidden=true;document.body.style.overflow=''};
+const MKC={};
+async function loadMock(c){if(MKC[c])return MKC[c];let m=null;try{m=await PUB.get(PP('public/')+'mock_'+c)}catch(e){m=null}
+ if(!m||!m.qs)return null;for(const q of m.qs){if(q.img&&q.img.startsWith('PUB:')){try{const d=await PUB.get(PP('public/')+''+q.img.slice(4));q.img=d?d.data:''}catch(e){q.img=''}}}
+ if(!m.cls)m.cls=c;return MKC[c]=m}
 async function openMock(c){$('#mockModal').hidden=false;document.body.style.overflow='hidden';$('#mkBody').innerHTML='<div class="loadbox">ಲೋಡ್ ಆಗುತ್ತಿದೆ…</div>';
- try{MK=await PUB.get(PP('public/')+'mock_'+c)}catch(e){MK=null}
+ MK=await loadMock(c);
  if(!MK){$('#mkBody').innerHTML='<div class="loadbox">ಮಾದರಿ ಪತ್ರಿಕೆ ಲಭ್ಯವಿಲ್ಲ</div>';return}
- for(const q of MK.qs){if(q.img&&q.img.startsWith('PUB:')){try{const d=await PUB.get(PP('public/')+''+q.img.slice(4));q.img=d?d.data:''}catch(e){q.img=''}}}
  $('#mkTitle').textContent=MK.title;
  $('#mkBody').innerHTML=`<p class="lead">ಒಟ್ಟು ${MK.qs.length} ಪ್ರಶ್ನೆಗಳು. ಉತ್ತರದ ವೃತ್ತ ಒತ್ತಿ, ಕೊನೆಯಲ್ಲಿ "ಮುಗಿಸಿ" ಒತ್ತಿ.</p>`+MK.qs.map((q,i)=>{const s=MK.sections.find(s=>s.from===i);
   return (s?`<h3 class="msec">${esc(s.name)}</h3>`:'')+`<fieldset class="mq" id="mq${i}"><legend><b>${i+1}.</b> ${qtx(q.q_kn)}${q.q_en?`<div class="en">${qtx(q.q_en)}</div>`:''}</legend>${q.img?`<img src="${q.img}" alt="">`:''}
@@ -1114,13 +1155,17 @@ async function openMock(c){$('#mockModal').hidden=false;document.body.style.over
   const pct=Math.round(sc/MK.qs.length*100);$('#mkScore').innerHTML=`<div class="score"><b>${sc}<small>/${MK.qs.length}</small></b><span>ಉತ್ತರಿಸಿದ್ದು ${att} • ${pct>=80?'ಅದ್ಭುತ!':pct>=60?'ಚೆನ್ನಾಗಿದೆ – ಇನ್ನಷ್ಟು ಅಭ್ಯಾಸ ಮಾಡಿ':'ಸರಿಯುತ್ತರಗಳನ್ನು ಓದಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ'}</span></div>`;
   $('#mkScore').scrollIntoView({behavior:'smooth'})}}
 $('#mkClose').onclick=closeMock;document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#mockModal').hidden)closeMock()});
-$('#mkPrint').onclick=()=>{if(!MK)return;const op=a=>`<div style="display:grid;grid-template-columns:1fr 1fr;gap:1mm 4mm">${a.map((o,k)=>`<div>${LET[k]}) ${esc(o)}</div>`).join('')}</div>`;
- let h=`<div style="font-size:3.3mm;color:#000"><h2 style="text-align:center;margin:0 0 3mm">${esc(MK.title)}</h2><table style="width:100%;border-collapse:collapse">`;
- MK.qs.forEach((q,i)=>{const s=MK.sections.find(s=>s.from===i);if(s)h+=`<tr><td colspan="2" style="border:.25mm solid #000;background:#eee;font-weight:700;text-align:center;padding:1.5mm">${esc(s.name)}</td></tr>`;
-  h+=`<tr><td style="border:.25mm solid #000;padding:1.5mm;width:50%;vertical-align:top">${q.q_en?`<b>${i+1}.</b> ${qtx(q.q_en)}${op(q.opt_en)}`:''}</td><td style="border:.25mm solid #000;padding:1.5mm;vertical-align:top"><b>${i+1}.</b> ${qtx(q.q_kn)}${op(q.opt_kn)}</td></tr>`;
-  if(q.img)h+=`<tr><td colspan="2" style="border:.25mm solid #000;text-align:center"><img src="${q.img}" style="max-height:50mm;max-width:120mm"></td></tr>`});
- h+=`</table><h3 style="margin-top:6mm">ಉತ್ತರ ಕೀ</h3><p>${MK.qs.map((q,i)=>`${i+1}-${q.ans}`).join(', ')}</p></div>`;doPrint(flowWrap(h))};
-window.pubBoot=boot;
+/* ಮಾದರಿ ಪತ್ರಿಕೆ – ಮುಖ್ಯ ಪರೀಕ್ಷೆಯ ಪತ್ರಿಕೆಯ ವಿನ್ಯಾಸದಲ್ಲೇ (ಮುಖಪುಟ, ಸೂಚನೆಗಳು, English ಎಡ / ಕನ್ನಡ ಬಲ, ರಫ್ ಪುಟ) + ಕೊನೆಯಲ್ಲಿ ಉತ್ತರ ಕೀ */
+function mockPaperHTML(m){const qs=m.qs.map((q,i)=>({...q,id:'mq'+i}));const p={cls:m.cls,type:'mock',qs,sections:m.sections||[{sec:'gk',name:'',from:0,to:qs.length-1}],sets:{A:qs.map((_,i)=>i)}};
+ const imgs={};qs.forEach(q=>{if(q.img)imgs[q.id]=q.img});
+ let k=`<div class="kblk"><h3>${esc(C.examName)} ${esc(C.activeYear)} – ${m.cls}ನೇ ತರಗತಿ (ಮಾದರಿ ಪತ್ರಿಕೆ)</h3><h4>ಉತ್ತರ ಕೀ / Answer Key – ಸೆಟ್ A • ${qs.length} ಪ್ರಶ್ನೆಗಳು</h4><table class="kt">`;
+ for(let r=0;r<Math.ceil(qs.length/10);r++){k+='<tr>'+[...Array(10)].map((_,j)=>{const i=r*10+j;return i<qs.length?`<td><span>${i+1}</span><b>${qs[i].ans}</b></td>`:'<td></td>'}).join('')+'</tr>'}
+ k+='</table></div>';return paperHTML(p,'A',imgs,C)+flowWrap(k,'lp')}
+async function downloadMock(c,btn){const t=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent='ತಯಾರಾಗುತ್ತಿದೆ…'}
+ try{const m=c?await loadMock(c):MK;if(!m){alert('ಮಾದರಿ ಪತ್ರಿಕೆ ಲಭ್ಯವಿಲ್ಲ');return}doPrint(mockPaperHTML(m))}
+ finally{if(btn){btn.disabled=false;btn.textContent=t}}}
+$('#mkPrint').onclick=e=>{if(MK)downloadMock(0,e.currentTarget)};
+window.pubBoot=boot;window.pubMock={MKC,mockPaperHTML,downloadMock};
 })();
 
 </script>
@@ -1591,40 +1636,6 @@ function renderPaper(){const c=+$('#pCls').value||classes()[0],t=$('#pType').val
   document.querySelectorAll('[data-rq]').forEach(b=>b.onclick=()=>guard(()=>replaceQ(c,t,+b.dataset.rq)))}else $('#paperView').style.display='none'}
 $('#pCls').onchange=renderPaper;$('#pType').onchange=renderPaper;
 async function printPaper(p,L){const perm=p.sets[L];const imgs={};for(const q of p.qs)if(q.img)imgs[q.id]=await getImg(q.img);doPrint(paperHTML(p,L,imgs))}
-function paperHTML(p,L,imgs){const n=p.qs.length;
- const kn=['ಈ ಪ್ರಶ್ನೆಪತ್ರಿಕೆಯಲ್ಲಿ '+n+' ಬಹು ಆಯ್ಕೆ ಪ್ರಶ್ನೆಗಳಿವೆ. ಪ್ರತಿ ಪ್ರಶ್ನೆಗೆ 1 ಅಂಕ. ತಪ್ಪು ಉತ್ತರಕ್ಕೆ ಅಂಕ ಕಳೆಯುವುದಿಲ್ಲ.','ಸರಿಯಾದ ಉತ್ತರದ ವೃತ್ತವನ್ನು OMR ಹಾಳೆಯಲ್ಲಿ ನೀಲಿ ಅಥವಾ ಕಪ್ಪು ಬಾಲ್‌ಪೆನ್‌ನಿಂದ ಪೂರ್ತಿಯಾಗಿ ತುಂಬಿ.',
-  'ಒಂದು ಪ್ರಶ್ನೆಗೆ ಒಂದೇ ವೃತ್ತ ತುಂಬಬೇಕು. ಉತ್ತರ ಬದಲಿಸುವಂತಿಲ್ಲ. ವೈಟ್ನರ್/ರಬ್ಬರ್ ಬಳಸಬೇಡಿ.',`OMR ಹಾಳೆಯಲ್ಲಿ ನೋಂದಣಿ ಸಂಖ್ಯೆ ಮತ್ತು ಪ್ರಶ್ನೆಪತ್ರಿಕೆಯ ಸೆಟ್ (${L}) ವೃತ್ತ ತುಂಬಲು ಮರೆಯಬೇಡಿ.`,
-  'ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್ ಪ್ರಶ್ನೆಗಳಲ್ಲಿ ಸಂದೇಹವಿದ್ದರೆ ಇಂಗ್ಲಿಷ್ ಪ್ರಶ್ನೆಯನ್ನು ಅಂತಿಮವೆಂದು ಪರಿಗಣಿಸಿ.','ಲೆಕ್ಕಾಚಾರಕ್ಕಾಗಿ ಪತ್ರಿಕೆಯ ಕೊನೆಯ "ರಫ್ ಕೆಲಸ" ಪುಟ ಬಳಸಿ. ಮೊಬೈಲ್, ಕ್ಯಾಲ್ಕುಲೇಟರ್ ನಿಷೇಧ.','ಪರೀಕ್ಷೆ ಮುಗಿದ ನಂತರ OMR ಹಾಳೆಯನ್ನು ಕೊಠಡಿ ಮೇಲ್ವಿಚಾರಕರಿಗೆ ಒಪ್ಪಿಸಿ.'];
- const en=[`This booklet contains ${n} multiple-choice questions. Each question carries 1 mark. There is no negative marking.`,'Darken the circle of the correct answer completely on the OMR sheet with a blue or black ballpoint pen.',
-  'Darken only one circle for each question. Answers cannot be changed. Do not use whitener or eraser.',`Fill in your Registration Number and the Question Booklet Set (${L}) on the OMR sheet.`,
-  'If there is any doubt between the Kannada and English versions, the English version is final.','Use the last page of this booklet for rough work. Mobile phones and calculators are not allowed.','Hand over the OMR sheet to the invigilator at the end of the examination.'];
- const bub=(l,k)=>`<span class="bb${k?' '+k:''}">${k==='f'?'':l}</span>`;
- let h=`<div class="page ppr"><div class="cv"><div class="cover">
- <div class="chead"><div class="ct"><h1>${esc(CFG.examName)} ${esc(CFG.activeYear)}</h1><h2>${esc(CFG.school)}</h2><h2 class="cls">${p.cls}ನೇ ತರಗತಿ / Class ${p.cls} ${p.type==='mock'?'(ಮಾದರಿ ಪತ್ರಿಕೆ / Model Paper)':''}</h2></div>
-  <div class="setw"><small>ಸೆಟ್ / SET</small><div class="set">${L}</div></div></div>
- <div class="dno">ಮೇಲ್ವಿಚಾರಕರು ಸೂಚಿಸುವವರೆಗೆ ಈ ಪ್ರಶ್ನೆಪತ್ರಿಕೆಯನ್ನು ತೆರೆಯಬೇಡಿ<br><small>Do not open this booklet until the invigilator asks you to do so</small></div>
- <table class="info"><tr><td>ದಿನಾಂಕ / Date<br><b>${esc(fmtShort(CFG.examDate))}</b></td><td>ಸಮಯ / Time<br><b>${esc(CFG.examTime)}</b></td><td>ಪ್ರಶ್ನೆಗಳು / Questions<br><b>${n}</b></td><td>ಒಟ್ಟು ಅಂಕ / Marks<br><b>${n}</b></td><td>ಅವಧಿ / Duration<br><b>${CFG.durationMin} ನಿಮಿಷ</b></td></tr></table>
- <table class="cand"><tr><td class="lb">ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು<small>Candidate's name</small></td><td colspan="3"></td></tr>
-  <tr><td class="lb">ನೋಂದಣಿ ಸಂಖ್ಯೆ<small>Registration No.</small></td><td><div class="regbox">${'<span></span>'.repeat(9)}</div></td><td class="lb">ಕೊಠಡಿ<small>Room No.</small></td><td style="width:22mm"></td></tr>
-  <tr><td class="lb">ಶಾಲೆ<small>School</small></td><td colspan="3"></td></tr></table>
- <table class="secs"><tr><th>ವಿಭಾಗ / Section</th><th>ಪ್ರಶ್ನೆ ಸಂಖ್ಯೆ / Q. No.</th><th>ಪ್ರಶ್ನೆಗಳು</th><th>ಅಂಕ</th></tr>
-  ${p.sections.map(s=>`<tr><td>${esc(s.name)} / ${esc(SECS[s.sec].en)}</td><td>${s.from+1} – ${s.to+1}</td><td>${s.to-s.from+1}</td><td>${s.to-s.from+1}</td></tr>`).join('')}
-  <tr class="tot"><td>ಒಟ್ಟು / Total</td><td>1 – ${n}</td><td>${n}</td><td>${n}</td></tr></table>
- <table class="ins2"><tr><th>Instructions to candidates</th><th>ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ ಸೂಚನೆಗಳು</th></tr><tr><td><ol>${en.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></td><td><ol>${kn.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></td></tr></table>
- ${coverPrize()}
- <div class="howto2"><div><b>ಸರಿಯಾದ ವಿಧಾನ / Correct</b><span class="bbs">${bub('A')}${bub('B')}${bub('C','f')}${bub('D')}</span></div>
-  <div><b>ತಪ್ಪು ವಿಧಾನಗಳು / Wrong</b><span class="bbs">${bub('✓')}${bub('✗')}<span class="bb h"></span>${bub('•')}<span class="bb f"></span><span class="bb f"></span></span></div></div>
- <div class="sig"><span>ವಿದ್ಯಾರ್ಥಿಯ ಸಹಿ / Candidate's signature</span><span>ಕೊಠಡಿ ಮೇಲ್ವಿಚಾರಕರ ಸಹಿ / Invigilator's signature</span></div></div></div></div>`;
- let t=`<table class="q">`;
- p.sets[L].forEach((qi,pos)=>{const q=p.qs[qi];const s=p.sections.find(s=>s.from===pos);if(s)t+=`<tr><td class="sec" colspan="2">${esc(SECS[s.sec].en)} / ${esc(s.name)} (${s.from+1}–${s.to+1})</td></tr>`;
-  const op=(arr)=>`<div class="op">${arr.map((o,k)=>`<div>${LET[k]}) ${esc(o)}</div>`).join('')}</div>`;
-  t+=`<tr><td>${q.q_en?`<b>${pos+1}.</b> ${qtx(q.q_en)}${op(q.opt_en)}`:''}</td><td><b>${pos+1}.</b> ${qtx(q.q_kn)}${op(q.opt_kn)}</td></tr>`;
-  if(imgs[q.id])t+=`<tr><td colspan="2" class="qi"><img src="${imgs[q.id]}"></td></tr>`});
- t+=`</table><p style="text-align:center;margin-top:4mm">*****</p>`;
- return h+flowWrap(t,'ppr')+`<div class="page ppr"><div style="padding:12mm"><h2>ರಫ್ ಕೆಲಸಕ್ಕಾಗಿ / For Rough Work</h2></div></div>`}
-function coverPrize(){const pz=(CFG.prizes||[]);const sp=(CFG.sponsors||[]).filter(s=>s.name);if(!pz.length&&!sp.length)return '';
- return `<div class="cprz"><div class="pzl"><div class="ttl">ಬಹುಮಾನಗಳು / Prizes</div>${prizeMinOf(CFG)?`<div><b>ಕನಿಷ್ಠ ${prizeMinOf(CFG)} ಅಂಕ ಪಡೆದವರಿಗೆ ಮಾತ್ರ / Minimum ${prizeMinOf(CFG)} marks</b></div>`:''}${pz.map(p=>`<div>${esc(p.cls)}ನೇ ತರಗತಿ ${esc(p.title)}: <b>₹${Number(p.amount||0).toLocaleString('en-IN')}</b></div>`).join('')}${CFG.prizeNote?`<small>${esc(CFG.prizeNote)}</small>`:''}</div>
-  <div class="spl"><div class="ttl">ಬಹುಮಾನದ ಪ್ರಾಯೋಜಕರು / Prize Sponsors</div><div class="spg">${sp.length?sp.slice(0,6).map(s=>`<div><b>${esc(s.name)}</b>${s.note?`<small>${esc(s.note)}</small>`:''}</div>`).join(''):'<div>—</div>'}</div></div></div>`}
 function keysHTML(p){let h='';LET.slice(0,nsets()).forEach(L=>{const k=p.keys[L];
   h+=`<div class="kblk"><h3>${esc(CFG.examName)} ${esc(CFG.activeYear)} – ${p.cls}ನೇ ತರಗತಿ ${p.type==='mock'?'(ಮಾದರಿ)':''}</h3><h4>ಉತ್ತರ ಕೀ / Answer Key – ಸೆಟ್ ${L} • ${k.length} ಪ್ರಶ್ನೆಗಳು</h4><table class="kt">`;
   for(let r=0;r<Math.ceil(k.length/10);r++){h+='<tr>'+[...Array(10)].map((_,j)=>{const i=r*10+j;return i<k.length?`<td><span>${i+1}</span><b>${k[i]}</b></td>`:'<td></td>'}).join('')+'</tr>'}h+='</table></div>'});
