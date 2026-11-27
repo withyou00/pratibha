@@ -395,6 +395,8 @@ details.sheet>summary{cursor:pointer}
 @media(max-width:900px){.top{flex-wrap:nowrap;padding:8px 10px 12px}.brand b{font-size:16.5px}.tbtn{flex-wrap:nowrap}.tbtn .b.sm{padding:4px 9px;font-size:12.5px}
  .rail button{min-width:0;font-size:9.5px;padding:5px 1px}.rail button span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}}
 
+body.in-school .main-only{display:none!important}body:not(.in-school) .ins-only{display:none!important}
+
 </style>
 <style>
 /* paper print */
@@ -832,7 +834,7 @@ document.write('<style>'+PRINT_CSS+'</style>');
 
  <!-- ಪ್ರಶ್ನೆಪತ್ರಿಕೆ -->
  <section class="view" id="v-paper">
-  <div class="vh"><h1>ಪ್ರಶ್ನೆಪತ್ರಿಕೆ</h1><p>ಮೊದಲು ಮುಖ್ಯ ಪರೀಕ್ಷೆಯ ಪತ್ರಿಕೆ ತಯಾರಿಸಿ ಅಂತಿಮಗೊಳಿಸಿ. ನಂತರ ಮಾದರಿ ಪತ್ರಿಕೆ ತಯಾರಿಸಿ ವೆಬ್‌ಸೈಟ್‌ಗೆ ಹಾಕಿ – ಎರಡರಲ್ಲೂ ಒಂದೇ ಪ್ರಶ್ನೆ ಬರುವುದಿಲ್ಲ.</p></div>
+  <div class="vh"><h1>ಪ್ರಶ್ನೆಪತ್ರಿಕೆ</h1><p class="main-only">ಮೊದಲು ಮುಖ್ಯ ಪರೀಕ್ಷೆಯ ಪತ್ರಿಕೆ ತಯಾರಿಸಿ ಅಂತಿಮಗೊಳಿಸಿ. ನಂತರ ಮಾದರಿ ಪತ್ರಿಕೆ ತಯಾರಿಸಿ ವೆಬ್‌ಸೈಟ್‌ಗೆ ಹಾಕಿ – ಎರಡರಲ್ಲೂ ಒಂದೇ ಪ್ರಶ್ನೆ ಬರುವುದಿಲ್ಲ. ನೀವು ಪ್ರಕಟಿಸುವ ಮಾದರಿ ಪತ್ರಿಕೆಯೇ ನೋಂದಾಯಿತ ಎಲ್ಲಾ ಶಾಲೆಗಳ ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲೂ ಕಾಣುತ್ತದೆ.</p><p class="ins-only">ಮುಖ್ಯ ಪರೀಕ್ಷೆಯ ಪತ್ರಿಕೆ ತಯಾರಿಸಿ ಅಂತಿಮಗೊಳಿಸಿ. ಮಾದರಿ ಪ್ರಶ್ನೆಪತ್ರಿಕೆಯನ್ನು ಮುಖ್ಯ ಕೇಂದ್ರವೇ ತಯಾರಿಸಿ ನಿಮ್ಮ ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲೂ ತಾನಾಗಿ ಹಾಕುತ್ತದೆ – ನೀವು ಮಾಡಬೇಕಿಲ್ಲ. ಮಾದರಿ ಪತ್ರಿಕೆಯ ಪ್ರಶ್ನೆಗಳು ನಿಮ್ಮ ಮುಖ್ಯ ಪತ್ರಿಕೆಯಲ್ಲಿ ಬರುವುದಿಲ್ಲ.</p></div>
   <section class="sheet wide">
    <div class="grid"><label class="f">ತರಗತಿ<select id="pCls"></select></label>
     <label class="f">ಪತ್ರಿಕೆ<select id="pType"><option value="final">ಮುಖ್ಯ ಪರೀಕ್ಷೆ</option><option value="mock">ಮಾದರಿ ಪತ್ರಿಕೆ (ವೆಬ್‌ಸೈಟ್‌ಗೆ)</option></select></label></div>
@@ -939,7 +941,7 @@ document.write('<style>'+PRINT_CSS+'</style>');
     <label class="f">ಟೋಕನ್ (ರೆಪೊ private ಆಗಿದ್ದರೆ ಮಾತ್ರ)<input id="ghToken" type="password" autocomplete="off" placeholder="github_pat_..."></label></div>
    <p class="note">ರೆಪೊ public ಆಗಿದ್ದರೆ ಟೋಕನ್ ಬೇಕಿಲ್ಲ. ಟೋಕನ್ ಈ ಸಾಧನದಲ್ಲಿ ಮಾತ್ರ ಉಳಿಯುತ್ತದೆ.</p></section>
   <div class="savebar"><button class="b big" id="siteSave">ಉಳಿಸಿ</button></div>
-  <section class="sheet wide"><h2>ಇತರೆ</h2>
+  <section class="sheet wide own"><h2>ಇತರೆ</h2>
    <div class="acts"><button class="b ghost" id="connTest">ಸಂಪರ್ಕ ಪರೀಕ್ಷೆ</button><button class="b ghost" id="bkAll">⬇ ಪೂರ್ಣ ಬ್ಯಾಕಪ್</button><label class="b ghost">⬆ ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪನೆ<input type="file" id="bkRestore" accept=".json" hidden></label></div>
    <div id="connRes"></div>
    <h3>ಹೊಸ ಪರೀಕ್ಷಾ ವರ್ಷ</h3><p class="note">ಈಗಿನ ವರ್ಷ: <b id="yrNow"></b>. ಮುಂದಿನ ವರ್ಷದ ಪರೀಕ್ಷೆಗೆ ಮಾತ್ರ ಬಳಸಿ.</p>
@@ -978,6 +980,8 @@ const inr=n=>'₹'+Number(n||0).toLocaleString('en-IN');
 async function boot(){
  try{C=await PUB.get(PP('public/')+'site')}catch(e){root.innerHTML=`<div class="loadbox">ಮಾಹಿತಿ ಲೋಡ್ ಆಗಲಿಲ್ಲ. ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ ಪುಟವನ್ನು ಮತ್ತೆ ತೆರೆಯಿರಿ.<br><small>${esc(e.message)}</small></div>`;return}
  if(!C){root.innerHTML='<div class="loadbox">ಪರೀಕ್ಷೆಯ ಮಾಹಿತಿ ಶೀಘ್ರದಲ್ಲೇ ಪ್ರಕಟವಾಗಲಿದೆ.</div>';return}
+ /* ಇತರ ಶಾಲೆಗಳ ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಮುಖ್ಯ ಕೇಂದ್ರದ ಮಾದರಿ ಪತ್ರಿಕೆಯೇ ಕಾಣುತ್ತದೆ */
+ if(SCH){let M=null;try{M=await PUB.get(MKBASE+'site')}catch(e){}C.mockPublished=(M&&M.mockPublished)||{}}
  render()}
 function appsState(){if(!C.appsOpen)return 'off';const t=T0(),s=D(C.appsStart),e=D(C.appsLastDate);if(s&&t<s)return 'soon';if(e&&t>e)return 'over';return 'on'}
 function htState(){if(!C.htOpen)return 'off';const s=D(C.htFrom);if(s&&T0()<s)return 'soon';return 'on'}
@@ -1137,9 +1141,9 @@ function bindHt(){const b=$('#htGo');if(!b)return;b.onclick=async()=>{const id=$
 /* ---------- ಮಾದರಿ ಪತ್ರಿಕೆ ---------- */
 let MK=null;
 const closeMock=()=>{$('#mockModal').hidden=true;document.body.style.overflow=''};
-const MKC={};
-async function loadMock(c){if(MKC[c])return MKC[c];let m=null;try{m=await PUB.get(PP('public/')+'mock_'+c)}catch(e){m=null}
- if(!m||!m.qs)return null;for(const q of m.qs){if(q.img&&q.img.startsWith('PUB:')){try{const d=await PUB.get(PP('public/')+''+q.img.slice(4));q.img=d?d.data:''}catch(e){q.img=''}}}
+const MKC={};const MKBASE='pratibha_public/';/* ಮಾದರಿ ಪತ್ರಿಕೆ ಯಾವಾಗಲೂ ಮುಖ್ಯ ಕೇಂದ್ರದ್ದು */
+async function loadMock(c){if(MKC[c])return MKC[c];let m=null;try{m=await PUB.get((SCH?MKBASE:PP('public/'))+'mock_'+c)}catch(e){m=null}
+ if(!m||!m.qs)return null;for(const q of m.qs){if(q.img&&q.img.startsWith('PUB:')){try{const d=await PUB.get((SCH?MKBASE:PP('public/'))+q.img.slice(4));q.img=d?d.data:''}catch(e){q.img=''}}}
  if(!m.cls)m.cls=c;return MKC[c]=m}
 async function openMock(c){$('#mockModal').hidden=false;document.body.style.overflow='hidden';$('#mkBody').innerHTML='<div class="loadbox">ಲೋಡ್ ಆಗುತ್ತಿದೆ…</div>';
  MK=await loadMock(c);
@@ -1172,7 +1176,7 @@ window.pubBoot=boot;window.pubMock={MKC,mockPaperHTML,downloadMock};
 <script>
 /* ಪ್ರತಿಭಾನ್ವೇಷಣೆ – ಅಡ್ಮಿನ್ (v3) */
 'use strict';
-let ROLE='',SCHINFO=null,CFG=null,USED={},EXAM=null,BANK=new Map(),QFILES=[],PAPERS={},SCANS=null,IMGC={},APPS=null,BANK_ERR='',CA_YEAR=0;
+let MAINMOCK=new Set(),ROLE='',SCHINFO=null,CFG=null,USED={},EXAM=null,BANK=new Map(),QFILES=[],PAPERS={},SCANS=null,IMGC={},APPS=null,BANK_ERR='',CA_YEAR=0;
 const P={get site(){return PP('public/site')},get used(){return PP('meta/used')},exam:()=>PP('exams/')+CFG.activeYear,
  paper:(c,t)=>`${PP('exams/')}${CFG.activeYear}/papers/${c}_${t}`,scans:()=>`${PP('exams/')}${CFG.activeYear}/scans`,mock:c=>PP('public/')+'mock_'+c};
 const DEF_BP=[{sec:'gk',n:20},{sec:'mat',n:20},{sec:'ca',n:15},{sec:'ss',n:15},{sec:'sci',n:15},{sec:'math',n:15}];
@@ -1255,6 +1259,7 @@ async function loadAll(){busy(true,'ಮಾಹಿತಿ ಲೋಡ್ ಆಗುತ
  busy(false);renderAll()}
 async function loadExam(){EXAM=await STORE.get(P.exam())||{students:[]};EXAM.students=EXAM.students||[];PAPERS={};
  for(const c of classes())for(const t of ['final','mock']){const p=await STORE.get(P.paper(c,t));if(p)PAPERS[c+'_'+t]=p}
+ MAINMOCK=new Set();if(SCH)for(const c of classes()){try{const m=await PUB.get('pratibha_public/mock_'+c);if(m&&m.qs)m.qs.forEach(q=>MAINMOCK.add(q.q_kn))}catch(e){}}
  SCANS=null}
 /* ವೆಬ್‌ಸೈಟ್‌ನ ಪಠ್ಯಕ್ರಮವನ್ನು ಪ್ರಶ್ನೆ ಫೈಲ್‌ಗಳಿಂದ ತಾನಾಗಿಯೇ ತಯಾರಿಸಿ ಉಳಿಸು */
 function buildSylView(){const v={};for(const c of classes()){const subjects=[];
@@ -1405,8 +1410,8 @@ function renderHome(){if(!CFG)return;const cs=classes();const t=today0(),ex=dOf(
   ${BANK_ERR?`<div class="alert bad">${esc(BANK_ERR)}</div>`:''}
   <div class="qbgrid"><div class="own"><h3>ಫೈಲ್‌ಗಳು</h3>${QFILES.length?`<table class="t"><tr><th>ಫೈಲ್</th><th>ವಿಭಾಗ</th><th>ಪ್ರಶ್ನೆ</th></tr>${QFILES.map(f=>`<tr><td>${esc(f.name)}</td><td>${f.info?esc(secName(f.info.sec))+(f.info.cls?` • ${f.info.cls}ನೇ`:'')+(f.info.year?` • ${f.info.year}`:''):'—'}</td><td><b>${f.n}</b>${f.err?`<div class="bad small">${esc(f.err)}</div>`:''}${f.bad.length?`<details class="small"><summary class="bad">${f.bad.length} ಪ್ರಶ್ನೆಗಳಲ್ಲಿ ದೋಷ</summary>${f.bad.slice(0,30).map(esc).join('<br>')}</details>`:''}</td></tr>`).join('')}</table>`:BANK_ERR?'':'<p class="note">ಇನ್ನೂ ಯಾವುದೇ ಫೈಲ್ ಇಲ್ಲ.</p>'}
    ${CA_YEAR?`<p class="note">ಪ್ರಚಲಿತ ವಿದ್ಯಮಾನ: <b>${CA_YEAR}</b> ವರ್ಷದ ಫೈಲ್ ಬಳಕೆಯಾಗುತ್ತದೆ (ಅತ್ಯಂತ ಹೊಸದು).</p>`:''}</div>
-   <div><h3>ಪ್ರತಿ ಪತ್ರಿಕೆಗೆ ಬೇಕಾದವು / ಇರುವವು</h3><table class="t"><tr><th>ವಿಭಾಗ</th>${cs.map(c=>`<th>${c}ನೇ</th>`).join('')}</tr>${SEC_ORDER.filter(s=>cs.some(c=>CFG.blueprint[c].some(b=>b.sec===s&&+b.n))).map(s=>`<tr><td>${secName(s)}</td>${cs.map(c=>{const b=CFG.blueprint[c].find(b=>b.sec===s);const n=b?+b.n:0;const a=availFor(c,s);return `<td class="${n&&a<n?'bad':n&&a<n*2?'warnc':''}"><b>${a}</b> / ${n}</td>`}).join('')}</tr>`).join('')}</table>
-   <p class="note small">ಕೆಂಪು = ಪತ್ರಿಕೆಗೆ ಸಾಕಾಗುವುದಿಲ್ಲ. ಹಳದಿ = ಮುಖ್ಯ + ಮಾದರಿ ಎರಡಕ್ಕೂ ಸಾಕಾಗುವುದಿಲ್ಲ.</p></div></div>
+   <div><h3>ಪ್ರತಿ ಪತ್ರಿಕೆಗೆ ಬೇಕಾದವು / ಇರುವವು</h3><table class="t"><tr><th>ವಿಭಾಗ</th>${cs.map(c=>`<th>${c}ನೇ</th>`).join('')}</tr>${SEC_ORDER.filter(s=>cs.some(c=>CFG.blueprint[c].some(b=>b.sec===s&&+b.n))).map(s=>`<tr><td>${secName(s)}</td>${cs.map(c=>{const b=CFG.blueprint[c].find(b=>b.sec===s);const n=b?+b.n:0;const a=availFor(c,s);return `<td class="${n&&a<n?'bad':!SCH&&n&&a<n*2?'warnc':''}"><b>${a}</b> / ${n}</td>`}).join('')}</tr>`).join('')}</table>
+   <p class="note small">ಕೆಂಪು = ಪತ್ರಿಕೆಗೆ ಸಾಕಾಗುವುದಿಲ್ಲ.${SCH?'':' ಹಳದಿ = ಮುಖ್ಯ + ಮಾದರಿ ಎರಡಕ್ಕೂ ಸಾಕಾಗುವುದಿಲ್ಲ.'}</p></div></div>
   <details class="howto own"><summary>ಫೈಲ್ ಹೆಸರುಗಳು ಹೇಗಿರಬೇಕು?</summary><ul class="note">
    <li><b>7_science.json, 7_maths.json, 7_social.json, 8_science.json …</b> – ಪಠ್ಯಪುಸ್ತಕದ ಪ್ರಶ್ನೆಗಳು (ಭಾಗ-1, ಭಾಗ-2 ಎರಡೂ ಒಂದೇ ಫೈಲ್‌ನಲ್ಲಿ). ಪುಸ್ತಕ ಬದಲಾಗುವವರೆಗೆ ಹಾಗೆಯೇ ಇರಲಿ.</li>
    <li><b>gk_2026.json, mental_2026.json</b> – ಪ್ರತಿ ವರ್ಷ ಹೊಸ ಫೈಲ್ ಸೇರಿಸಿ. ಹಳೆಯವು ಇದ್ದರೂ ಸರಿ – ಬಳಸಿದ ಪ್ರಶ್ನೆ ${CFG.reuseGap>=99?'ಮತ್ತೆ ಬರುವುದಿಲ್ಲ':CFG.reuseGap+' ವರ್ಷ ಬಿಟ್ಟು ಮಾತ್ರ ಮತ್ತೆ ಬರಬಹುದು'}.</li>
@@ -1582,7 +1587,8 @@ const yrOf=l=>parseInt(l,10)||0;
 function blocked(id,mine){const labs=USED[id];if(!labs)return false;const cur=yrOf(CFG.activeYear);const gap=CFG.reuseGap===0?0:(+CFG.reuseGap||99);
  return labs.some(l=>l!==mine&&(gap>=99||cur-yrOf(l)<=gap))}
 function excludeFor(c,t){const ex=new Set();const mine=paperLabel(c,t);for(const id of Object.keys(USED)){if(blocked(id,mine))ex.add(id)}
- const other=PAPERS[`${c}_${t==='final'?'mock':'final'}`];if(other)other.qs.forEach(q=>ex.add(q.id));return ex}
+ const other=PAPERS[`${c}_${t==='final'?'mock':'final'}`];if(other)other.qs.forEach(q=>ex.add(q.id));
+ if(SCH&&MAINMOCK.size)for(const q of BANK.values())if(MAINMOCK.has(q.q_kn))ex.add(q.id);return ex}
 function poolFor(c,sec,ex){return [...BANK.values()].filter(q=>q.sec===sec&&inSyl(q,c)&&!ex.has(q.id))}
 function pickMix(pool,n,r){const mix=CFG.diffMix;const by={easy:[],medium:[],hard:[]};shuffle(pool,r).forEach(q=>(by[q.diff]||by.medium).push(q));
  const want={easy:Math.round(n*mix.easy/100),hard:Math.round(n*mix.hard/100)};want.medium=n-want.easy-want.hard;const out=[];
@@ -1613,7 +1619,7 @@ async function publishMock(c,on){const p=PAPERS[`${c}_mock`];const old=await STO
   qs.push({q_kn:q.q_kn,q_en:q.q_en,opt_kn:q.opt_kn,opt_en:q.opt_en,ans:q.ans,exp_kn:q.exp_kn,img})}
   await STORE.set(P.mock(c),{cls:c,year:CFG.activeYear,title:`${CFG.examName} – ಮಾದರಿ ಪ್ರಶ್ನೆಪತ್ರಿಕೆ (${c}ನೇ ತರಗತಿ)`,sections:p.sections,qs,imgs,at:Date.now()})}
  else await STORE.del(P.mock(c));CFG.mockPublished[c]=on;await STORE.set(P.site,CFG);renderPaper()}
-function renderPaper(){const c=+$('#pCls').value||classes()[0],t=$('#pType').value;if(!c)return;const p=PAPERS[`${c}_${t}`];const nm=t==='final'?'ಮುಖ್ಯ ಪರೀಕ್ಷೆಯ ಪತ್ರಿಕೆ':'ಮಾದರಿ ಪತ್ರಿಕೆ';
+function renderPaper(){if(SCH){const o=$('#pType option[value=mock]');if(o){o.remove();$('#pType').value='final'}}const c=+$('#pCls').value||classes()[0],t=$('#pType').value;if(!c)return;const p=PAPERS[`${c}_${t}`];const nm=t==='final'?'ಮುಖ್ಯ ಪರೀಕ್ಷೆಯ ಪತ್ರಿಕೆ':'ಮಾದರಿ ಪತ್ರಿಕೆ';
  let st='',bt='';
  if(!p){st=`<div class="warn">${c}ನೇ ತರಗತಿಯ ${nm} ಇನ್ನೂ ತಯಾರಾಗಿಲ್ಲ.</div>${availTable(c,t)}`;bt=`<button class="b" id="pgGen">⚙ ಪತ್ರಿಕೆ ತಯಾರಿಸು (${nqOf(c)} ಪ್ರಶ್ನೆ)</button>`}
  else{st=`<div class="${p.locked?'okbox':'warn'}">${c}ನೇ ತರಗತಿ ${nm}: <b>${p.qs.length}</b> ಪ್ರಶ್ನೆಗಳು • ${nsets()} ಸೆಟ್ • ${p.locked?'🔒 ಲಾಕ್ ಆಗಿದೆ (ಅಂತಿಮ)':'✎ ಕರಡು – ಪರಿಶೀಲಿಸಿ, ಬೇಕಾದ ಪ್ರಶ್ನೆ ಬದಲಿಸಿ, ನಂತರ ಲಾಕ್ ಮಾಡಿ'}${t==='mock'&&CFG.mockPublished[c]?' • 🌐 ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಪ್ರಕಟವಾಗಿದೆ':''}</div>
